@@ -1,0 +1,17 @@
+{
+  "biomes": "#eclipticseasons:agro/hot",
+  "start": "none",
+  "end": "none",
+  "events": [
+    {
+      "temp_offset": -0.18,
+      "start": "greater_cold",
+      "end": "greater_cold"
+    },
+    {
+      "temp_offset": 0.3,
+      "start": "none",
+      "end": "none"
+    }
+  ]
+}

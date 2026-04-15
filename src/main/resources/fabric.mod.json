@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "eclipticseasons",
+  "version": "${version}",
+  "name": "Ecliptic Seasons",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "joe_vettek(jianzoushihu)",
+    "Sam_Chai",
+    "RoitoLeonine"
+  ],
+  "contact": {
+    "homepage": "https://curseforge.com/minecraft/mc-mods/ecliptic-seasons",
+    "sources": "https://github.com/TeamTeaMC/Ecliptic-Seasons"
+  },
+  "license": "Code licensed under BSD-3-Clause, resources under CC BY-NC-SA 4.0, disc Snowless Homeland used under special authorization from Beishanwei & Orangesoda.",
+  "icon": "iconall.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.teamtea.eclipticseasons.EclipticSeasons"
+    ],
+    "client": [
+      "com.teamtea.eclipticseasons.EclipticSeasonsClient"
+    ],
+    "fabric-datagen": [
+      "com.teamtea.eclipticseasons.client.EclipticSeasonsDataGenerator"
+    ],
+    "cardinal-components": [
+      "com.teamtea.eclipticseasons.common.registry.internal.ESEntityComponentInitializer",
+      "com.teamtea.eclipticseasons.common.registry.internal.ESChunkComponentInitializer"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "eclipticseasons:biome_holder",
+      "eclipticseasons:solar_terms_record",
+      "eclipticseasons:heat_stroke_ticker"
+    ]
+  },
+  "mixins": [
+    "eclipticseasons.mixins.json",
+    {
+      "config": "ecliptic-seasons.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.6",
+    "minecraft": "~26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "accessWidener": "eclipticseasons-fabric.accesswidener"
+}

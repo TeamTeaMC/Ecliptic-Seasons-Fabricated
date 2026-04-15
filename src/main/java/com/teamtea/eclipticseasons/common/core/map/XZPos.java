@@ -1,0 +1,35 @@
+package com.teamtea.eclipticseasons.common.core.map;
+
+import net.minecraft.core.BlockPos;
+
+import java.util.Objects;
+
+public record XZPos(int x, int z, long startTick, int startY) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        XZPos xzPos = (XZPos) o;
+        return x == xzPos.x && z == xzPos.z;
+    }
+
+    public long toLongKey(){
+        return BlockPos.asLong(x,0,z);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, z);
+    }
+
+    @Override
+    public String toString() {
+        return "XZPos{" +
+                "startTick=" + startTick +
+                ", x=" + x +
+                ", z=" + z +
+                ", startY=" + startY +
+                '}';
+    }
+}

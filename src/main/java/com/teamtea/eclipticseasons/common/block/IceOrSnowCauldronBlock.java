@@ -1,0 +1,139 @@
+package com.teamtea.eclipticseasons.common.block;
+
+import com.mojang.serialization.MapCodec;
+import com.teamtea.eclipticseasons.EclipticSeasons;
+import com.teamtea.eclipticseasons.common.registry.BlockRegistry;
+import com.teamtea.eclipticseasons.config.CommonConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.cauldron.CauldronInteractions;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.AbstractCauldronBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NonNull;
+
+public class IceOrSnowCauldronBlock extends AbstractCauldronBlock {
+    public static final CauldronInteraction.Dispatcher EMPTY =
+            new CauldronInteraction.Dispatcher();
+    public static final Identifier empty = EclipticSeasons.rl("empty");
+
+    public IceOrSnowCauldronBlock(Properties properties) {
+        super(properties, EMPTY);
+        registerDefaultState(defaultBlockState());
+    }
+
+    @Override
+    public @NonNull Item asItem() {
+        return Items.CAULDRON;
+    }
+
+    @Override
+    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        return Items.CAULDRON.getDefaultInstance();
+    }
+
+    @Override
+    protected MapCodec<? extends AbstractCauldronBlock> codec() {
+        return simpleCodec(IceOrSnowCauldronBlock::new);
+    }
+
+    @Override
+    protected @NonNull InteractionResult useItemOn(@NonNull ItemStack stack, BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
+        Block block = state.getBlock();
+        if (block == BlockRegistry.snow_cauldron && stack.is(ItemTags.SHOVELS)) {
+            return givePlayerResult(stack, new ItemStack(Items.SNOWBALL, 4), Blocks.SNOW.defaultBlockState(), level, pos, player);
+        } else if (block == BlockRegistry.ice_cauldron && stack.is(ItemTags.PICKAXES)) {
+            return givePlayerResult(stack, new ItemStack(Items.ICE), Blocks.ICE.defaultBlockState(), level, pos, player);
+        }
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    public boolean isFull(BlockState state) {
+        return true;
+    }
+
+    protected static @NonNull InteractionResult givePlayerResult(ItemStack stack, ItemStack result, BlockState state, Level level, BlockPos pos, Player player) {
+        if (!level.isClientSide()) {
+            player.getInventory().add(result);
+            player.awardStat(Stats.USE_CAULDRON);
+            player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            level.setBlockAndUpdate(pos, Blocks.CAULDRON.defaultBlockState());
+            level.playSound(null, pos, state.getSoundType()
+                    .getHitSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.gameEvent(null, GameEvent.FLUID_PICKUP, pos);
+        }
+        return InteractionResult.SUCCESS_SERVER;
+    }
+
+    public static void handleChange(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
+        if (CommonConfig.Debug.disableIceOrSnowCauldron.get()) return;
+        if (precipitation == Biome.Precipitation.SNOW) {
+            BlockState blockstate = null;
+            if (state.getBlock() == Blocks.POWDER_SNOW_CAULDRON) {
+                blockstate = BlockRegistry.snow_cauldron.defaultBlockState();
+            } else if (state.getBlock() == Blocks.WATER_CAULDRON) {
+                blockstate = BlockRegistry.ice_cauldron.defaultBlockState();
+            }
+            if (blockstate != null) {
+                level.setBlockAndUpdate(pos, blockstate);
+                level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(blockstate));
+            }
+        }
+    }
+
+    public static void init() {
+
+        CauldronInteractions.EMPTY
+                .put(Items.SNOW_BLOCK, (state, level, pos, player, hand, stack) -> {
+                    fillEmptyCauldron(level, pos, player, hand, stack, BlockRegistry.snow_cauldron.defaultBlockState(), SoundEvents.SNOW_PLACE);
+                    return InteractionResult.SUCCESS_SERVER;
+                });
+        CauldronInteractions.EMPTY
+                .put(Items.ICE, (state, level, pos, player, hand, stack) -> {
+                    fillEmptyCauldron(level, pos, player, hand, stack, BlockRegistry.ice_cauldron.defaultBlockState(), SoundEvents.GLASS_PLACE);
+                    return InteractionResult.SUCCESS_SERVER;
+                });
+    }
+
+    public static void fillEmptyCauldron(Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack filledStack, BlockState state, SoundEvent soundEvent) {
+        if (CommonConfig.Debug.disableIceOrSnowCauldron.get()) return;
+        if (!level.isClientSide()) {
+            filledStack.consume(1, player);
+            player.awardStat(Stats.FILL_CAULDRON);
+            player.awardStat(Stats.ITEM_USED.get(filledStack.getItem()));
+            level.setBlockAndUpdate(pos, state);
+            level.playSound(null, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.gameEvent(null, GameEvent.BLOCK_PLACE, pos);
+        }
+    }
+
+    public Component getTip() {
+        if (this == BlockRegistry.snow_cauldron) {
+            return Component.translatable("info.eclipticseasons.snow_cauldron.extraction");
+        } else if (this == BlockRegistry.ice_cauldron) {
+            return Component.translatable("info.eclipticseasons.ice_cauldron.extraction");
+        }
+        return Component.empty();
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "season": "autumn",
+  "biomes": {
+    "values": [
+      "minecraft:cherry_grove",
+      "#minecraft:is_forest"
+    ],
+    "type": "neoforge:or"
+  },
+  "sound": "eclipticseasons:ambient.windy_leave"
+}

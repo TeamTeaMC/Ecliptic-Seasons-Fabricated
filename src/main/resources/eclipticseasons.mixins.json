@@ -1,0 +1,52 @@
+{
+  "required": true,
+  "package": "com.teamtea.eclipticseasons.mixin",
+  "refmap": "eclipticseasons.refmap.json",
+  "mixins": [
+    "common.biome.MixinBiome",
+    "common.block.MixinBeehiveBlockEntity",
+    "common.block.MixinBlockState",
+    "common.block.MixinBlockStateBase",
+    "common.block.MixinFireBlock",
+    "common.block.MixinLayeredCauldronBlock",
+    "common.chunk.MixinAccessorLevelChunkSection",
+    "common.chunk.MixinChunkAccess",
+    "common.chunk.MixinLevelChunk",
+    "common.chunk.MixinPalettedContainer",
+    "common.chunk.MixinSimpleBitStorage",
+    "common.chunk.MixinZeroBitStorage",
+    "common.command.MixinWeatherCommand",
+    "common.entity.MixinEntity",
+    "common.entity.MixinLivingEntity",
+    "common.entity.animal.bee.MixinBee",
+    "common.entity.animal.bee.MixinBee_BeePollinateGoal",
+    "common.entity.animal.fox.MixinFox",
+    "common.entity.animal.fox.MixinFox_SeekShelterGoal",
+    "common.entity.animal.pandas.MixinPanda",
+    "common.entity.monster.MixinMonster",
+    "common.level.MixinAttributeTrackSampler",
+    "common.level.MixinLevel",
+    "common.level.MixinLevelReader",
+    "common.level.MixinServerLevel",
+    "common.loot.MixinWeatherCheck",
+    "common.worldgen.MixinSurfaceSystem",
+    "data.RegistrySetBuilderMixin",
+    "game.MixinBee_BeePollinateGoal",
+    "game.MixinBeehiveBlockEntity",
+    "game.MixinBreedGoal",
+    "game.MixinCow",
+    "game.MixinFishingHook"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "plugin": "com.teamtea.eclipticseasons.mixin.EclipticSeasonsMixinPlugin",
+  "minVersion": "0.8",
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

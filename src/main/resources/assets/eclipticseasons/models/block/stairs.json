@@ -1,0 +1,41 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Joe Vettek",
+	"parent": "block/block",
+	"textures": {
+		"particle": "minecraft:block/snow",
+		"top": "minecraft:block/snow",
+		"side": {
+      "force_translucent": true,
+      "sprite": "eclipticseasons:block/snow_overlay"    },
+		"left": {
+      "force_translucent": true,
+      "sprite": "eclipticseasons:block/snow_overlay_half_left"    },
+		"right": {
+      "force_translucent": true,
+      "sprite": "eclipticseasons:block/snow_overlay_half_right"    }
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 8, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 8], "texture": "#right", "cullface": "north"},
+				"south": {"uv": [0, 0, 16, 8], "texture": "#left", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 8], "texture": "#side", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top"}
+			}
+		},
+		{
+			"from": [8, 8, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 8, 8], "texture": "#side", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 8], "texture": "#side", "cullface": "east"},
+				"south": {"uv": [8, 0, 16, 8], "texture": "#side", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 8], "texture": "#side"},
+				"up": {"uv": [8, 0, 16, 16], "texture": "#top", "cullface": "up"}
+			}
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+  "season": "summer",
+  "ignore_time": false,
+  "day": false,
+  "biomes": {
+    "value": {
+      "values": [
+        "#minecraft:is_savanna",
+        "#c:is_cave",
+        "#c:is_desert",
+        "#c:is_badlands",
+        "#c:is_mountain/peak",
+        "#c:is_ocean"
+      ],
+      "type": "neoforge:or"
+    },
+    "type": "neoforge:not"
+  },
+  "sound": "eclipticseasons:ambient.night_river"
+}

@@ -1,0 +1,62 @@
+{
+	"required": true,
+	"package": "com.teamtea.eclipticseasons.client.mixin",
+	"refmap": "eclipticseasons.refmap.json",
+	"mixins": [
+		
+	],
+	"client": [
+		"MixinClientClientLevel",
+		"MixinClientLevel",
+		"MixinClientLevelChunk",
+		"MixinGameRenderer",
+		"MixinLocalPlayer",
+		"MixinMinecraftClient",
+		"MixinWeatherEffectRenderer",
+		"animal.MixinClientPanda",
+		"biome.MixinBiomeColors",
+		"biome.MixinClientBiome",
+		"block.MixinBlockColors",
+		"block.MixinClientBlockState",
+		"block.MixinLightningRodBlock",
+		"chunk.MixinModelBlockRenderer",
+		"chunk.MixinRenderChunkRegion_IMapSlice",
+		"chunk.MixinSectionCompiler",
+		"model.MixinModelBakery",
+		"model.MixinModelManager",
+		"model.MixinTextureAtlasSprite",
+		"sound.MixinMusicManager",
+		"compat.iris.MixinBiomeUniforms",
+		"compat.iris.MixinBlockRenderTask",
+		"compat.iris.MixinIrisForgeHelpers",
+		"compat.sodium.MixinAbstractBlockRenderContext",
+		"compat.sodium.MixinBlockRenderer",
+		"compat.sodium.MixinBlockRenderTask",
+		"compat.sodium.MixinClonedChunkSection",
+		"compat.sodium.MixinDefaultModelEmitter",
+		"compat.sodium.MixinLevelSlice",
+		"compat.voxy.MixinAccessorModelFactory",
+		"compat.voxy.MixinAccessorVoxyRenderSystem",
+		"compat.voxy.MixinClientLevel",
+		"compat.voxy.MixinIngestSection",
+		"compat.voxy.MixinMapping",
+		"compat.voxy.MixinModelBakerySubsystem",
+		"compat.voxy.MixinModelFactory",
+		"compat.voxy.MixinModelTextureBakery",
+		"compat.voxy.MixinVoxelIngestService",
+		"compat.voxy.MixinWorldConversionFactory",
+		"compat.voxy.MixinWorldImporter",
+		"compat.voxy.MixinWorldUpdater"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"plugin": "com.teamtea.eclipticseasons.mixin.EclipticSeasonsMixinPlugin",
+	"minVersion": "0.8",
+	"mixinextras": {
+		"minVersion": "0.5.0"
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

@@ -1,0 +1,64 @@
+package com.teamtea.eclipticseasons.common.registry;
+
+import com.teamtea.eclipticseasons.EclipticSeasons;
+import com.teamtea.eclipticseasons.api.data.misc.ESSortInfo;
+import com.teamtea.eclipticseasons.api.data.season.definition.SeasonDefinition;
+import com.teamtea.eclipticseasons.api.data.season.SeasonPhase;
+import com.teamtea.eclipticseasons.api.data.season.SeasonCycle;
+import com.teamtea.eclipticseasons.api.data.season.SnowDefinition;
+import com.teamtea.eclipticseasons.api.data.climate.AgroClimaticZone;
+import com.teamtea.eclipticseasons.api.data.climate.BiomesClimateSettings;
+import com.teamtea.eclipticseasons.api.data.craft.WetterStructure;
+import com.teamtea.eclipticseasons.api.data.crop.CropGrowControlBuilder;
+import com.teamtea.eclipticseasons.api.data.weather.CustomRainBuilder;
+import com.teamtea.eclipticseasons.api.data.weather.CustomSnowTerm;
+import com.teamtea.eclipticseasons.api.data.weather.WeatherDimension;
+import com.teamtea.eclipticseasons.api.data.weather.WeatherRegion;
+import com.teamtea.eclipticseasons.api.data.weather.special_effect.WeatherEffect;
+import net.minecraft.util.Util;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+
+
+public class ESRegistries {
+
+    public static final ResourceKey<Registry<WetterStructure>> WETTER = ResourceKey.createRegistryKey(EclipticSeasons.rl("wetter"));
+
+
+    public static final ResourceKey<Registry<BiomesClimateSettings>> BIOME_CLIMATE_SETTING = ResourceKey.createRegistryKey(EclipticSeasons.rl("biome_climate_setting"));
+
+    public static final ResourceKey<Registry<AgroClimaticZone>> AGRO_CLIMATE = ResourceKey.createRegistryKey(EclipticSeasons.rl("agro_climate"));
+
+    public static final ResourceKey<Registry<CropGrowControlBuilder>> CROP = ResourceKey.createRegistryKey(EclipticSeasons.rl("crop"));
+
+    public static final ResourceKey<Registry<SnowDefinition>> SNOW_DEFINITIONS = ResourceKey.createRegistryKey(EclipticSeasons.rl("snow_definitions"));
+
+    public static final ResourceKey<Registry<SeasonPhase>> SEASON_PHASE = ResourceKey.createRegistryKey(EclipticSeasons.rl("season_phase"));
+
+    public static final ResourceKey<Registry<SeasonCycle>> SEASON_CYCLE = ResourceKey.createRegistryKey(EclipticSeasons.rl("season_cycle"));
+
+    public static final ResourceKey<Registry<CustomRainBuilder>> BIOME_RAIN = ResourceKey.createRegistryKey(EclipticSeasons.rl("biome_rain"));
+
+    public static final ResourceKey<Registry<CustomSnowTerm>> SNOW_TERM = ResourceKey.createRegistryKey(EclipticSeasons.rl("snow_term"));
+
+    public static final ResourceKey<Registry<SeasonDefinition>> SEASON_DEFINITION = ResourceKey.createRegistryKey(EclipticSeasons.rl("season_definitions"));
+
+    public static final ResourceKey<Registry<WeatherRegion>> WEATHER_REGION = ResourceKey.createRegistryKey(EclipticSeasons.rl("weather_region"));
+
+    public static final ResourceKey<Registry<ESSortInfo>> EXTRA_INFO = ResourceKey.createRegistryKey(EclipticSeasons.rl("extra_info"));
+
+    public static final ResourceKey<Registry<WeatherEffect>> WEATHER_EFFECT = ResourceKey.createRegistryKey(EclipticSeasons.rl("biome_rain_effect"));
+
+    public static final ResourceKey<Registry<WeatherDimension>> WEATHER_DIMENSION = ResourceKey.createRegistryKey(EclipticSeasons.rl("weather_dimension"));
+
+    public static <T> String createLangKey(ResourceKey<Registry<T>> registryResourceKey, Identifier Identifier) {
+        // return Identifier.toLanguageKey(registryResourceKey.identifier().getPath());
+        return Util.makeDescriptionId(registryResourceKey.identifier().getPath(), Identifier);
+    }
+
+    public static <T> String createLangKey(ResourceKey<T> Identifier) {
+        // return Identifier.identifier().toLanguageKey(Identifier.registryKey().identifier().getPath());
+        return Util.makeDescriptionId(Identifier.registryKey().identifier().getPath(), Identifier.identifier());
+    }
+}

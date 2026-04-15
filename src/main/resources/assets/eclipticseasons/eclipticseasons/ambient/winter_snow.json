@@ -1,0 +1,22 @@
+{
+  "season": "winter",
+  "rain": true,
+  "biomes": {
+    "values": [
+      {
+        "value": "#c:is_cave",
+        "type": "neoforge:not"
+      },
+      {
+        "values": [
+          "minecraft:cherry_grove",
+          "#minecraft:is_forest"
+        ],
+        "type": "neoforge:or"
+      }
+    ],
+    "type": "neoforge:and"
+  },
+  "sound": "eclipticseasons:ambient.winter_forest",
+  "priority": 950
+}

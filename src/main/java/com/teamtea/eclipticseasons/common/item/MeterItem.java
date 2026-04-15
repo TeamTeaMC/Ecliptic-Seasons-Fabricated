@@ -1,0 +1,47 @@
+package com.teamtea.eclipticseasons.common.item;
+
+import com.teamtea.eclipticseasons.api.constant.biome.Humidity;
+import com.teamtea.eclipticseasons.api.util.EclipticUtil;
+import com.teamtea.eclipticseasons.client.util.ClientExtraUtil;
+import com.teamtea.eclipticseasons.common.registry.ItemRegistry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
+public class MeterItem extends Item {
+    public MeterItem(Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    public boolean useOnRelease(ItemStack itemStack) {
+        return super.useOnRelease(itemStack);
+    }
+
+    @Override
+    public InteractionResult use(Level level, Player player, InteractionHand usedHand) {
+        sendInfo(this, level, player);
+        return InteractionResult.CONSUME;
+    }
+
+    public static void sendInfo(Item meterItem, Level level, Player player) {
+        if (level.isClientSide()) {
+            BlockPos pos = player.blockPosition();
+            Component component = Component.empty();
+            if (meterItem == ItemRegistry.hygrometer) {
+                float humidityAt = EclipticUtil.getHumidityLevelAt(level, pos);
+                humidityAt = ClientExtraUtil.modifyHumidity(level, pos, humidityAt);
+                component = Humidity.getHumid(humidityAt).getTranslation();
+            }
+
+            if (!component.getString().isEmpty())
+                player.sendSystemMessage(component);
+        }
+    }
+
+}
