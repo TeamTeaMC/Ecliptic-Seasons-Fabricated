@@ -95,13 +95,13 @@ public abstract class MixinBlockRenderer extends AbstractBlockRenderContext impl
     ) {
 
 
-        // if (!eclipticseasons$shouldReplaceOriginalGrassModel || eclipticseasons$snowModel == null)
-        //     original.call(instance, blockStateModel, directionPredicate, mutableQuadView, randomSource, blockAndTintGetter, blockPos, blockState, bufferer);
+        if (!eclipticseasons$shouldReplaceOriginalGrassModel || eclipticseasons$snowModel == null)
+            original.call(instance, blockStateModel, directionPredicate, mutableQuadView, randomSource, blockAndTintGetter, blockPos, blockState, bufferer);
 
         if (eclipticseasons$snowModel != null) {
             eclipticseasons$cancelDowngradedPass = true;
             eclipticseasons$shouldCollectBakeQuads = false;
-            original.call(instance, new ExtraRenderDispatcher.OverrideBlockStateModel(blockStateModel,eclipticseasons$snowModel), directionPredicate, mutableQuadView, randomSource, blockAndTintGetter, blockPos, blockState, bufferer);
+            original.call(instance, eclipticseasons$snowModel, directionPredicate, mutableQuadView, randomSource, blockAndTintGetter, blockPos, blockState, bufferer);
         }
         // PlatformModelEmitter.getInstance().emitModel(blockStateModel, this::isFaceCulled, this.getForEmitting(), this.random, this.level, pos, state, this::bufferDefaultModel);
 
