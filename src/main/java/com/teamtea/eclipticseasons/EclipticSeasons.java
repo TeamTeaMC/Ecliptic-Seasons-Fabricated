@@ -138,10 +138,10 @@ public class EclipticSeasons implements ModInitializer {
         fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry.INSTANCE.register(MODID, ModConfig.Type.STARTUP, StartConfig.START_CONFIG);
 
         fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents.loading(MODID).register(CommonConfig::UpdateConfig);
-        fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents.reloading(MODID).register(CommonConfig::UpdateConfig);
+        // fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents.reloading(MODID).register(CommonConfig::UpdateConfig);
 
         fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents.loading(MODID).register(ClientConfig::UpdateConfig);
-        fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents.reloading(MODID).register(ClientConfig::UpdateConfig);
+        // fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents.reloading(MODID).register(ClientConfig::UpdateConfig);
 
 
         CompatModule.setup();
@@ -195,6 +195,7 @@ public class EclipticSeasons implements ModInitializer {
         ServerTickEvents.START_LEVEL_TICK.register(AllListener::onLevelTickPre);
 
         ESEventHook.SOLAR_TERM_CHANGE.register(AllListener::onSolarTermChangeEvent);
+        ESEventHook.CHECK_PLANT_GROWTH.register(AllListener::onCropGrowUp);
 
         ServerLevelEvents.LOAD.register((s, l) -> AllListener.onLevelLoad(l));
         ServerLevelEvents.UNLOAD.register((s, l) -> AllListener.onLevelUnloadEvent(l));

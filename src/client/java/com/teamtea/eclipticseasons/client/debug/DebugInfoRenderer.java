@@ -135,10 +135,10 @@ public class DebugInfoRenderer {
                 }
                 infoLines.add(String.format("R/C/T Time: §e%d§r / §e%d§r / §e%d§r",
                         biomeWeather.rainTime, biomeWeather.clearTime, biomeWeather.thunderTime));
-                ISnowTerm snowTerm = SolarUtil.getSnowTerm(biomeWeather.biomeHolder.value(), false, EclipticUtil.getSnowTempChange(level));
+                ISnowTerm snowTerm = SolarUtil.getSnowTerm(e_cachedBiome != null ? e_cachedBiome.value() : biomeWeather.biomeHolder.value(), false, EclipticUtil.getSnowTempChange(level));
                 SolarTerm start = snowTerm.getStart();
                 SolarTerm end = snowTerm.getEnd();
-                infoLines.addComponent(Component.literal("Snow Term: ")
+                infoLines.addComponent(Component.literal("Snow Term%s: ".formatted(e_cachedBiome==cachedBiome?"":" (Surface) "))
                         .append(Component.translatable("debug_info.eclipticseasons.snow_term",
                                 start.getTranslation().withStyle(start.getColor()),
                                 end.getTranslation().withStyle(end.getColor()),

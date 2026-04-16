@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "eclipticseasons:broom"
+            "items": "minecraft:snowball"
           }
         ]
       },
@@ -17,7 +17,7 @@
       "translate": "advancement.eclipticseasons.winter_start.desc"
     },
     "icon": {
-      "id": "eclipticseasons:broom"
+      "items": "minecraft:snowball"
     },
     "show_toast": false,
     "title": {

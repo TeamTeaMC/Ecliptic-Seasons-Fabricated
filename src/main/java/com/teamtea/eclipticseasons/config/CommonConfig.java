@@ -203,7 +203,6 @@ public class CommonConfig {
         public static ModConfigSpec.BooleanValue forceCompatMode;
         public static ModConfigSpec.BooleanValue cropLeavesPatch;
         public static ModConfigSpec.BooleanValue simpleGreenHouse;
-        public static ModConfigSpec.BooleanValue noCostHumidifier;
         public static ModConfigSpec.BooleanValue useBoxDistance;
         public static ModConfigSpec.IntValue seasonCoreRange;
         public static ModConfigSpec.BooleanValue boneMealFailureMessage;
@@ -232,9 +231,7 @@ public class CommonConfig {
             darkGreenhouseFailChance = builder.comment("Probability (per tick) that greenhouse crops fail to grow due to low light levels.")
                     .defineInRange("LowLightGreenhouseFailChance", 2000, 0, 10000);
             simpleGreenHouse = builder.comment("Simplifies greenhouse logic, removing the need for core blocks or humidity modifiers.")
-                    .define("SimpleGreenHouseMode", false);
-            noCostHumidifier = builder.comment("If true, the Humidifier block will not consume resources during operation.")
-                    .define("NoCostHumidifier", false);
+                    .define("SimpleGreenHouseMode", true);
             seasonCoreRange = builder.comment("The effective radius of the 'Season Core' block.")
                     .defineInRange("SeasonCoreRange", 15, 4, 31);
             complexGreenHouseCheck = builder.comment("Enables more precise shape detection for greenhouse structures.")
@@ -536,12 +533,12 @@ public class CommonConfig {
     private static boolean useSolarWeather = true;
 
     @Getter
-    private static boolean forceCropCompatMode = false;
+    private static boolean forceCropCompatMode = true;
 
     @Getter
     private static boolean snowyWinter = true;
     @Getter
-    private static boolean snowInWorld = true;
+    private static boolean snowInWorld = false;
 
     @Getter
     private static final int[] dayTimesForSeason = new int[SolarTerm.collectValues().length];

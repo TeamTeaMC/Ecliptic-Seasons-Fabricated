@@ -22,7 +22,7 @@ public class ESEventHook {
 
     public static final Event<Tricker<SolarTermChangeEvent>> SOLAR_TERM_CHANGE = create();
 
-    public static final Event<Tricker<TagsUpdatedEvent>> TAG_UPDATED = create();
+    // public static final Event<Tricker<TagsUpdatedEvent>> TAG_UPDATED = create();
 
     public static boolean canExtraCropGrow(Level level, BlockPos pos, BlockState state, boolean def) {
         var ev = CanPlantGrowEvent.builder().level(level).pos(pos).state(state).build();
