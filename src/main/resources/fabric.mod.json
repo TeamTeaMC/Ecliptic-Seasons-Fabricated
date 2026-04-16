@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "eclipticseasons",
   "version": "${version}",
-  "name": "Ecliptic Seasons: Fabricated",
+  "name": "Ecliptic Seasons : Fabricated",
   "description": "A native, lightweight rewrite of Ecliptic Seasons for Fabric, delivering a high-performance seasonal environments.",
   "authors": [
     "joe_vettek(jianzoushihu)",
