@@ -22,12 +22,15 @@ import com.teamtea.eclipticseasons.common.network.message.HumidModifyMessage;
 import com.teamtea.eclipticseasons.common.registry.ModAdvancements;
 import com.teamtea.eclipticseasons.config.CommonConfig;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import warp.net.neoforged.neoforge.event.TagsUpdatedEvent;
@@ -47,6 +50,13 @@ public class AllListener {
     // TagsUpdatedEvent invoke before ServerAboutToStartEvent
 
     public static void onTagsUpdatedEvent(TagsUpdatedEvent tagsUpdatedEvent) {
+        if (tagsUpdatedEvent.getUpdateCause() == TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD) {
+            for (Block block : BuiltInRegistries.BLOCK) {
+                for (BlockState possibleState : block.getStateDefinition().getPossibleStates()) {
+                    possibleState.initCache();
+                }
+            }
+        }
         BiomeClimateManager.resetBiomeTemps(tagsUpdatedEvent.getLookupProvider(), tagsUpdatedEvent.getUpdateCause() == TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD);
         WeatherManager.informUpdateBiomes(tagsUpdatedEvent.getLookupProvider(), tagsUpdatedEvent.getUpdateCause() == TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD);
         CropInfoManager.init(tagsUpdatedEvent);
@@ -175,7 +185,7 @@ public class AllListener {
 
 
     public static void onPlayerChangedDimension2(ServerPlayer serverPlayer, ServerPlayer serverPlayer1, boolean b) {
-  {
+        {
             // WeatherManager.onLoggedIn(serverPlayer, false);
             // 不知道为什么要多线程来避免问题
             Thread t = new Thread(() -> {

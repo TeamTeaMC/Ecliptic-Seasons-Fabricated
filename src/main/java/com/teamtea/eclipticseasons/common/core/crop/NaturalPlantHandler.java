@@ -21,6 +21,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -89,7 +90,7 @@ public class NaturalPlantHandler {
             ThreadLocal.withInitial(ISeasonChangeContext::of);
 
     public static void tickBlock(ServerLevel level, BlockPos pos, BlockState state) {
-        //if (CommonConfig.isSeasonDefinition())
+        // if (CommonConfig.isSeasonDefinition())
         {
             SolarTerm nowSolarTerm = EclipticUtil.getNowSolarTerm(level);
             if (nowSolarTerm.isValid()) {
@@ -174,9 +175,9 @@ public class NaturalPlantHandler {
         if (old != chosen) {
             boolean set = level.setBlock(pos, chosen, Block.UPDATE_CLIENTS);
             if (set) {
-                SoundType soundType = chosen.getSoundType();
+                SoundType soundType = (chosen.is(Blocks.AIR) ? old : chosen).getSoundType();
                 if (soundType != null)
-                    level.playSound(null, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+                    level.playSound(null, pos, chosen.is(Blocks.AIR) ? soundType.getBreakSound() : soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                 return true;
             }
         }

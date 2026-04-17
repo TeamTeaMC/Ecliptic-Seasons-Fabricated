@@ -121,6 +121,9 @@ public class ModContents {
         addPackIfEnabled(oldConfig, modFile,
                 CommonConfig.Resource.NotIgnoreRiver, "Not Ignore River", "not_ignore_river");
 
+        addPackIfEnabled(oldConfig, modFile,
+                CommonConfig.Resource.springGrass, "spring_grass", "spring_grass");
+
         oldConfig.close();
     }
 
