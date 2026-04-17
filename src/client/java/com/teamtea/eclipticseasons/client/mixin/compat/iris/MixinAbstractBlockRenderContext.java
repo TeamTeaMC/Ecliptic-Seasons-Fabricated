@@ -3,8 +3,9 @@ package com.teamtea.eclipticseasons.client.mixin.compat.iris;
 
 import com.google.common.annotations.Beta;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
+import com.teamtea.eclipticseasons.client.core.AttachModelManager;
 import com.teamtea.eclipticseasons.compat.CompatModule;
+import com.teamtea.eclipticseasons.compat.iris.IrisAttachSnowyShader;
 import com.teamtea.eclipticseasons.compat.sodium.SodiumStatus;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer;
 import net.caffeinemc.mods.sodium.client.render.model.AbstractBlockRenderContext;
@@ -28,7 +29,7 @@ import java.util.function.Predicate;
 
 @Beta
 @Mixin(value = {AbstractBlockRenderContext.class}, priority = 1200)
-public abstract class MixinIrisForgeHelpers {
+public abstract class MixinAbstractBlockRenderContext implements IrisAttachSnowyShader {
 
     @Shadow
     protected BlockPos pos;
@@ -57,14 +58,24 @@ public abstract class MixinIrisForgeHelpers {
                 if (WorldRenderingSettings.INSTANCE.getBlockStateIds() != null && cullFace != null) {
                     if (CompatModule.ClientConfig.unifiedSnowyBlockSides.isFalse() && cullFace != Direction.UP)
                         return;
-                    if (ExtraModelManager.renderAsSnowInShader(state, level, pos)) {
+                    if (AttachModelManager.renderAsSnowInShader(state, level, pos)) {
                         // ((BlockSensitiveBufferBuilder) ((BlockRendererAccessor) r).getBuffers()).overrideBlock(WorldRenderingSettings.INSTANCE.getBlockStateIds().getInt(Blocks.SNOW_BLOCK.defaultBlockState()));
                         ((VertexEncoderInterface) r).overrideBlock(WorldRenderingSettings.INSTANCE.getBlockStateIds().getInt(Blocks.SNOW_BLOCK.defaultBlockState()));
                     }
                 }
             }
+            ((VertexEncoderInterface) r).overrideBlock(WorldRenderingSettings.INSTANCE.getBlockStateIds().getInt(Blocks.SNOW_BLOCK.defaultBlockState()));
+
         }
 
     }
 
+
+    @Override
+    public void es$setSnowyBlockState(BlockState state) {
+        if (this instanceof VertexEncoderInterface vertexEncoderInterface
+                && WorldRenderingSettings.INSTANCE.getBlockStateIds() != null) {
+            vertexEncoderInterface.overrideBlock(WorldRenderingSettings.INSTANCE.getBlockStateIds().getInt(state));
+        }
+    }
 }

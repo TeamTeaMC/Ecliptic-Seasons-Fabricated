@@ -6,9 +6,10 @@ import com.google.common.annotations.Beta;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.teamtea.eclipticseasons.EclipticSeasons;
-import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
-import com.teamtea.eclipticseasons.client.core.ExtraRenderDispatcher;
+import com.teamtea.eclipticseasons.client.core.AttachModelManager;
+import com.teamtea.eclipticseasons.client.core.AttachRenderDispatcher;
 import com.teamtea.eclipticseasons.client.render.chunk.IceKeeper;
+import com.teamtea.eclipticseasons.compat.iris.IrisAttachSnowyShader;
 import com.teamtea.eclipticseasons.compat.sodium.SodiumBoard;
 import com.teamtea.eclipticseasons.compat.sodium.SodiumStatus;
 import com.teamtea.eclipticseasons.config.ClientConfig;
@@ -122,7 +123,7 @@ public abstract class MixinBlockRenderTask extends ChunkBuilderTask<ChunkBuildOu
             @Local(ordinal = 0) BlockPos.MutableBlockPos mutableBlockPos,
             @Local LocalRef<BlockState> stateLocalRef
     ) {
-        var state = ExtraRenderDispatcher.shouldBlockAsSnowyState(stateLocalRef.get(), buildContext.cache.getWorldSlice(), mutableBlockPos);
+        var state = AttachRenderDispatcher.shouldBlockAsSnowyState(stateLocalRef.get(), buildContext.cache.getWorldSlice(), mutableBlockPos);
         if (state != stateLocalRef.get())
             stateLocalRef.set(state);
     }
@@ -138,15 +139,19 @@ public abstract class MixinBlockRenderTask extends ChunkBuilderTask<ChunkBuildOu
                                                    @Local(ordinal = 0) BlockPos.MutableBlockPos blockPos,
                                                    @Local(ordinal = 1) BlockPos.MutableBlockPos modelOffset) {
         if (blockState.getRenderShape() == RenderShape.INVISIBLE) return;
-        BlockStateModel bm = ExtraRenderDispatcher.shouldRenderedWithSnowInside(buildContext.cache.getWorldSlice(), blockPos, blockState, null);
+        BlockStateModel bm = AttachRenderDispatcher.shouldRenderedWithSnowInside(buildContext.cache.getWorldSlice(), blockPos, blockState, null);
         if (bm != null) {
+            if (buildContext.cache.getBlockRenderer() instanceof IrisAttachSnowyShader shader)
+                shader.es$setSnowyBlockState(Blocks.SNOW.defaultBlockState());
             buildContext.cache.getBlockRenderer().renderModel(bm, Blocks.SNOW.defaultBlockState(), blockPos, modelOffset);
         }
         if (buildContext.cache.getBlockRenderer() instanceof SodiumStatus sodiumStatus) {
             int y = blockPos.getY();
-            int layer = ExtraRenderDispatcher.getLayer(buildContext.cache.getWorldSlice(), blockPos, blockState, null, blockState.getSeed(blockPos));
+            int layer = AttachRenderDispatcher.getLayer(buildContext.cache.getWorldSlice(), blockPos, blockState, null, blockState.getSeed(blockPos));
             if (layer > 0) {
-                buildContext.cache.getBlockRenderer().renderModel(ExtraModelManager.getSnowLayerModel(layer), Blocks.SNOW.defaultBlockState()
+                if (buildContext.cache.getBlockRenderer() instanceof IrisAttachSnowyShader shader)
+                    shader.es$setSnowyBlockState(Blocks.SNOW.defaultBlockState());
+                buildContext.cache.getBlockRenderer().renderModel(AttachModelManager.getSnowLayerModel(layer), Blocks.SNOW.defaultBlockState()
                         .setValue(SnowLayerBlock.LAYERS, layer), blockPos, modelOffset.offset(0, 1, 0));
                 modelOffset.offset(0, -1, 0);
                 blockPos.setY(y);

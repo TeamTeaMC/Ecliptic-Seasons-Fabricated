@@ -21,6 +21,12 @@ import java.util.function.Predicate;
 
 public interface NeoLikeBlockStateModel extends FabricBlockStateModel, BlockStateModel {
 
+    static void collectParts(BlockStateModel extraModel, BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockStateModelPart> parts) {
+        if (extraModel instanceof NeoLikeBlockStateModel neo) {
+            neo.collectParts(level, pos, state, random, parts);
+        } else extraModel.collectParts(random, parts);
+    }
+
     @Override
     public default void emitQuads(@NonNull QuadEmitter emitter, @NonNull BlockAndTintGetter level, @NonNull BlockPos pos, @NonNull BlockState state, @NonNull RandomSource random, @NonNull Predicate<@Nullable Direction> cullTest) {
         final boolean cutoutLeaves = Minecraft.getInstance().options.cutoutLeaves().get();

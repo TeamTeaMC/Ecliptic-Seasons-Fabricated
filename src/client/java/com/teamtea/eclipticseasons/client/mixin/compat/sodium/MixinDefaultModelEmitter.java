@@ -1,21 +1,8 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.sodium;
 
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.sugar.Local;
-import com.teamtea.eclipticseasons.api.misc.client.IMapSlice;
-import com.teamtea.eclipticseasons.client.core.ExtraRenderDispatcher;
 import net.caffeinemc.mods.sodium.client.services.DefaultModelEmitter;
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-
-import java.util.List;
 
 @Mixin({DefaultModelEmitter.class})
 public abstract class MixinDefaultModelEmitter {

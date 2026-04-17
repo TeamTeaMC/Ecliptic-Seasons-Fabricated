@@ -2,9 +2,9 @@ package com.teamtea.eclipticseasons.client.mixin.client.chunk;
 
 
 import com.teamtea.eclipticseasons.EclipticSeasons;
-import com.teamtea.eclipticseasons.api.misc.client.IExtraRendererContextOwner;
+import com.teamtea.eclipticseasons.api.misc.client.IAttachRendererContextOwner;
 import com.teamtea.eclipticseasons.api.misc.client.IMapSlice;
-import com.teamtea.eclipticseasons.client.core.context.ExtraRendererContext;
+import com.teamtea.eclipticseasons.client.core.context.AttachRendererContext;
 import com.teamtea.eclipticseasons.common.core.map.*;
 import com.teamtea.eclipticseasons.common.registry.AttachmentRegistry;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin({RenderSectionRegion.class})
-public abstract class MixinRenderChunkRegion_IMapSlice implements IMapSlice, IExtraRendererContextOwner {
+public abstract class MixinRenderChunkRegion_IMapSlice implements IMapSlice, IAttachRendererContextOwner {
 
     @Shadow
     @Final
@@ -221,10 +221,10 @@ public abstract class MixinRenderChunkRegion_IMapSlice implements IMapSlice, IEx
 
 
     @Unique
-    private ExtraRendererContext eclipticseasons$rendererHolder = new ExtraRendererContext();
+    private AttachRendererContext eclipticseasons$rendererHolder = new AttachRendererContext();
 
     @Override
-    public ExtraRendererContext eclipticseasons$getContext() {
+    public AttachRendererContext eclipticseasons$getContext() {
         return eclipticseasons$rendererHolder;
     }
 

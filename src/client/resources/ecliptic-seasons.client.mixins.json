@@ -28,7 +28,7 @@
     "client.sound.MixinMusicManager",
     "compat.iris.MixinBiomeUniforms",
     "compat.iris.MixinBlockRenderTask",
-    "compat.iris.MixinIrisForgeHelpers",
+    "compat.iris.MixinAbstractBlockRenderContext",
     "compat.sodium.MixinAbstractBlockRenderContext",
     "compat.sodium.MixinBlockRenderer",
     "compat.sodium.MixinBlockRenderTask",

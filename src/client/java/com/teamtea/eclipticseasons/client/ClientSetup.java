@@ -3,7 +3,7 @@ package com.teamtea.eclipticseasons.client;
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.client.color.season.BiomeColorsHandler;
 import com.teamtea.eclipticseasons.client.color.season.FoliageColorSource;
-import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
+import com.teamtea.eclipticseasons.client.core.AttachModelManager;
 import com.teamtea.eclipticseasons.client.itemproperties.CounterModelProperty;
 import com.teamtea.eclipticseasons.client.particle.*;
 import com.teamtea.eclipticseasons.client.registry.KeyMappingRegistry;
@@ -89,38 +89,38 @@ public class ClientSetup {
     }
 
     public static void registerExtraModels(ModelLoadingPlugin.@UnknownNullability Context event) {
-        ExtraModelManager.registerExtraSnowyModels(event::addModel);
+        AttachModelManager.registerExtraSnowyModels(event::addModel);
         // event.register();
         // Minecraft.getInstance().getResourceManager().listPacks().toList().get(0).getResource(PackType.CLIENT_RESOURCES, ResourceLocation.withDefaultNamespace("textures/block/snow.png")).get()
         // IOUtils.toString(Minecraft.getInstance().getResourceManager().listPacks().toList().get(0).getResource(PackType.SERVER_DATA, ResourceLocation.withDefaultNamespace("recipe/yellow_terracotta.json")).get(), StandardCharsets.UTF_8)        event.register(ModelManager.snowy_fern);
-        registerStandalone(event, ExtraModelManager.snowy_custom);
-        registerStandalone(event, ExtraModelManager.snowy_custom_ao);
+        registerStandalone(event, AttachModelManager.snowy_custom);
+        registerStandalone(event, AttachModelManager.snowy_custom_ao);
 
-        registerStandalone(event, ExtraModelManager.stairs_top);
-        registerStandalone(event, ExtraModelManager.snowy_leaves_attach);
-        registerStandalone(event, ExtraModelManager.snowy_leaves_top);
-        registerStandalone(event, ExtraModelManager.snowy_fern);
-        registerStandalone(event, ExtraModelManager.snowy_grass);
-        registerStandalone(event, ExtraModelManager.snowy_tall_grass_top);
-        registerStandalone(event, ExtraModelManager.snowy_tall_grass_bottom);
-        registerStandalone(event, ExtraModelManager.snowy_large_fern_top);
+        registerStandalone(event, AttachModelManager.stairs_top);
+        registerStandalone(event, AttachModelManager.snowy_leaves_attach);
+        registerStandalone(event, AttachModelManager.snowy_leaves_top);
+        registerStandalone(event, AttachModelManager.snowy_fern);
+        registerStandalone(event, AttachModelManager.snowy_grass);
+        registerStandalone(event, AttachModelManager.snowy_tall_grass_top);
+        registerStandalone(event, AttachModelManager.snowy_tall_grass_bottom);
+        registerStandalone(event, AttachModelManager.snowy_large_fern_top);
         // 注意这里使用地址和model地址效果不同，后者需要写blockstate
-        registerStandalone(event, ExtraModelManager.snowy_large_fern_bottom);
-        registerStandalone(event, ExtraModelManager.overlay_2);
-        registerStandalone(event, ExtraModelManager.snow_height2);
-        registerStandalone(event, ExtraModelManager.snow_height2_top);
-        registerStandalone(event, ExtraModelManager.grass_flower);
+        registerStandalone(event, AttachModelManager.snowy_large_fern_bottom);
+        registerStandalone(event, AttachModelManager.overlay_2);
+        registerStandalone(event, AttachModelManager.snow_height2);
+        registerStandalone(event, AttachModelManager.snow_height2_top);
+        registerStandalone(event, AttachModelManager.grass_flower);
 
-        for (var flowerOnGrass : Stream.of(ExtraModelManager.flower_on_grass,
-                        ExtraModelManager.fourleaf_clovers,
-                        ExtraModelManager.snow_edge_overlays,
-                        ExtraModelManager.leaf_piles)
+        for (var flowerOnGrass : Stream.of(AttachModelManager.flower_on_grass,
+                        AttachModelManager.fourleaf_clovers,
+                        AttachModelManager.snow_edge_overlays,
+                        AttachModelManager.leaf_piles)
                 .flatMap(List::stream)
                 .toList()) {
             registerStandalone(event, flowerOnGrass);
         }
 
-        registerStandalone(event, ExtraModelManager.ice);
+        registerStandalone(event, AttachModelManager.ice);
     }
 
     private static void registerStandalone(ModelLoadingPlugin.@UnknownNullability Context event, StandaloneModelKey<BlockStateModel> snowyCustom) {
@@ -130,7 +130,7 @@ public class ClientSetup {
 
     public static void onModelBaked(ModelBakery.BakingResult modelRegistry) {
         ParticleUtil.onReloadResource();
-        ExtraModelManager.clearForRebaked(modelRegistry);
+        AttachModelManager.clearForRebaked(modelRegistry);
     }
 
     public static class ModelImpl implements ModelLoadingPlugin {
