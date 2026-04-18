@@ -364,10 +364,10 @@ public class WeatherManager {
             } else if (thundering) {
                 thunderTime = biomeWeather.getBiomeRain().getThunderDuration(random) / size;
             } else {
-                float weight = biomeWeather.getBiomeRain().getThunderChance()
+                float weight = 1.5f - biomeWeather.getBiomeRain().getThunderChance()
                         * ((CommonConfig.Weather.thunderChanceMultiplier.get() * 1f) / 100f)
                         * size / 3000f;
-                thunderTime = (int) (weight * biomeWeather.getBiomeRain().getThunderDelay(random) / size);
+                thunderTime = Math.max(1,  (int) (weight * biomeWeather.getBiomeRain().getThunderDelay(random) / size));
             }
 
             if (rainTime > 0) {
@@ -377,10 +377,10 @@ public class WeatherManager {
             } else if (raining) {
                 rainTime = biomeWeather.getBiomeRain().getRainDuration(random) / size;
             } else {
-                float weight = biomeWeather.getBiomeRain().getRainChance()
+                float weight = 1.5f - biomeWeather.getBiomeRain().getRainChance()
                         * ((CommonConfig.Weather.rainChanceMultiplier.get() * 1f) / 100f)
                         * size / 3000f;
-                rainTime = (int) (weight * biomeWeather.getBiomeRain().getRainDelay(random) / size);
+                rainTime = Math.max(1, (int) (weight * biomeWeather.getBiomeRain().getRainDelay(random) / size));
             }
         }
 
