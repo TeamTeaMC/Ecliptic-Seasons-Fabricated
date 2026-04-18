@@ -68,7 +68,6 @@ public interface EclipticSeasonsApi {
      */
     boolean isSeasonEnabled(Level level);
 
-    boolean hasLocalWeather(Level level);
 
     /**
      * Returns the adjusted daytime in ticks for the given level, as an API version of {@link SolarTerm#getDayTime()},

@@ -44,14 +44,4 @@ public abstract class MixinEntity {
         }
         return original.call(type, state);
     }
-
-    // @Inject(at = {@At(value = "INVOKE",
-    //         target = "Lnet/minecraft/world/level/block/Block;stepOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/Entity;)V")},
-    //         method = "applyEffectsFromBlocks(Ljava/util/List;)V")
-    // public void eclipticseasons$move_stepOn(List movements,
-    //                                         CallbackInfo ci,
-    //                                         @Local BlockPos pos,
-    //                                         @Local BlockState blockstate) {
-    //     SnowyMapChecker.onEntityStepOn((Entity) (Object) this, level, pos, blockstate);
-    // }
 }

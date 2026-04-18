@@ -167,7 +167,6 @@ public class AllListener {
 
 
     public static void onLevelTickPre(Level serverLevel) {
-        WeatherManager.tickAverageWeather(serverLevel);
     }
 
 

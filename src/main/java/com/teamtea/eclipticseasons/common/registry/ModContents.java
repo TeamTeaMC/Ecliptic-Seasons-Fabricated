@@ -110,8 +110,8 @@ public class ModContents {
         }
 
 
-        addPackIfEnabled(oldConfig,modFile,
-                CommonConfig.Resource.RainTogether, "Rain Together", "rain_together");
+        addPackIfEnabled(oldConfig, modFile,
+                null, "Rain Together", "rain_together");
         addPackIfEnabled(oldConfig, modFile,
                 CommonConfig.Resource.RegionalSnowTime, "Regional Snow Time", "regional_snow_time");
         addPackIfEnabled(oldConfig, modFile,
@@ -129,12 +129,12 @@ public class ModContents {
 
 
     private static void addPackIfEnabled(CommentedFileConfig oldConfig, ModContainer modFile, ModConfigSpec.BooleanValue use, String packname, String packid) {
-        if (isShouldLoad(oldConfig,use)) {
+        if (use == null || isShouldLoad(oldConfig, use)) {
             ResourceLoaderImpl.registerBuiltinPack(
                     EclipticSeasons.rl(packid),
-                    "resourcepacks/"+packname,
+                    "resourcepacks/" + packname,
                     modFile,
-                    Component.translatable("pack.eclipticseasons."+packid),
+                    Component.translatable("pack.eclipticseasons." + packid),
                     PackActivationType.ALWAYS_ENABLED);
         }
     }

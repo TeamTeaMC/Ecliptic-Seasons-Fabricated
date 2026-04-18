@@ -7,6 +7,7 @@ import com.teamtea.eclipticseasons.common.registry.AttachmentRegistry;
 import net.caffeinemc.mods.sodium.client.world.cloned.ClonedChunkSection;
 import net.minecraft.core.SectionPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.EmptyLevelChunk;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -43,7 +44,8 @@ public abstract class MixinClonedChunkSection implements ISnowyGetter {
     )
     private void eclipticseasons$init(Level level, LevelChunk chunk, LevelChunkSection section, SectionPos pos, CallbackInfo ci) {
         // eclipticseasons$snowyRemover = chunk.getData(AttachmentRegistry.SNOWY_REMOVER);
-        eclipticseasons$biomeHolder = AttachmentRegistry.BIOME_HOLDER.get(chunk);
+        eclipticseasons$biomeHolder = chunk instanceof EmptyLevelChunk ?
+                BiomeHolder.empty() : AttachmentRegistry.BIOME_HOLDER.get(chunk);
         eclipticseasons$heightmap = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.MOTION_BLOCKING);
         eclipticseasons$chunkInfoMap = MapChecker.getChunkInfoMapOrCreate(level, chunk.getPos().getMiddleBlockPosition(64));
         // eclipticseasons$snowyStatusKeeper = SnowyMapChecker.getSnowyStatusKeeperCopy(chunk);

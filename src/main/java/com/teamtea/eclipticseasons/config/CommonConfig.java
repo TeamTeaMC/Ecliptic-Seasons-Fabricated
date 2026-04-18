@@ -34,7 +34,6 @@ public class CommonConfig {
     }
 
     public static class Debug {
-        public static ModConfigSpec.BooleanValue logIllegalUse;
         public static ModConfigSpec.BooleanValue notLightAbove;
         public static ModConfigSpec.BooleanValue snowOverlayGlowingBlock;
 
@@ -54,8 +53,6 @@ public class CommonConfig {
                     )
                     .define("ForceServerConfig", true);
 
-            logIllegalUse = builder.comment("Log errors when internal functions are used incorrectly.")
-                    .define("LogIllegalUse", false);
             notLightAbove = builder.comment("Prevent snow overlays from rendering under blocks with zero light emission.")
                     .define("NoSnowyUnderLight0", false);
 
@@ -500,7 +497,6 @@ public class CommonConfig {
 
     public static class Resource {
         public static ModConfigSpec.BooleanValue SnowTogether;
-        public static ModConfigSpec.BooleanValue RainTogether;
         public static ModConfigSpec.BooleanValue RegionalSnowTime;
         public static ModConfigSpec.BooleanValue VanillaBiomeClimateSettings;
         public static ModConfigSpec.BooleanValue NotIgnoreRiver;
@@ -508,9 +504,6 @@ public class CommonConfig {
 
         private static void load(ModConfigSpec.Builder builder) {
             builder.push("Resource");
-
-            RainTogether = builder.comment("Synchronizes weather states across all Overworld biomes, ensuring global rainfall.")
-                    .define("RainTogether", true);
 
             SnowTogether = builder.comment("Synchronizes the snowfall schedule for all Overworld biomes.")
                     .define("SnowTogether", false);
@@ -532,8 +525,6 @@ public class CommonConfig {
     }
 
 
-    @Getter
-    private static boolean useSolarWeather = true;
 
     @Getter
     private static boolean forceCropCompatMode = true;
@@ -555,7 +546,6 @@ public class CommonConfig {
     public static void UpdateConfig() {
         // if (config.getSpec() == COMMON_CONFIG)
         {
-            useSolarWeather = Weather.useSolarWeather.get();
             forceCropCompatMode = Crop.forceCompatMode.get();
             snowyWinter = Snow.snowyWinter.get();
             snowInWorld = Snow.snowInWorld.get() && snowyWinter;
