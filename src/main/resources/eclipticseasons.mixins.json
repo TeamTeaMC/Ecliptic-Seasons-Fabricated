@@ -24,6 +24,7 @@
     "common.entity.animal.fox.MixinFox_SeekShelterGoal",
     "common.entity.animal.pandas.MixinPanda",
     "common.entity.monster.MixinMonster",
+    "common.item.MixinBoneMealItem",
     "common.level.MixinAttributeTrackSampler",
     "common.level.MixinLevel",
     "common.level.MixinLevelReader",

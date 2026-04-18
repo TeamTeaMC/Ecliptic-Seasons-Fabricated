@@ -199,6 +199,7 @@ public class EclipticSeasons implements ModInitializer {
 
         ESEventHook.SOLAR_TERM_CHANGE.register(AllListener::onSolarTermChangeEvent);
         ESEventHook.CHECK_PLANT_GROWTH.register(AllListener::onCropGrowUp);
+        ESEventHook.BONEMEAL.register(AllListener::onCropGrowUp);
 
         ServerLevelEvents.LOAD.register((s, l) -> AllListener.onLevelLoad(l));
         ServerLevelEvents.UNLOAD.register((s, l) -> AllListener.onLevelUnloadEvent(l));

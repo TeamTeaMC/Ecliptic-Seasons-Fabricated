@@ -87,7 +87,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
 	implementation "curse.maven:forge-config-api-port-547434:7861252"
-
+	runtimeOnly "curse.maven:modmenu-308702:7813924"
 //	implementation "curse.maven:cardinal-components-api-318449:7909405"
 
 

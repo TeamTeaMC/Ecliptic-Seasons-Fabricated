@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import warp.net.neoforged.neoforge.event.TagsUpdatedEvent;
+import warp.net.neoforged.neoforge.event.entity.player.BonemealEvent;
 
 public class ESEventHook {
 
@@ -23,6 +24,9 @@ public class ESEventHook {
     public static final Event<Tricker<SolarTermChangeEvent>> SOLAR_TERM_CHANGE = create();
 
     // public static final Event<Tricker<TagsUpdatedEvent>> TAG_UPDATED = create();
+
+    public static final Event<Tricker<BonemealEvent>> BONEMEAL = create();
+
 
     public static boolean canExtraCropGrow(Level level, BlockPos pos, BlockState state, boolean def) {
         var ev = CanPlantGrowEvent.builder().level(level).pos(pos).state(state).build();
