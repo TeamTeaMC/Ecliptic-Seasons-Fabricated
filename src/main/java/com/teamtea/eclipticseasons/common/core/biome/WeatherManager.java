@@ -43,15 +43,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.saveddata.WeatherData;
-import net.minecraft.world.level.storage.ServerLevelData;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.level.storage.loot.predicates.WeatherCheck;
 
 import org.jspecify.annotations.Nullable;
 
@@ -345,7 +340,7 @@ public class WeatherManager {
     public static void runWeather(ServerLevel level, BiomeWeather biomeWeather, RandomSource random, int size) {
         if (!level.canHaveWeather() || !MapChecker.isValidDimension(level)) return;
 
-        Holder<Biome> onwer = getOnwer(level, biomeWeather.biomeHolder);
+        Holder<Biome> onwer = getOwner(level, biomeWeather.biomeHolder);
         if (onwer != null && !onwer.equals(biomeWeather.biomeHolder)) {
             BiomeWeather ownerBiomeWeather = getBiomeWeather(level, onwer);
             if (ownerBiomeWeather != null) {
@@ -431,7 +426,7 @@ public class WeatherManager {
         updateSnowOrMelt(level, biomeWeather, random, size, level.isRaining());
     }
 
-    public static @Nullable Holder<Biome> getOnwer(Level level, Holder<Biome> biomeHolder) {
+    public static @Nullable Holder<Biome> getOwner(Level level, Holder<Biome> biomeHolder) {
         return level instanceof IBiomeWeatherProvider ibwp && ibwp.es$getCoreBiome() != null ?
                 ibwp.es$getCoreBiome() :
                 BiomeClimateManager.getWeatherRegionOnwer(biomeHolder.value());
