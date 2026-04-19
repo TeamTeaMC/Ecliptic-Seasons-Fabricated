@@ -234,6 +234,11 @@ public class EclipticUtil {
             }
 
             @Override
+            public boolean hasLocalWeather(Level level) {
+                return false;
+            }
+
+            @Override
             public boolean isRainAt(Level level, BlockPos pos) {
                 return level.isRainingAt(pos);
             }
