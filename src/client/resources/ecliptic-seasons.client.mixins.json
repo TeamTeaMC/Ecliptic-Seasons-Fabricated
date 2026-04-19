@@ -6,7 +6,6 @@
   ],
   "client": [
     "client.MixinClientClientLevel",
-    "client.MixinClientLevel",
     "client.MixinClientLevelChunk",
     "client.MixinGameRenderer",
     "client.MixinLocalPlayer",
@@ -27,7 +26,7 @@
     "compat.distanthorizons.MixinAbstractDhTintGetter",
     "compat.distanthorizons.MixinClientLevel",
     "compat.distanthorizons.MixinQuadTree",
-    "compat.distanthorizons.MixinFullDataToRenderDataTransformer"
+    "compat.distanthorizons.MixinFullDataToRenderDataTransformer",
     "compat.iris.MixinAbstractBlockRenderContext",
     "compat.iris.MixinBlockRenderTask",
     "compat.sodium.MixinAbstractBlockRenderContext",

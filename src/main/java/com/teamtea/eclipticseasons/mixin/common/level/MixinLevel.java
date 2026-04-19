@@ -26,9 +26,8 @@ public class MixinLevel implements IBiomeWeatherProvider {
 
     @Inject(at = {@At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBiome(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/core/Holder;")}, method = {"precipitationAt"}, cancellable = true)
     private void eclipticseasons$precipitationAt_endBiomeCheck(BlockPos pos, CallbackInfoReturnable<Biome.Precipitation> cir) {
-        if ((Object) this instanceof ServerLevel level) {
+        if ((Object) this instanceof Level level) {
             cir.setReturnValue(WeatherManager.getRainOrSnow(level, MapChecker.getSurfaceBiome(level, pos).value(), pos));
-
         }
     }
 
