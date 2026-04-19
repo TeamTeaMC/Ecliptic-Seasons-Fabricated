@@ -90,7 +90,7 @@ dependencies {
 	runtimeOnly "curse.maven:modmenu-308702:7813924"
 //	implementation "curse.maven:cardinal-components-api-318449:7909405"
 
-
+	compileOnly "curse.maven:distant-horizons-508933:7948188"
 
 
 	def cca_version = "8.0.0"

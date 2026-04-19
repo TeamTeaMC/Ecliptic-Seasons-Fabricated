@@ -5,7 +5,6 @@
   "mixins": [
   ],
   "client": [
-    "client.gui.MixinGui",
     "client.MixinClientClientLevel",
     "client.MixinClientLevel",
     "client.MixinClientLevelChunk",
@@ -20,12 +19,17 @@
     "client.chunk.MixinModelBlockRenderer",
     "client.chunk.MixinRenderChunkRegion_IMapSlice",
     "client.chunk.MixinSectionCompiler",
+    "client.gui.MixinGui",
     "client.model.MixinModelBakery",
     "client.model.MixinModelManager",
     "client.model.MixinTextureAtlasSprite",
     "client.sound.MixinMusicManager",
-    "compat.iris.MixinBlockRenderTask",
+    "compat.distanthorizons.MixinAbstractDhTintGetter",
+    "compat.distanthorizons.MixinClientLevel",
+    "compat.distanthorizons.MixinQuadTree",
+    "compat.distanthorizons.MixinFullDataToRenderDataTransformer"
     "compat.iris.MixinAbstractBlockRenderContext",
+    "compat.iris.MixinBlockRenderTask",
     "compat.sodium.MixinAbstractBlockRenderContext",
     "compat.sodium.MixinBlockRenderer",
     "compat.sodium.MixinBlockRenderTask",

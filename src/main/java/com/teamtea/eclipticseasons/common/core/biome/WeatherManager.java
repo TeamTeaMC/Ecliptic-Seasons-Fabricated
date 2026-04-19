@@ -346,7 +346,6 @@ public class WeatherManager {
 
         WeatherData weatherData = level.getWeatherData();
 
-        SolarTerm solarTerm = EclipticUtil.getNowSolarTerm(level);
         BiomeRain biomeRain = biomeWeather.getBiomeRain();
 
         int clearTime = weatherData.getClearWeatherTime();
@@ -372,6 +371,7 @@ public class WeatherManager {
                 if (rainTime > 0) {
                     rainTime--;
                 } else {
+                    SolarTerm solarTerm = EclipticUtil.getNowSolarTerm(level);
                     float downfall = EclipticUtil.getDownfallFloatConstant(solarTerm, biomeWeather.biomeHolder.value(), !level.isClientSide());
                     float rainWeight = biomeRain.getRainChance()
                             * Math.max(0.01f, downfall)
