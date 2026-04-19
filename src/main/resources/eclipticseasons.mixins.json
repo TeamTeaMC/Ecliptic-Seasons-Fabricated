@@ -20,6 +20,7 @@
     "common.item.MixinBoneMealItem",
     "common.level.MixinAttributeTrackSampler",
     "common.level.MixinLevel",
+    "common.level.MixinMinecraftServer",
     "common.level.MixinServerLevel",
     "common.worldgen.MixinSurfaceSystem",
     "data.RegistrySetBuilderMixin",

@@ -118,6 +118,25 @@ public class WeatherManager {
         return weather;
     }
 
+    public static void onSetWeatherParameters(ServerLevel firstLevel, int pClearTime, int pWeatherTime, boolean pIsRaining, boolean pIsThundering) {
+        int weatherTickFactor = getWeatherTickFactor(firstLevel);
+        firstLevel.getWeatherData().setClearWeatherTime(pClearTime / weatherTickFactor);
+        firstLevel.getWeatherData().setRainTime(pWeatherTime / weatherTickFactor);
+        firstLevel.getWeatherData().setThunderTime(pWeatherTime / weatherTickFactor);
+
+        BIOME_WEATHER_LIST.forEach((level, biomeWeathers) -> {
+            if(level.canHaveWeather()){
+                for (BiomeWeather biomeWeather : biomeWeathers) {
+                    setBiomeWeather(firstLevel, biomeWeather, pClearTime);
+                }
+            }
+        });
+    }
+
+    public static void setBiomeWeather(ServerLevel level, BiomeWeather biomeWeather, int rainTime) {
+        biomeWeather.lastRainTime = rainTime > 0 ? level.getGameTime() : biomeWeather.lastRainTime;
+    }
+
     public static Biome.Precipitation getRainOrSnow(Level level, Biome biome, BlockPos pos) {
         if (hasNonePrecipitation(biome)) return Biome.Precipitation.NONE;
 
@@ -345,66 +364,54 @@ public class WeatherManager {
 
         WeatherData weatherData = level.getWeatherData();
 
-        BiomeRain biomeRain = biomeWeather.getBiomeRain();
+
+        SolarTerm solarTerm = EclipticUtil.getNowSolarTerm(level);
+        BiomeRain biomeRain = getBiomeRain(level, solarTerm, biomeWeather.biomeHolder);
 
         int clearTime = weatherData.getClearWeatherTime();
         int rainTime = weatherData.getRainTime();
         int thunderTime = weatherData.getThunderTime();
+
         boolean raining = weatherData.isRaining();
         boolean thundering = weatherData.isThundering();
 
         if (clearTime > 0) {
             clearTime--;
-            raining = false;
-            thundering = false;
-            rainTime = 1;
-            thunderTime = 0;
-        }
-        else {
-            if (raining) {
-                if (--rainTime <= 0) {
-                    raining = false;
-                    rainTime = biomeRain.getRainDelay(random) / size;
-                }
-            } else {
-                if (rainTime > 0) {
-                    rainTime--;
-                } else {
-                    SolarTerm solarTerm = EclipticUtil.getNowSolarTerm(level);
-                    float downfall = EclipticUtil.getDownfallFloatConstant(solarTerm, biomeWeather.biomeHolder.value(), !level.isClientSide());
-                    float rainWeight = biomeRain.getRainChance()
-                            * Math.max(0.01f, downfall)
-                            * (CommonConfig.Weather.rainChanceMultiplier.get() / 100f);
-
-                    if (level.getRandom().nextFloat() < rainWeight) {
-                        raining = true;
-                        rainTime = biomeRain.getRainDuration(random) / size;
-                    } else {
-                        rainTime = 100;
-                    }
-                }
-            }
-
-            if (raining) {
-                if (thundering) {
-                    if (--thunderTime <= 0) {
-                        thundering = false;
-                    }
-                } else {
-                    float thunderWeight = biomeRain.getThunderChance()
-                            * (CommonConfig.Weather.thunderChanceMultiplier.get() / 100f)
+        } else {
+            if (rainTime > 0) {
+                rainTime--;
+                if (thunderTime <= 0) {
+                    float weight = biomeRain.getThunderChance()
+                            * ((CommonConfig.Weather.thunderChanceMultiplier.get() * 1f) / 100f)
                             * size / 3000f;
-
-                    if (level.getRandom().nextFloat() < thunderWeight) {
-                        thundering = true;
+                    if (level.getRandom().nextInt(1000) / 1000.f < weight) {
                         thunderTime = biomeRain.getThunderDuration(random) / size;
                     }
+
                 }
             } else {
-                thundering = false;
+                float downfall = EclipticUtil.getDownfallFloatConstant(solarTerm, biomeWeather.biomeHolder.value(), !level.isClientSide());
+                float weight = biomeRain.getRainChance()
+                        * Math.max(0.01f, downfall)
+                        * ((CommonConfig.Weather.rainChanceMultiplier.get() * 1f) / 100f);
+                if (level.getRandom().nextInt(1000) / 1000.f < weight) {
+                    rainTime = biomeRain.getRainDuration(random) / size;
+                } else {
+                    clearTime = biomeRain.getRainDelay(random) / size;
+                }
+
+            }
+        }
+
+        if (thunderTime > 0) {
+            thunderTime--;
+            if (rainTime <= 0) {
                 thunderTime = 0;
             }
         }
+
+        thundering = thunderTime > 0;
+        raining = clearTime == 0 && rainTime > 0;
 
 
         weatherData.setClearWeatherTime(clearTime);
@@ -413,9 +420,12 @@ public class WeatherManager {
         weatherData.setRaining(raining);
         weatherData.setThundering(thundering);
 
+        biomeWeather.setBiomeRain(biomeRain);
         if (weatherData.isRaining()) {
             biomeWeather.effect = biomeWeather.biomeRain.hasSpecialEffect() ?
                     biomeWeather.biomeRain.getSpecialEffect() : null;
+        } else {
+            biomeWeather.effect = null;
         }
 
         updateSnowOrMelt(level, biomeWeather, random, size, level.isRaining());
