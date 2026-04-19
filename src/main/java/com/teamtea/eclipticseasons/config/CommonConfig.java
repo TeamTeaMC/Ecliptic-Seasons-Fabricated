@@ -403,7 +403,7 @@ public class CommonConfig {
                     .comment("Adjusts the recession speed of atmospheric snow overlays during warmer periods.")
                     .defineInRange("SnowMeltSpeedMultiplier", 1.0, 0.0, 20.0);
             clearAfterSleep = builder.comment("Automatically reset weather to clear after the player wakes up from a bed.")
-                    .define("ClearAfterSleep", false);
+                    .define("ClearAfterSleep", true);
             builder.pop();
         }
     }
@@ -524,7 +524,8 @@ public class CommonConfig {
         }
     }
 
-
+    @Getter
+    private static boolean useSolarWeather = true;
 
     @Getter
     private static boolean forceCropCompatMode = true;
@@ -545,7 +546,7 @@ public class CommonConfig {
 
     public static void UpdateConfig() {
         // if (config.getSpec() == COMMON_CONFIG)
-        {
+        {useSolarWeather = Weather.useSolarWeather.get();
             forceCropCompatMode = Crop.forceCompatMode.get();
             snowyWinter = Snow.snowyWinter.get();
             snowInWorld = Snow.snowInWorld.get() && snowyWinter;

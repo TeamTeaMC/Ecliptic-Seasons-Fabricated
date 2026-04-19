@@ -121,6 +121,9 @@ public class EclipticUtil {
         return timePeriod == TimePeriod.DUSK || timePeriod == TimePeriod.NIGHT;
     }
 
+    public static boolean useSolarWeather() {
+        return CommonConfig.isUseSolarWeather();
+    }
     public static boolean canSnowyBlockInteract() {
         return CommonConfig.isSnowInWorld() && false;
     }

@@ -330,7 +330,6 @@ public class WeatherManager {
         if (onwer != null && !onwer.equals(biomeWeather.biomeHolder)) {
             BiomeWeather ownerBiomeWeather = getBiomeWeather(level, onwer);
             if (ownerBiomeWeather != null) {
-                level.resetWeatherCycle();
                 biomeWeather.effect = ownerBiomeWeather.effect;
                 biomeWeather.setBiomeRain(ownerBiomeWeather.getBiomeRain());
                 updateSnowOrMelt(level, biomeWeather, random, size, level.isRaining());
@@ -494,6 +493,7 @@ public class WeatherManager {
 
                 if (CommonConfig.Weather.clearAfterSleep.get()) {
                     SolarTerm solarTerm = EclipticUtil.getNowSolarTerm(level);
+                    // level.resetWeatherCycle();
                 }
 
                 if (!level.players().isEmpty()) {

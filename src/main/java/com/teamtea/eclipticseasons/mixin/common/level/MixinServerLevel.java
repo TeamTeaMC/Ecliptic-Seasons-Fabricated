@@ -45,17 +45,26 @@ public abstract class MixinServerLevel extends Level {
     @Shadow
     public abstract ServerLevel getLevel();
 
+
+
+    @Inject(at = {@At("HEAD")}, method = {"resetWeatherCycle"}, cancellable = true)
+    public void eclipticseasons$resetWeatherCycle(CallbackInfo ci) {
+        if (!CommonConfig.Weather.clearAfterSleep.get())
+            ci.cancel();
+    }
+
     @WrapOperation(at = {@At(value = "INVOKE", target = "Lnet/minecraft/world/level/gamerules/GameRules;get(Lnet/minecraft/world/level/gamerules/GameRule;)Ljava/lang/Object;")},
             method = {"advanceWeatherCycle"})
     private <T> T eclipticseasons$wether(GameRules instance, GameRule<T> gameRule, Operation<T> original) {
         if (gameRule == GameRules.ADVANCE_WEATHER)
-            return (T) (Boolean) false;
+            return (T) (Boolean) !EclipticUtil.useSolarWeather();
         return original.call(instance, gameRule);
     }
 
     @Inject(at = {@At("HEAD")}, method = {"advanceWeatherCycle"})
     public void eclipticseasons$advanceWeatherCycle(CallbackInfo ci) {
-        WeatherManager.agentAdvanceWeatherCycle(getLevel(), random);
+        if (EclipticUtil.useSolarWeather())
+            WeatherManager.agentAdvanceWeatherCycle(getLevel(), random);
     }
 
     @WrapOperation(at = {@At(value = "INVOKE", target = "Lnet/minecraft/world/attribute/EnvironmentAttributeSystem$Builder;build()Lnet/minecraft/world/attribute/EnvironmentAttributeSystem;")},
