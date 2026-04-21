@@ -9,11 +9,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.ladysnake.cca.api.v8.component.CardinalComponent;
-
-import java.util.Arrays;
 
 @Data
 public class BiomeHolder implements CardinalComponent {
@@ -93,18 +93,19 @@ public class BiomeHolder implements CardinalComponent {
         return new BiomeHolder(newBiomes, near, biomeDataVersion);
     }
 
-    public static BiomeHolder fillSmallBiomes(Level serverLevel, ChunkPos chunkPos, BiomeHolder oldHolder, int biomeDataVersion) {
+    public static BiomeHolder fillSmallBiomes(Level serverLevel, ChunkAccess chunk, BiomeHolder oldHolder, int biomeDataVersion) {
         int[] newBiomes = new int[256];
         boolean near = true;
         int[] oldBiomes = oldHolder.biomes;
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+        ChunkPos chunkPos = chunk.getPos();
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
                 Holder<Biome> biomeHolder = MapChecker.idToBiome(serverLevel, oldBiomes[i * 16 + j]);
                 if (MapChecker.isSmallBiome(biomeHolder)) {
                     int xm = chunkPos.getBlockX(i);
                     int zm = chunkPos.getBlockZ(j);
-                    mutableBlockPos.set(xm, 0, zm);
+                    mutableBlockPos.set(xm, chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, i, j) + 1, zm);
 
                     newBiomes[i * 16 + j] =
                             MapChecker.biomeToId(serverLevel, MapChecker.getUnCachedSurfaceBiome(serverLevel, mutableBlockPos).value());

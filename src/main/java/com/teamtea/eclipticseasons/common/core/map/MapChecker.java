@@ -236,7 +236,7 @@ public class MapChecker {
         return map;
     }
 
-    //public static @Nullable ChunkAccess getChunkView(Level level, BlockPos pos) {
+    // public static @Nullable ChunkAccess getChunkView(Level level, BlockPos pos) {
     //    return level.getChunk(SectionPos.blockToSectionCoord(pos.getX()),
     //            SectionPos.blockToSectionCoord(pos.getZ()), ChunkStatus.SURFACE, false);
     //}
@@ -281,7 +281,7 @@ public class MapChecker {
     public static int getMCHeightWithCheck(Level level, BlockPos pos,
                                            @NonNull ChunkAccess chunkAt,
                                            @Nullable Object snowyRemover,
-                                           BlockPos.@Nullable  MutableBlockPos checkPos,
+                                           BlockPos.@Nullable MutableBlockPos checkPos,
                                            @Nullable Integer oldHeight) {
         if (oldHeight != null
                 && (oldHeight <= level.getMaxY()
@@ -728,8 +728,8 @@ public class MapChecker {
     // level.getHeight(Heightmap.Types.MOTION_BLOCKING, pos.getX(), pos.getZ()) 也会卡死，因为要full了
     // 继续优化缓存
     public static Holder<Biome> getSurfaceBiome(Level level, BlockPos pos) {
-        //int x = SectionPos.blockToSectionCoord(pos.getX());
-        //int z = SectionPos.blockToSectionCoord(pos.getZ());
+        // int x = SectionPos.blockToSectionCoord(pos.getX());
+        // int z = SectionPos.blockToSectionCoord(pos.getZ());
         ChunkAccess chunkAt = getChunkView(level, pos);
         if (chunkAt instanceof IChunkBiomeHolder iChunkBiomeHolder) {
             BiomeHolder biomeHolder = iChunkBiomeHolder.eclipticseasons$getBiomeHolder();
@@ -1113,7 +1113,7 @@ public class MapChecker {
             biomeHolder = AttachmentRegistry.BIOME_HOLDER.get(chunk);
             if (biomeHolder.hasUpdated() && biomeHolder.version() == BiomeHolder.FLAG_FILL_SMALL) {
                 biomeHolder.copyFrom(BiomeHolder
-                        .fillSmallBiomes(serverLevel, chunkPos, biomeHolder, biomeDataVersion));
+                        .fillSmallBiomes(serverLevel, chunk, biomeHolder, biomeDataVersion));
             } else if (!biomeHolder.hasUpdated() || biomeHolder.version() != biomeDataVersion) {
                 biomeHolder.copyFrom(BiomeHolder
                         .prepareBiomes(serverLevel, chunkPos, biomeDataVersion, biomeHolder.version() != biomeDataVersion));
@@ -1164,7 +1164,7 @@ public class MapChecker {
 
     public static void setNewChunk(ServerLevel serverLevel, ChunkAccess chunk) {
         BiomeHolder nullable = AttachmentRegistry.BIOME_HOLDER.getNullable(chunk);
-        if (nullable!=null) {
+        if (nullable != null) {
             BiomeHolder biomeHolder = nullable;
             SolarDataManager data = SolarHolders.getSaveData(serverLevel);
             if (data != null && biomeHolder.hasUpdated()
