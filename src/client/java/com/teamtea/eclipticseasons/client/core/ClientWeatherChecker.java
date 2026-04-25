@@ -22,23 +22,28 @@ public class ClientWeatherChecker {
     // 0-》15
     public static int ModifySnowAmount(int constant, float pPartialTick, Level level) {
         if (level == null) return constant;
-        return (int) (constant * Mth.clamp(level.getRainLevel(pPartialTick) * 0.6f, 0.6f, 1f));
+        return (int) (constant * Mth.clamp(level.getRainLevel(pPartialTick) * 0.6f, 0.6f, 1f) * getAmount());
     }
 
     public static float modifyVolume(SoundEvent soundEvent, float pVolume, Level level) {
         if (level == null) return pVolume;
-        return pVolume * level.getRainLevel(1.0f) * 0.55f;
+        return pVolume * getAmount();
     }
 
     public static float modifyPitch(SoundEvent soundEvent, float pPitch, Level level) {
         if (level == null) return pPitch;
-        return pPitch * level.getRainLevel(1.0f);
+        return pPitch;
         // return pPitch;
     }
 
     public static float modifyRainAmount(float originalNum, Level level) {
         if (level == null) return originalNum;
-        return (originalNum * 0.6f);
+        return (originalNum * getAmount());
+    }
+
+    public static float getAmount() {
+        return weatherEffectByEntity == null || !weatherEffectByEntity.shouldChangeAmount(true) ?
+                1 : weatherEffectByEntity.getModifiedAmount(1, true);
     }
 
 
