@@ -6,6 +6,7 @@ import com.teamtea.eclipticseasons.api.constant.solar.SolarTerm;
 import com.teamtea.eclipticseasons.api.util.EclipticUtil;
 import com.teamtea.eclipticseasons.compat.CompatModule;
 import lombok.Getter;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
@@ -410,11 +411,16 @@ public class CommonConfig {
 
     public static class Map {
         public static ModConfigSpec.BooleanValue changeMapColor;
+        public static ModConfigSpec.BooleanValue changeMapColorMapItem;
 
         private static void load(ModConfigSpec.Builder builder) {
             builder.push("Map");
-            changeMapColor = builder.comment("Synchronize map colors to reflect atmospheric snow overlays.")
-                    .define("ChangeMapColor", true);
+            changeMapColor = builder.comment(
+                    "Synchronize all map color rendering with visual snow overlays. May affect compatibility with other mods."
+            ).define("ChangeMapColorIfSnowy", false);
+            changeMapColorMapItem = builder.comment(
+                    "Only adjust map item colors to reflect visual snow overlays. Safer for mod compatibility."
+            ).define("ChangeMapColorMapItem", true);
             builder.pop();
         }
     }
@@ -573,7 +579,9 @@ public class CommonConfig {
 
             forceBlocksNotSnowy.clear();
             for (String s : Snow.blocksNotSnowy.get()) {
-                Block block = BuiltInRegistries.BLOCK.get(Identifier.parse(s)).get().value();
+                Optional<Holder.Reference<Block>> blockReference = BuiltInRegistries.BLOCK.get(Identifier.parse(s));
+                if (blockReference.isEmpty()) continue;
+                Block block = blockReference.get().value();
                 if (block != Blocks.AIR) {
                     forceBlocksNotSnowy.add(block);
                 }

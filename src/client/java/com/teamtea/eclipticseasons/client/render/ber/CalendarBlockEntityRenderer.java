@@ -105,7 +105,7 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
                             seasonPhaseUsed.getIconPosition().getSecond(),
                             matrixStackIn, multiBufferSource, combinedLightIn);
 
-                    drawText(1, seasonPhaseUsed.getPatternTranslation().getString(), Optional.ofNullable(seasonPhaseUsed.getColor().getColor()).orElse(-1), matrixStackIn, multiBufferSource);
+                    drawText(1, seasonPhaseUsed.getPatternTranslation().getString(), new Color(Optional.ofNullable(seasonPhaseUsed.getColor().getColor()).orElse(-1)).getRGB(), matrixStackIn, multiBufferSource);
 
                     if (st != SolarTerm.NONE) {
                         String string = "";
