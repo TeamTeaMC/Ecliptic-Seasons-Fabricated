@@ -6,6 +6,7 @@ import com.teamtea.eclipticseasons.api.constant.biome.Rainfall;
 import com.teamtea.eclipticseasons.api.constant.biome.Temperature;
 import com.teamtea.eclipticseasons.api.constant.climate.BiomeRain;
 import com.teamtea.eclipticseasons.api.constant.climate.ISnowTerm;
+import com.teamtea.eclipticseasons.api.constant.solar.Month;
 import com.teamtea.eclipticseasons.api.constant.solar.Season;
 import com.teamtea.eclipticseasons.api.constant.solar.SolarTerm;
 import com.teamtea.eclipticseasons.api.constant.solar.TimePeriod;
@@ -144,6 +145,21 @@ public class EclipticUtil {
             }
 
             @Override
+            public Season getSeason(Level level) {
+                return EclipticUtil.getNowSolarTerm(level).getSeason();
+            }
+
+            @Override
+            public Season.Sub getSubSeason(Level level) {
+                return Season.Sub.of(EclipticUtil.getNowSolarTerm(level));
+            }
+
+            @Override
+            public Month getStanardMonth(Level level) {
+                return Month.of(getSolarDays(level), getLastingDaysOfEachTerm(level),CommonConfig.Season.dayOffset.get(),CommonConfig.Season.monthOffset.get());
+            }
+
+            @Override
             public int getSolarDays(Level level) {
                 return EclipticUtil.getNowSolarDay(level);
             }
@@ -164,17 +180,26 @@ public class EclipticUtil {
             }
 
             @Override
+            public int getDayOfMonth(Level level) {
+                return Month.ofDay(getSolarDays(level), getLastingDaysOfEachTerm(level), CommonConfig.Season.dayOffset.get());
+            }
+
+            @Override
             public boolean isSeasonEnabled(Level level) {
                 return MapChecker.isValidDimension(level);
             }
 
+            @Override
+            @Deprecated(forRemoval = true)
+            public boolean hasLocalWeather(Level level) {
+                return false;
+            }
 
             @Override
             public long getDayTime(Level level) {
                 if (MapChecker.isValidDimension(level)
                         && CommonConfig.Season.daylightChange.get()
                         && SolarHolders.getSaveData(level) instanceof SolarDataManager data) {
-                    // long worldTime = level.getDayTime();
                     long worldTime = level.getDefaultClockTime();
                     int dayLevelTime = Math.toIntExact((worldTime + 18000) % EclipticUtil.getDayLengthInMinecraft(level)); // 0 for noon; 6000 for sunset; 18000 for sunrise.
                     return dayLevelTime > 12000 && dayLevelTime <= 18000 && data.isTodayLastDay() ?
@@ -226,18 +251,12 @@ public class EclipticUtil {
 
             @Override
             public boolean isRainOrSnowAt(Level level, BlockPos pos) {
-                if (!level.isRaining()) {
+                if (getRainOrSnow(level, MapChecker.getSurfaceBiome(level, pos).value(), pos) == Biome.Precipitation.NONE) {
                     return false;
                 }
                 if (!level.canSeeSky(pos)) {
                     return false;
                 } else return level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() <= pos.getY();
-            }
-
-            @SuppressWarnings("removal")
-            @Override
-            public boolean hasLocalWeather(Level level) {
-                return false;
             }
 
             @Override
@@ -260,6 +279,7 @@ public class EclipticUtil {
 
             @Override
             public boolean isThunderAt(Level level, BlockPos pos) {
+                // use this to check if underground
                 if (!level.isThundering()) {
                     return false;
                 }
@@ -283,6 +303,20 @@ public class EclipticUtil {
             public boolean isRainingOrSnowing(Level level, BlockPos pos) {
                 return level.isRaining();
             }
+
+            // @Override
+            // public boolean isRaining(Level level, BlockPos pos) {
+            //     if (hasLocalWeather(level))
+            //         return WeatherManager.isRainingAtBiome(level, MapChecker.getSurfaceBiome(level, pos));
+            //     return level.isRaining();
+            // }
+            //
+            // @Override
+            // public boolean isSnowing(Level level, BlockPos pos) {
+            //     if (hasLocalWeather(level))
+            //         return WeatherManager.isSnowingAtBiome(level, MapChecker.getSurfaceBiome(level, pos));
+            //     return level.isRaining();
+            // }
 
             @Override
             public boolean isThundering(Level level, BlockPos pos) {

@@ -5,6 +5,7 @@ import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.api.data.misc.ESSortInfo;
 import com.teamtea.eclipticseasons.api.data.season.SeasonCycle;
+import com.teamtea.eclipticseasons.api.data.season.SpecialDays;
 import com.teamtea.eclipticseasons.api.data.season.definition.SeasonDefinition;
 import com.teamtea.eclipticseasons.api.data.season.SeasonPhase;
 import com.teamtea.eclipticseasons.api.data.season.SnowDefinition;
@@ -73,6 +74,7 @@ public class ModContents {
         DynamicRegistries.registerSynced(ESRegistries.WEATHER_EFFECT, WeatherEffect.CODEC);
         DynamicRegistries.registerSynced(ESRegistries.BIOME_RAIN, CustomRainBuilder.CODEC);
         DynamicRegistries.registerSynced(ESRegistries.WEATHER_DIMENSION, WeatherDimension.CODEC);
+        DynamicRegistries.registerSynced(ESRegistries.SPECIAL_DAYS, SpecialDays.CODEC);
     }
 
 
