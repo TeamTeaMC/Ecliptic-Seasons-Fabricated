@@ -9,6 +9,7 @@ import com.teamtea.eclipticseasons.api.constant.climate.ISnowTerm;
 import com.teamtea.eclipticseasons.api.constant.solar.Season;
 import com.teamtea.eclipticseasons.api.constant.solar.SolarTerm;
 import com.teamtea.eclipticseasons.api.constant.solar.TimePeriod;
+import com.teamtea.eclipticseasons.api.data.season.SpecialDays;
 import com.teamtea.eclipticseasons.common.core.SolarHolders;
 import com.teamtea.eclipticseasons.common.core.biome.BiomeClimateManager;
 import com.teamtea.eclipticseasons.common.core.biome.WeatherManager;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.timeline.Timeline;
 import net.minecraft.world.timeline.Timelines;
 
+import java.util.List;
 import java.util.Optional;
 
 public class EclipticUtil {
@@ -299,6 +301,11 @@ public class EclipticUtil {
                 return Humidity.getHumid(humidity);
             }
 
+            @Override
+            public List<Holder<SpecialDays>> getSpecialDays(Level level, BlockPos pos) {
+                SolarDataManager saveData = SolarHolders.getSaveData(level);
+                return saveData == null ? List.of() : saveData.getSpecialDays(level, pos);
+            }
         };
     }
 

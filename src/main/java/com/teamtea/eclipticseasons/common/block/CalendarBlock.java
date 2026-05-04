@@ -80,7 +80,7 @@ public class CalendarBlock extends WallPlacedBlock {
                         true
                 );
             }
-            return InteractionResult.CONSUME;
+            return InteractionResult.SUCCESS;
         } else if (level.isClientSide()
                 && level.getBlockEntity(pos) instanceof CalendarBlockEntity calendarBlockEntity) {
             Holder<Biome> cropBiome = CropGrowthHandler.getCropBiome(level, pos);

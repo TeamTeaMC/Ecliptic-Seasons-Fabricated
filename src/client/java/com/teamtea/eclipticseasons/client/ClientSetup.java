@@ -158,6 +158,7 @@ public class ClientSetup {
         registerListener(EclipticSeasons.rl(ClientJsonCacheListener.DIRECTORY_SEASON_TEXTURES.substring(16)), ClientJsonCacheListener.textureReMappingsCache);
         registerListener(EclipticSeasons.rl(ClientJsonCacheListener.DIRECTORY_SEASON_DEFINITION.substring(16)), ClientJsonCacheListener.seasonDefCache);
         registerListener(EclipticSeasons.rl(ClientJsonCacheListener.DIRECTORY_UI_PARSER.substring(16)), ClientJsonCacheListener.uiParserCache);
+        registerListener(EclipticSeasons.rl(ClientJsonCacheListener.DIRECTORY_BACKGROUND_MUSIC.substring(16)), ClientJsonCacheListener.backgroundMusicCache);
     }
 
     private static void registerListener(Identifier id, PreparableReloadListener listener) {

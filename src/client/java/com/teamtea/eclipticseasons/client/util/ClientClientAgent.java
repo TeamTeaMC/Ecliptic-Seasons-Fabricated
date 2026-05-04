@@ -1,15 +1,17 @@
 package com.teamtea.eclipticseasons.client.util;
 
 import com.teamtea.eclipticseasons.client.render.WorldRenderer;
+import com.teamtea.eclipticseasons.client.sound.SeasonalBackgroundMusicSelectManager;
 import com.teamtea.eclipticseasons.common.misc.ClientAgent;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -69,6 +71,10 @@ public class ClientClientAgent implements ClientAgent {
         //         BiomeColorsHandler.getWaterFogColor(level.getBiome(BlockPos.containing(pos)).value(), baseValue));
         // environmentAttributes.addPositionalLayer(EnvironmentAttributes.FOG_COLOR, (baseValue, pos, biomeInterpolator) ->
         //         BiomeColorsHandler.getFogColor(level.getBiome(BlockPos.containing(pos)).value(), baseValue));
+        environmentAttributes.addPositionalLayer(EnvironmentAttributes.BACKGROUND_MUSIC, (baseValue, pos, biomeInterpolator) ->
+        {
+            return SeasonalBackgroundMusicSelectManager.getMusic(baseValue, BlockPos.containing(pos));
+        });
     }
 
     @Override
