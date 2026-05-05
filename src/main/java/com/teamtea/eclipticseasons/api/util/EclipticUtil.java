@@ -126,6 +126,7 @@ public class EclipticUtil {
     public static boolean useSolarWeather() {
         return CommonConfig.isUseSolarWeather();
     }
+
     public static boolean canSnowyBlockInteract() {
         return CommonConfig.isSnowInWorld() && false;
     }
@@ -156,7 +157,7 @@ public class EclipticUtil {
 
             @Override
             public Month getStandardMonth(Level level) {
-                return Month.of(getSolarDays(level), getLastingDaysOfEachTerm(level),CommonConfig.Season.dayOffset.get(),CommonConfig.Season.monthOffset.get());
+                return Month.of(getSolarDays(level), getLastingDaysOfEachTerm(level), CommonConfig.Season.dayOffset.get(), CommonConfig.Season.monthOffset.get());
             }
 
             @Override
@@ -167,6 +168,11 @@ public class EclipticUtil {
             @Override
             public int getSolarYears(Level level) {
                 return EclipticUtil.getNowSolarYear(level);
+            }
+
+            @Override
+            public int getStandardSolarYears(Level level) {
+                return Month.toYear(getSolarDays(level), getLastingDaysOfEachTerm(level), CommonConfig.Season.dayOffset.get(), CommonConfig.Season.monthOffset.get());
             }
 
             @Override
