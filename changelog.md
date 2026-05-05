@@ -261,3 +261,13 @@ Example:
     * Only snowy models and seasonal color updates require Mixins
     * Disabled automatically if version < 3.0.0-b
 
+#### High Version Exclusive (26.1)
+
+* New season definitions datapack `Spring Grass`
+  * Short grass and wildflowers grow across grasslands in spring
+  * Short grass turns into tall grass in summer
+  * Tall grass gradually wears down in autumn
+  * Grass and wildflowers gradually wither and disappear in winter
+
+
+

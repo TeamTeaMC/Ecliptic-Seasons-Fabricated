@@ -5,10 +5,11 @@
 * Added a seasonal background music system
 * Expanded the calendar system with sub-seasons, months, and day tracking
 * Added seasonal color support for single-tint block models
+* New season definitions datapack `Spring Grass`
 * Removed biome-based local weather; replaced with dimension-level weather (API remains backward-compatible)
 * Reworked the weather system to be fully data-driven via datapacks
-    * Seasonal variation in rain (frequency, duration, intensity)
-    * Fixed incorrect thunder triggering
+  * Seasonal variation in rain (frequency, duration, intensity)
+  * Fixed incorrect thunder triggering
 * Improved snow map color handling
 * Fixed ambient sound loading (now supports vanilla `sounds.json`) and add field `ignored_biomes`
 * Fixed snow cover issues on certain blocks (e.g., glass panes)

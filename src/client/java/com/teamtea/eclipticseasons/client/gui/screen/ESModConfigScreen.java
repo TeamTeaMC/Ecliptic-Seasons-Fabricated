@@ -120,6 +120,9 @@ public class ESModConfigScreen extends Screen {
         addToHotTab(new CallbackEntry("eclipticseasons.configuration.FrozenWater", ClientConfig.Debug.frozenWater.get(), (bt, b) -> {
             ClientConfig.Debug.frozenWater.set(b);
         }));
+        addToHotTab(new CallbackEntry("eclipticseasons.configuration.SpringGrass", CommonConfig.Resource.springGrass.get(), (bt, b) -> {
+            CommonConfig.Resource.springGrass.set(b);
+        }));
 
 
         for (UnmodifiableConfig.Entry entry :
