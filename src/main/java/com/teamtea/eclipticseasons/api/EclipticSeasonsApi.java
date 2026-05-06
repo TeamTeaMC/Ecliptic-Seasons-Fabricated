@@ -1,9 +1,9 @@
 package com.teamtea.eclipticseasons.api;
 
 import com.teamtea.eclipticseasons.api.constant.biome.Humidity;
-import com.teamtea.eclipticseasons.api.constant.solar.gregorian.GregorianMonth;
 import com.teamtea.eclipticseasons.api.constant.solar.Season;
 import com.teamtea.eclipticseasons.api.constant.solar.SolarTerm;
+import com.teamtea.eclipticseasons.api.constant.solar.gregorian.GregorianMonth;
 import com.teamtea.eclipticseasons.api.data.season.SpecialDays;
 import com.teamtea.eclipticseasons.api.util.EclipticUtil;
 import net.minecraft.core.BlockPos;
@@ -23,7 +23,7 @@ import java.util.List;
  * Another reason is that this API implements automatic switching based on the configuration.
  * If you use the API directly, it's easy to run under an incorrect configuration.
  */
-public interface EclipticSeasonsApi {
+public interface EclipticSeasonsApi extends ESApiLegacy {
 
     String MODID = "eclipticseasons";
     String SMODID = "ecliptic";
@@ -35,6 +35,11 @@ public interface EclipticSeasonsApi {
      */
     static EclipticSeasonsApi getInstance() {
         return EclipticUtil.INSTANCE;
+    }
+
+    @Override
+    default EclipticSeasonsApi asSelf() {
+        return this;
     }
 
     /**
@@ -51,16 +56,17 @@ public interface EclipticSeasonsApi {
      * Returns the localized (Agro) season at the given position.
      * Unlike the global season, this considers regional climate.
      */
-    Season getAgroSeason(Level level, BlockPos pos);
+    Season getSeasonSignal(Level level, BlockPos pos);
 
     Season getSeason(Level level);
+
     Season.Sub getSubSeason(Level level);
 
     GregorianMonth getGregorianMonth(Level level);
 
     int getSolarDays(Level level);
 
-    int getSolarYears(Level level);
+    int getSolarYear(Level level);
 
     int getGregorianYear(Level level);
 
@@ -69,9 +75,10 @@ public interface EclipticSeasonsApi {
     /**
      * Day index within the current solar term, from 0 to (lastingDays - 1).
      */
-    int getTimeInTerm(Level level);
+    int getDayInTerm(Level level);
 
     int getDayOfMonth(Level level);
+
     /**
      * Checks whether the seasonal system is enabled for the given level.
      */
