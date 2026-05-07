@@ -178,6 +178,7 @@ public class ClientConfig {
         private static void load(ModConfigSpec.Builder builder) {
             builder.push("Sound");
             naturalSound = builder.comment("Enable ambient environmental sounds (birds, wind, etc.) based on the season.")
+                    .worldRestart()
                     .define("NaturalSound", true);
             builder.pop();
         }
