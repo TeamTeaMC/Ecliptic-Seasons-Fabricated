@@ -11,6 +11,7 @@
     "client.MixinLocalPlayer",
     "client.MixinMinecraftClient",
     "client.MixinWeatherEffectRenderer",
+    "client.MixinLevelRenderer",
     "client.biome.MixinBiomeColors",
     "client.biome.MixinClientBiome",
     "client.block.MixinBlockColors",
@@ -28,6 +29,7 @@
     "compat.distanthorizons.MixinClientLevel",
     "compat.distanthorizons.MixinFullDataToRenderDataTransformer",
     "compat.distanthorizons.MixinQuadTree",
+    "compat.fabric_renderer_indigo.MixinModelBlockRenderer",
     "compat.iris.MixinAbstractBlockRenderContext",
     "compat.iris.MixinBiomeUniforms",
     "compat.iris.MixinBlockRenderTask",
@@ -48,8 +50,7 @@
     "compat.voxy.MixinVoxelIngestService",
     "compat.voxy.MixinWorldConversionFactory",
     "compat.voxy.MixinWorldImporter",
-    "compat.voxy.MixinWorldUpdater",
-    "compat.fabric_renderer_indigo.MixinModelBlockRenderer"
+    "compat.voxy.MixinWorldUpdater"
   ],
   "injectors": {
     "defaultRequire": 1

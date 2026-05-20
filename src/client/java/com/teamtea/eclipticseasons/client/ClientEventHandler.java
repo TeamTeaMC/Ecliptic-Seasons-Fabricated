@@ -15,6 +15,7 @@ import com.teamtea.eclipticseasons.client.gui.screen.ESModConfigScreen;
 import com.teamtea.eclipticseasons.client.render.WorldRenderer;
 import com.teamtea.eclipticseasons.client.render.chunk.CompilerCollector;
 import com.teamtea.eclipticseasons.client.render.chunk.IceKeeper;
+import com.teamtea.eclipticseasons.client.render.worldui.GrowthInfoClientCache;
 import com.teamtea.eclipticseasons.client.util.ClientCon;
 import com.teamtea.eclipticseasons.client.util.ClientRef;
 import com.teamtea.eclipticseasons.common.core.SolarHolders;
@@ -106,6 +107,7 @@ public final class ClientEventHandler {
             ClientWeatherChecker.unload(clientLevel);
             CompilerCollector.clearAll();
             IceKeeper.clearAll();
+            GrowthInfoClientCache.clear();
         }
     }
 

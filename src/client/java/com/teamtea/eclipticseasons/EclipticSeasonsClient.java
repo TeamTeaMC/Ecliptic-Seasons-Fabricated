@@ -112,6 +112,5 @@ public class EclipticSeasonsClient implements ClientModInitializer {
         ClientPlayConnectionEvents.DISCONNECT.register(ClientEventHandler::onPlayerExit);
         ClientPlayConnectionEvents.JOIN.register(ClientEventHandler::onLoggingIn);
 
-
     }
 }
