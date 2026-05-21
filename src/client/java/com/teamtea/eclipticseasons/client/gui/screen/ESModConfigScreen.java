@@ -267,12 +267,12 @@ public class ESModConfigScreen extends Screen {
         put(CROP,
                 CommonConfig.Crop.enableCrop,
                 CommonConfig.Crop.enableCropHumidityControl,
-                CommonConfig.Crop.greenHouseMaxDiameter,
-                CommonConfig.Crop.greenHouseMaxHeight,
+                // CommonConfig.Crop.greenHouseMaxDiameter,
+                // CommonConfig.Crop.greenHouseMaxHeight,
                 CommonConfig.Crop.complexGreenHouseCheck,
                 CommonConfig.Crop.forceCompatMode,
-                CommonConfig.Crop.simpleGreenHouse,
-                CommonConfig.Crop.seasonalPrayerRitualTimeCost
+                CommonConfig.Crop.simpleGreenHouse
+                // CommonConfig.Crop.seasonalPrayerRitualTimeCost
         );
 
         put(ANIMAL,

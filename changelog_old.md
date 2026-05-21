@@ -1,3 +1,7 @@
+## 0.13.1
+
+- Added an in-world UI for the Growth Detector to display information.
+
 ## 0.13.0-rc-2
 
 * Various additional optimizations and improvements.

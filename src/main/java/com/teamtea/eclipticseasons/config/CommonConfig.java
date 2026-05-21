@@ -207,7 +207,7 @@ public class CommonConfig {
         public static ModConfigSpec.BooleanValue registerCropDefaultValue;
         public static ModConfigSpec.BooleanValue forceCompatMode;
         public static ModConfigSpec.BooleanValue cropLeavesPatch;
-        public static ModConfigSpec.BooleanValue simpleGreenHouse;
+        public static ModConfigSpec.ConfigValue<Boolean> simpleGreenHouse;
         public static ModConfigSpec.BooleanValue useBoxDistance;
         public static ModConfigSpec.IntValue seasonCoreRange;
         public static ModConfigSpec.BooleanValue boneMealFailureMessage;
@@ -238,7 +238,7 @@ public class CommonConfig {
             darkGreenhouseFailChance = builder.comment("Probability (per tick) that greenhouse crops fail to grow due to low light levels.")
                     .defineInRange("LowLightGreenhouseFailChance", 2000, 0, 10000);
             simpleGreenHouse = builder.comment("Simplifies greenhouse logic, removing the need for core blocks or humidity modifiers.")
-                    .define("SimpleGreenHouseMode", true);
+                    .define("SimpleGreenHouseMode", true,object -> Boolean.TRUE.equals(object));
             seasonCoreRange = builder.comment("The effective radius of the 'Season Core' block.")
                     .defineInRange("SeasonCoreRange", 15, 4, 31);
             complexGreenHouseCheck = builder.comment("Enables more precise shape detection for greenhouse structures.")
