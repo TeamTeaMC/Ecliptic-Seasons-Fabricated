@@ -1,3 +1,7 @@
+## 0.13.2
+
+- Adjusted rainfall frequency from late spring to early summer.
+
 ## 0.13.1
 
 - Added an in-world UI for the Growth Detector to display information.

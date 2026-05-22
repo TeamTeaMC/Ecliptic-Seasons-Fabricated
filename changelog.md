@@ -1,1 +1,1 @@
-- Added an in-world UI for the Growth Detector to display information.
+- Adjusted rainfall frequency from late spring to early summer.
