@@ -1,3 +1,11 @@
+## 0.13.3
+
+- Enabled the Not Ignore River datapack by default and fixed its incorrect location.
+- Improved chunk loading performance by disabling river weather merging during initial chunk loading.
+- River biomes are now treated as non-rainy while `IndependentRiverWeather` is enabled.
+- Existing worlds may optionally run `/ecliptic debug reset surface_biome_cache` to reset the biome weather cache.
+- To restore the old river weather behavior, disable `IndependentRiverWeather` in the config.
+
 ## 0.13.2
 
 - Adjusted rainfall frequency from late spring to early summer.
