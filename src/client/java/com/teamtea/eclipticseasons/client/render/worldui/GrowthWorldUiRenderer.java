@@ -248,7 +248,7 @@ public final class GrowthWorldUiRenderer {
                     y,
                     text.getVisualOrderText(), false,
                     Font.DisplayMode.NORMAL,
-                    LightCoordsUtil.FULL_SKY,
+                    LightCoordsUtil.FULL_BRIGHT,
                     color,
                     0xF000F0,
                     0
