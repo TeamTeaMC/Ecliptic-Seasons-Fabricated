@@ -1,2 +1,1 @@
-- Fixed several advancement display issues.
-- Improved compatibility when detecting built-in advancements.
+- Refactored Growth Detector in-world UI rendering to use `SubmitNodeCollector` instead of `MultiBufferSource`.
