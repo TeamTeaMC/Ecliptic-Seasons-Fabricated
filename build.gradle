@@ -76,7 +76,7 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	compileOnly "maven.modrinth:voxy:0.2.14-alpha"
-	implementation "maven.modrinth:sodium:mc26.1.2-0.8.11-fabric"
+	implementation "maven.modrinth:sodium:mc26.1.1-0.8.9-fabric"
 	implementation "maven.modrinth:iris:1.10.9+26.1-fabric"
 
 	implementation "curse.maven:jade-324717:7886518"

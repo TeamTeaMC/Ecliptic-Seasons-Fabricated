@@ -241,6 +241,7 @@ public class ClientConfig {
 
     public static class Weather {
         // public static ModConfigSpec.DoubleValue weatherTransitionSpeed;
+        public static ModConfigSpec.BooleanValue tweakPrecipitationParticleTexture;
 
         private static void load(ModConfigSpec.Builder builder) {
             builder.push("Weather");
@@ -248,7 +249,8 @@ public class ClientConfig {
             // weatherTransitionSpeed = builder.comment(
             //                 "How quickly local weather conditions change. Higher values mean faster shifts.")
             //         .defineInRange("WeatherTransitionSpeed", 0.008d, 0.0008d, 0.08d);
-
+            tweakPrecipitationParticleTexture = builder.comment("When enabled, Ecliptic Seasons may adjust rain and snow particle textures when needed.")
+                    .define("TweakPrecipitationParticleTexture", true);
             builder.pop();
         }
     }
