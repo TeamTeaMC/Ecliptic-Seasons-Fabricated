@@ -7,35 +7,33 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ClimateTypeFilters {
 
     // agro
-    public static final RegistryFilter<Biome> WARM_REGION = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_OVERWORLD);
+    public static final RegistryFilter<Biome> WARM_REGION = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_OVERWORLD, ConventionalBiomeTags.IS_VOID);
     public static final RegistryFilter<Biome> HOT_REGION = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_HOT_OVERWORLD);
     public static final RegistryFilter<Biome> COLD_REGION =
             new RegistryFilter.And<>(new RegistryFilter.Or<>(ConventionalBiomeTags.IS_MOUNTAIN_PEAK, ConventionalBiomeTags.IS_SNOWY, ConventionalBiomeTags.IS_ICY),
-                    new RegistryFilter.Or<>(
-                            ConventionalBiomeTags.IS_OVERWORLD)
+                    new RegistryFilter.Or<>(ConventionalBiomeTags.IS_OVERWORLD)
             );
 
     // biome rain
-    public static final RegistryFilter<Biome> SEASONAL = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_OVERWORLD);
+    public static final RegistryFilter<Biome> SEASONAL = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_OVERWORLD, ConventionalBiomeTags.IS_VOID);
     public static final RegistryFilter<Biome> SEASONAL_HOT = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_HOT_OVERWORLD);
     public static final RegistryFilter<Biome> SEASONAL_COLD =
             new RegistryFilter.And<>(new RegistryFilter.Or<>(ConventionalBiomeTags.IS_MOUNTAIN_PEAK, ConventionalBiomeTags.IS_SNOWY, ConventionalBiomeTags.IS_ICY),
                     new RegistryFilter.Or<>(ConventionalBiomeTags.IS_OVERWORLD)
             );
     public static final RegistryFilter<Biome> MONSOONAL = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_SAVANNA);
-    public static final RegistryFilter<Biome> RAINLESS = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_CAVE);
-    public static final RegistryFilter<Biome> ARID = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_BADLANDS, ConventionalBiomeTags.IS_DESERT);
-    public static final RegistryFilter<Biome> DROUGHTY = biomes -> List.of();
+    public static final RegistryFilter<Biome> RAINLESS = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_BADLANDS, ConventionalBiomeTags.IS_DESERT, ConventionalBiomeTags.IS_CAVE, ConventionalBiomeTags.IS_NETHER, ConventionalBiomeTags.IS_END);
+    public static final RegistryFilter<Biome> ARID = new RegistryFilter.Empty<>();
+    public static final RegistryFilter<Biome> DROUGHTY = new RegistryFilter.Empty<>();
     public static final RegistryFilter<Biome> SOFT = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_BEACH, ConventionalBiomeTags.IS_OCEAN);
     public static final RegistryFilter<Biome> RAINY = new RegistryFilter.DirectHolder<>(Biomes.JUNGLE);
 
-    public static final RegistryFilter<Biome> IS_SMALL = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_RIVER);
+    public static final RegistryFilter<Biome> IS_SMALL = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_RIVER, ConventionalBiomeTags.IS_CAVE);
 
     // biome color
     public static final RegistryFilter<Biome> SEASONAL_COLOR_CHANGE = SEASONAL;
