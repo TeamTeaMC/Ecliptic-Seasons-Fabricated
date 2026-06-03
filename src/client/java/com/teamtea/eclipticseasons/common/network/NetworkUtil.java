@@ -4,6 +4,7 @@ import com.teamtea.eclipticseasons.api.constant.solar.SolarTerm;
 import com.teamtea.eclipticseasons.api.data.weather.special_effect.WeatherEffect;
 import com.teamtea.eclipticseasons.api.event.SolarTermChangeEvent;
 import com.teamtea.eclipticseasons.client.core.ClientWeatherChecker;
+import com.teamtea.eclipticseasons.client.render.worldui.GrowthInfoClientCache;
 import com.teamtea.eclipticseasons.common.core.biome.BiomeRainDispatcher;
 import com.teamtea.eclipticseasons.common.hook.ESEventHook;
 import com.teamtea.eclipticseasons.common.registry.AttachmentRegistry;
@@ -150,4 +151,7 @@ public class NetworkUtil {
         }
     }
 
+    public static void handleGrowthInfoQuery(GrowthInfoMessage payload, ClientPlayNetworking.Context context) {
+        GrowthInfoClientCache.update(payload.getInfo().orElse(null));
+    }
 }

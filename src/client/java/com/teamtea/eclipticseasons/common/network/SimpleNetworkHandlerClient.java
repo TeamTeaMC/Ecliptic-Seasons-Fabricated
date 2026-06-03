@@ -37,6 +37,10 @@ public class SimpleNetworkHandlerClient {
             context.client().execute(() -> NetworkUtil.processUpdateTempChangeMessage(payload, context));
         });
 
+        ClientPlayNetworking.registerGlobalReceiver(GrowthInfoMessage.TYPE, (payload, context) -> {
+            context.client().execute(() -> NetworkUtil.handleGrowthInfoQuery(payload, context));
+        });
+
         ClientPlayNetworking.registerGlobalReceiver(
                 ESConfigToClientPayload.TYPE,
                 (payload, context) -> {

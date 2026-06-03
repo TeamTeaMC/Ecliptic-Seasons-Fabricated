@@ -1,7 +1,8 @@
 package com.teamtea.eclipticseasons.client.render.worldui;
 
 import com.teamtea.eclipticseasons.common.item.info.GrowthInfo;
-import com.teamtea.eclipticseasons.common.item.info.GrowthInfoResolver;
+import com.teamtea.eclipticseasons.common.network.clientmesage.GrowthInfoQuery;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,8 +32,10 @@ public class GrowthInfoClientCache {
             return null;
         }
 
-        GrowthInfo info = GrowthInfoResolver.resolve(level, pos, state);
+        ClientPlayNetworking.send(new GrowthInfoQuery(pos));
+        lastInfo = null;
 
+        GrowthInfo info = lastInfo;
         lastPos = pos.immutable();
         lastState = state;
         lastResolveGameTime = now;
@@ -48,5 +51,9 @@ public class GrowthInfoClientCache {
         lastResolveGameTime = -1;
         lastInfo = null;
         hasCachedResult = false;
+    }
+
+    public static void update(GrowthInfo info) {
+        lastInfo = info;
     }
 }
