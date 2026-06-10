@@ -12,9 +12,9 @@ import net.caffeinemc.mods.sodium.client.render.model.AbstractBlockRenderContext
 import net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl;
 import net.irisshaders.iris.shaderpack.materialmap.WorldRenderingSettings;
 import net.irisshaders.iris.vertices.sodium.terrain.VertexEncoderInterface;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.core.BlockPos;
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -58,14 +58,13 @@ public abstract class MixinAbstractBlockRenderContext implements IrisAttachSnowy
                 if (WorldRenderingSettings.INSTANCE.getBlockStateIds() != null && cullFace != null) {
                     if (CompatModule.ClientConfig.unifiedSnowyBlockSides.isFalse() && cullFace != Direction.UP)
                         return;
-                    if (ExtraModelManager.renderAsSnowInShader(state, level, pos)) {
+                    if (ExtraModelManager.renderAsSnowInShader(state, level, pos)
+                            && r instanceof VertexEncoderInterface vertexEncoderInterface) {
                         // ((BlockSensitiveBufferBuilder) ((BlockRendererAccessor) r).getBuffers()).overrideBlock(WorldRenderingSettings.INSTANCE.getBlockStateIds().getInt(Blocks.SNOW_BLOCK.defaultBlockState()));
-                        ((VertexEncoderInterface) r).overrideBlock(WorldRenderingSettings.INSTANCE.getBlockStateIds().getInt(Blocks.SNOW_BLOCK.defaultBlockState()));
+                        vertexEncoderInterface.overrideBlock(WorldRenderingSettings.INSTANCE.getBlockStateIds().getInt(Blocks.SNOW_BLOCK.defaultBlockState()));
                     }
                 }
             }
-            ((VertexEncoderInterface) r).overrideBlock(WorldRenderingSettings.INSTANCE.getBlockStateIds().getInt(Blocks.SNOW_BLOCK.defaultBlockState()));
-
         }
 
     }

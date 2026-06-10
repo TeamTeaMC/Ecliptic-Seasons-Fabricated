@@ -1,4 +1,4 @@
-### 0.13.4
+### 0.13.5
 
 - Optimized the Growth Detector's detection logic to correctly recognize Greenhouse Cores and humidity changes.
 
