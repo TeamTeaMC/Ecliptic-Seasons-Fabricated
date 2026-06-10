@@ -1,1 +1,1 @@
-- Optimized the Growth Detector's detection logic to correctly recognize Greenhouse Cores and humidity changes.
+- #1 [Hygrometer Bug](https://github.com/TeamTeaMC/Ecliptic-Seasons-Fabricated/issues/1)

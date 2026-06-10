@@ -16,7 +16,7 @@ import java.util.function.Function;
 public class ItemRegistry {
 
     public static final Item hygrometer = register("hygrometer",
-            p -> new MeterBlockItem(BlockRegistry.calendar, p.useBlockDescriptionPrefix()));
+            p -> new MeterBlockItem(BlockRegistry.hygrometer, p.useBlockDescriptionPrefix()));
 
     public static final Item growth_detector = register("growth_detector",
             GrowthDetectorItem::new);
