@@ -82,10 +82,10 @@ public class EclipticSeasonsClient implements ClientModInitializer {
 
     private void registerEvent() {
         ClientPlayConnectionEvents.JOIN.register((listener, sender, client) -> {
-            TagsUpdatedEvent tagsUpdatedEvent = TagsUpdatedEvent.builder()
-                    .lookupProvider(listener.registryAccess())
+            TagsUpdatedEvent tagsUpdatedEvent = TagsUpdatedEvent.ClientPacketReceived.builder()
+                    .registries(listener.registryAccess())
                     .integratedServer(Minecraft.getInstance().isLocalServer())
-                    .updateCause(TagsUpdatedEvent.UpdateCause.CLIENT_PACKET_RECEIVED)
+                    // .updateCause(TagsUpdatedEvent.UpdateCause.CLIENT_PACKET_RECEIVED)
                     .build();
             AllListener.onTagsUpdatedEventEarly(tagsUpdatedEvent);
             AllListener.onTagsUpdatedEvent(tagsUpdatedEvent);

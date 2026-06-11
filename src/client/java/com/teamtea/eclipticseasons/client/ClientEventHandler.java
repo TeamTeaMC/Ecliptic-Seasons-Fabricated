@@ -222,8 +222,8 @@ public final class ClientEventHandler {
 
 
     public static void onTagsUpdatedEvent(TagsUpdatedEvent tagsUpdatedEvent) {
-        if (tagsUpdatedEvent.getUpdateCause() == TagsUpdatedEvent.UpdateCause.CLIENT_PACKET_RECEIVED) {
-            ClientRef.updateClientSide(tagsUpdatedEvent.getLookupProvider());
+        if (tagsUpdatedEvent instanceof TagsUpdatedEvent.ClientPacketReceived) {
+            ClientRef.updateClientSide(tagsUpdatedEvent.getRegistries());
         }
     }
 

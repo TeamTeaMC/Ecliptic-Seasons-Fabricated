@@ -253,10 +253,10 @@ public class EclipticSeasons implements ModInitializer {
     }
 
     private static void fireTagUpdated(MinecraftServer server) {
-        TagsUpdatedEvent tagsUpdatedEvent = TagsUpdatedEvent.builder()
-                .lookupProvider(server.registryAccess())
+        TagsUpdatedEvent tagsUpdatedEvent = TagsUpdatedEvent.ServerDataLoad.builder()
+                .registries(server.registryAccess())
                 .integratedServer(server instanceof DedicatedServer)
-                .updateCause(TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD)
+                // .updateCause(TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD)
                 .build();
         AllListener.onTagsUpdatedEventEarly(tagsUpdatedEvent);
         AllListener.onTagsUpdatedEvent(tagsUpdatedEvent);

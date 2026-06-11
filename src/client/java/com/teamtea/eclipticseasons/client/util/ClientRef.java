@@ -13,10 +13,7 @@ import com.teamtea.eclipticseasons.api.misc.util.HolderMappable;
 import com.teamtea.eclipticseasons.api.misc.util.Mergable;
 import com.teamtea.eclipticseasons.client.reload.ClientJsonCacheListener;
 import com.teamtea.eclipticseasons.config.ClientConfig;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
+import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
@@ -41,7 +38,7 @@ public class ClientRef {
     public static final List<SeasonalBackgroundMusic> musics = new ArrayList<>();
 
 
-    public static void updateClientSide(HolderLookup.Provider registryAccess) {
+    public static void updateClientSide(RegistryAccess registryAccess) {
         biomeColors.clear();
         leaveColors.clear();
         sounds.clear();
@@ -58,22 +55,22 @@ public class ClientRef {
         buildSeasonalMusics(registryAccess);
     }
 
-    private static void buildSeasonalMusics(HolderLookup.Provider registryAccess) {
+    private static void buildSeasonalMusics(RegistryAccess registryAccess) {
         musics.addAll(ClientJsonCacheListener.backgroundMusicCache
                 .build(SeasonalBackgroundMusic.CODEC, registryAccess).values());
     }
 
-    private static void buildSeasonalSounds(HolderLookup.Provider registryAccess) {
+    private static void buildSeasonalSounds(RegistryAccess registryAccess) {
         sounds.addAll(ClientJsonCacheListener.ambientCache
                 .build(SeasonalBiomeAmbient.CODEC, registryAccess).values());
     }
 
-    private static void buildUIParsers(HolderLookup.Provider registryAccess) {
+    private static void buildUIParsers(RegistryAccess registryAccess) {
         uiParsers.addAll(ClientJsonCacheListener.uiParserCache
                 .build(UIParser.CODEC, registryAccess).values());
     }
 
-    private static void buildOverrideSnowModels(HolderLookup.Provider registryAccess) {
+    private static void buildOverrideSnowModels(RegistryAccess registryAccess) {
         ArrayList<Pair<HolderSet<Block>, SnowDefinition>> collect = ClientJsonCacheListener.snowDefOverrideCache
                 .build(SnowDefinition.CODEC, registryAccess).values()
                 .stream()
@@ -84,7 +81,7 @@ public class ClientRef {
         snowClientDef.putAll(biomeListMap);
     }
 
-    private static void buildSeasonalModels(HolderLookup.Provider registryAccess) {
+    private static void buildSeasonalModels(RegistryAccess registryAccess) {
         ArrayList<Pair<HolderSet<Block>, SeasonBlockDefinition>> collect = ClientJsonCacheListener.seasonDefCache
                 .build(SeasonBlockDefinition.CODEC, registryAccess)
                 .entrySet()
@@ -97,7 +94,7 @@ public class ClientRef {
         seasonDef.putAll(biomeListMap);
     }
 
-    private static void buildLeafColors(HolderLookup.Provider registryAccess) {
+    private static void buildLeafColors(RegistryAccess registryAccess) {
         ArrayList<Pair<HolderSet<Block>, Pair<LeafColor.InstanceHolder, LeafColor.Instance>>> collect = ClientJsonCacheListener.leafCache
                 .build(LeafColor.CODEC, registryAccess).values()
                 .stream().map(HolderMappable::asHolderMapping)
@@ -111,7 +108,7 @@ public class ClientRef {
         );
     }
 
-    private static void buildBiomeColors(HolderLookup.Provider registryAccess) {
+    private static void buildBiomeColors(RegistryAccess registryAccess) {
         ArrayList<Pair<HolderSet<Biome>, BiomeColor.Instance>> collect = ClientJsonCacheListener.biomeCache
                 .build(BiomeColor.CODEC, registryAccess).values()
                 .stream().map(HolderMappable::asHolderMapping)
@@ -145,7 +142,7 @@ public class ClientRef {
         return resultMap;
     }
 
-    public static <E> ArrayList<Holder<E>> getHolders(HolderLookup.Provider registryAccess, ResourceKey<? extends Registry<? extends E>> registryKey) {
+    public static <E> ArrayList<Holder<E>> getHolders(RegistryAccess registryAccess, ResourceKey<? extends Registry<? extends E>> registryKey) {
         var registry = registryAccess.lookup(registryKey);
         if (registry.isEmpty()) {
             return new ArrayList<>();

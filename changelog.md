@@ -1,1 +1,4 @@
-- #1 [Hygrometer Bug](https://github.com/TeamTeaMC/Ecliptic-Seasons-Fabricated/issues/1)
+- (Neoforge/Forge) Simplified Seasonal Prayer Ritual progression by removing random progress triggers.
+- Added configurable bone meal restrictions under unsuitable growing conditions (`RestrictBoneMealBySeason`). Enabled by default through the built-in datapack.
+- Rebalanced rainfall and thunderstorm probabilities.
+- Added crop growth diagnostics for Jade and TOP, showing growth chances and environmental conditions when crops are unable to grow normally.

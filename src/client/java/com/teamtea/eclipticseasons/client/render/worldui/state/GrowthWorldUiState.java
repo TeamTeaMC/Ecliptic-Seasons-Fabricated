@@ -25,7 +25,7 @@ public record GrowthWorldUiState(
 
         lines.add(Component.translatable(
                 "ui.eclipticseasons.growth_chance",
-                String.format("%.0f%%", info.growChance())
+                String.format(info.growChance() > 1 ? "%.0f%%" : "%.1f%%", info.growChance())
         ));
 
         lines.add(Component.translatable(

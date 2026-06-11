@@ -210,6 +210,7 @@ public class CommonConfig {
         public static ModConfigSpec.ConfigValue<Boolean> simpleGreenHouse;
         public static ModConfigSpec.BooleanValue useBoxDistance;
         public static ModConfigSpec.IntValue seasonCoreRange;
+        public static ModConfigSpec.BooleanValue restrictBoneMeal;
         public static ModConfigSpec.BooleanValue boneMealFailureMessage;
         public static ModConfigSpec.BooleanValue boneMealConsumeOnFailure;
 
@@ -227,6 +228,8 @@ public class CommonConfig {
                     .define("EnableCropHumidityControl", true);
             cropHumidityTransition = builder.comment("Smooths out humidity changes between different areas or time periods.")
                     .define("CropHumidityTransition", true);
+            restrictBoneMeal = builder.comment("Bone meal may fail under unsuitable growing conditions.")
+                    .define("RestrictBoneMeal", true);
             boneMealFailureMessage = builder.comment("Show a message if bone meal fails to work due to incorrect season or humidity.")
                     .define("BoneMealFailureMessage", true);
             boneMealConsumeOnFailure = builder.comment("Consume the bone meal item even if the growth attempt fails.")
@@ -238,7 +241,7 @@ public class CommonConfig {
             darkGreenhouseFailChance = builder.comment("Probability (per tick) that greenhouse crops fail to grow due to low light levels.")
                     .defineInRange("LowLightGreenhouseFailChance", 2000, 0, 10000);
             simpleGreenHouse = builder.comment("Simplifies greenhouse logic, removing the need for core blocks or humidity modifiers.")
-                    .define("SimpleGreenHouseMode", true,object -> Boolean.TRUE.equals(object));
+                    .define("SimpleGreenHouseMode", true, object -> Boolean.TRUE.equals(object));
             seasonCoreRange = builder.comment("The effective radius of the 'Season Core' block.")
                     .defineInRange("SeasonCoreRange", 15, 4, 31);
             complexGreenHouseCheck = builder.comment("Enables more precise shape detection for greenhouse structures.")
@@ -408,9 +411,9 @@ public class CommonConfig {
             shouldInitSnowForExtremeColdBiomes = builder.comment("Force initialize snow states for extreme cold biomes when the mod or world is first loaded.")
                     .define("ShouldInitSnowDepthForExtremeColdBiomes", true);
             rainChanceMultiplier = builder.comment("Adjust the overall frequency of rain.")
-                    .defineInRange("RainChancePercentMultiplier", 40, 0, 1000);
+                    .defineInRange("RainChanceMultiplier", 120, 0, 1000);
             thunderChanceMultiplier = builder.comment("Adjust the overall frequency of thunder.")
-                    .defineInRange("ThunderChancePercentMultiplier", 20, 0, 1000);
+                    .defineInRange("ThunderChanceMultiplier", 80, 0, 1000);
             snowAccumulationSpeedMultiplier = builder
                     .comment("Adjusts the spread rate of atmospheric snow overlays across the ground.")
                     .defineInRange("SnowAccumulationSpeedMultiplier", 1.0, 0.0, 20.0);

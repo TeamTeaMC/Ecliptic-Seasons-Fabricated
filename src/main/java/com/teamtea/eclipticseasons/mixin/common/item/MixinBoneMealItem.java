@@ -32,7 +32,7 @@ public class MixinBoneMealItem {
     private static void eclipticseasons$growCrop_test(ItemStack itemStack, Level level, BlockPos pos, CallbackInfoReturnable<Boolean> cir, @Local(ordinal = 0) BlockPos blockPos,
                                                       @Local(name = "state") BlockState state) {
         Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 5, false);
-        BonemealEvent bonemealEvent = new BonemealEvent(nearestPlayer, level, pos, state, itemStack);
+        BonemealEvent bonemealEvent = new BonemealEvent(nearestPlayer, level, pos, state, itemStack, state.getBlock() instanceof BonemealableBlock bonemealable && bonemealable.isValidBonemealTarget(level, pos, state));
         ESEventHook.BONEMEAL.invoker().onEvent(bonemealEvent);
         if (bonemealEvent.isCanceled()) {
             if (bonemealEvent.isSuccess()) {
