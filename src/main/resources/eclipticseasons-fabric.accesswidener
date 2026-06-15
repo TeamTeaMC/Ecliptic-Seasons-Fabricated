@@ -66,8 +66,8 @@ accessible field net/minecraft/client/gui/GuiGraphicsExtractor mouseY I
 # --- Rendering (Level & Sections) ---
 accessible field net/minecraft/client/renderer/LevelRenderer visibleSections Lit/unimi/dsi/fastutil/objects/ObjectArrayList;
 accessible field net/minecraft/client/renderer/LevelRenderer viewArea Lnet/minecraft/client/renderer/ViewArea;
-accessible field net/minecraft/client/renderer/LevelRenderer level Lnet/minecraft/client/multiplayer/ClientLevel;
-accessible method net/minecraft/client/renderer/ViewArea getSectionIndex (III)I
+#accessible field net/minecraft/client/renderer/LevelRenderer level Lnet/minecraft/client/multiplayer/ClientLevel;
+#accessible method net/minecraft/client/renderer/ViewArea getSectionIndex (III)I
 accessible class net/minecraft/client/renderer/chunk/SectionCopy
 
 # --- Biome Colors (Client Side Resolvers) ---
@@ -91,11 +91,6 @@ accessible class net/minecraft/client/data/models/ModelProvider$ItemInfoCollecto
 accessible class net/minecraft/client/data/models/ModelProvider$BlockStateGeneratorCollector
 accessible class net/minecraft/client/data/models/ModelProvider$SimpleModelCollector
 accessible method net/minecraft/client/data/models/ModelProvider$SimpleModelCollector <init> ()V
-
-# --- Block Entity Rendering (Signs, etc.) ---
-accessible class net/minecraft/client/renderer/blockentity/HangingSignRenderer$Models
-accessible method net/minecraft/client/renderer/blockentity/HangingSignRenderer$Models <init> (Lnet/minecraft/client/model/Model$Simple;Lnet/minecraft/client/model/Model$Simple;Lnet/minecraft/client/model/Model$Simple;)V
-accessible method net/minecraft/client/renderer/blockentity/AbstractSignRenderer submitSignText (Lnet/minecraft/client/renderer/blockentity/state/SignRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/world/level/block/entity/SignText;)V
 
 # --- Multipart & Texture Handling ---
 accessible class net/minecraft/client/renderer/block/dispatch/multipart/MultiPartModel$SharedBakedState

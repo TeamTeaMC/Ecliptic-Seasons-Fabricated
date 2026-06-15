@@ -3,7 +3,7 @@ package com.teamtea.eclipticseasons.api.data.craft;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamtea.eclipticseasons.api.data.misc.PosAndBlockStateCheck;
-import net.minecraft.advancements.criterion.BlockPredicate;
+import net.minecraft.advancements.predicates.BlockPredicate;
 import net.minecraft.core.Vec3i;
 import org.jetbrains.annotations.ApiStatus;
 
