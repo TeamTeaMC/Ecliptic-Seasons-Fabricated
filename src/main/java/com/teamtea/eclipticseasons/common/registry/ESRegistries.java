@@ -2,7 +2,6 @@ package com.teamtea.eclipticseasons.common.registry;
 
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.data.misc.ESSortInfo;
-import com.teamtea.eclipticseasons.api.data.quest.SeasonQuest;
 import com.teamtea.eclipticseasons.api.data.season.SpecialDays;
 import com.teamtea.eclipticseasons.api.data.season.definition.SeasonDefinition;
 import com.teamtea.eclipticseasons.api.data.season.SeasonPhase;
@@ -15,7 +14,6 @@ import com.teamtea.eclipticseasons.api.data.crop.CropGrowControlBuilder;
 import com.teamtea.eclipticseasons.api.data.weather.CustomRainBuilder;
 import com.teamtea.eclipticseasons.api.data.weather.CustomSnowTerm;
 import com.teamtea.eclipticseasons.api.data.weather.WeatherDimension;
-import com.teamtea.eclipticseasons.api.data.weather.WeatherRegion;
 import com.teamtea.eclipticseasons.api.data.weather.special_effect.WeatherEffect;
 import net.minecraft.util.Util;
 import net.minecraft.core.Registry;
@@ -33,8 +31,6 @@ public class ESRegistries {
     public static final ResourceKey<Registry<AgroClimaticZone>> AGRO_CLIMATE = ResourceKey.createRegistryKey(EclipticSeasons.rl("agro_climate"));
 
     public static final ResourceKey<Registry<CropGrowControlBuilder>> CROP = ResourceKey.createRegistryKey(EclipticSeasons.rl("crop"));
-
-    public static final ResourceKey<Registry<SeasonQuest>> SEASON_QUEST = ResourceKey.createRegistryKey(EclipticSeasons.rl("season_quest"));
 
     public static final ResourceKey<Registry<SnowDefinition>> SNOW_DEFINITIONS = ResourceKey.createRegistryKey(EclipticSeasons.rl("snow_definitions"));
 

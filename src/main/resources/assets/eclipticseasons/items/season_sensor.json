@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "eclipticseasons:item/pinwheel_blue"
+    "model": "eclipticseasons:block/season_sensor"
   }
 }

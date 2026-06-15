@@ -8,6 +8,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 
@@ -29,7 +30,8 @@ public class ItemRegistry {
                     .rarity(Rarity.RARE)
                     .jukeboxPlayable(SongRegistry.SNOWLESS_HOMETOWN)));
 
-
+    public static final Item season_sensor_item = register("season_sensor",
+            p -> new BlockItem(BlockRegistry.season_sensor, p.useBlockDescriptionPrefix()));
 
     private static ResourceKey<Item> key(String name) {
         return ResourceKey.create(Registries.ITEM, EclipticSeasons.rl(name));

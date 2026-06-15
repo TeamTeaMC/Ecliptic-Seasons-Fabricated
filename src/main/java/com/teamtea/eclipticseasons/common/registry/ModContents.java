@@ -4,7 +4,6 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.api.data.misc.ESSortInfo;
-import com.teamtea.eclipticseasons.api.data.quest.SeasonQuest;
 import com.teamtea.eclipticseasons.api.data.season.SeasonCycle;
 import com.teamtea.eclipticseasons.api.data.season.SpecialDays;
 import com.teamtea.eclipticseasons.api.data.season.definition.SeasonDefinition;
@@ -57,6 +56,7 @@ public class ModContents {
                         output.accept(ItemRegistry.growth_detector);
                         output.accept(ItemRegistry.calendar_item);
                         output.accept(ItemRegistry.snowless_hometown);
+                        output.accept(ItemRegistry.season_sensor_item);
                     })
                     .build()
     );
@@ -65,7 +65,6 @@ public class ModContents {
         DynamicRegistries.registerSynced(ESRegistries.WETTER, WetterStructure.CODEC);
         DynamicRegistries.registerSynced(ESRegistries.BIOME_CLIMATE_SETTING, BiomesClimateSettings.CODEC);
         DynamicRegistries.registerSynced(ESRegistries.CROP, CropGrowControlBuilder.CODEC);
-        DynamicRegistries.registerSynced(ESRegistries.SEASON_QUEST, SeasonQuest.CODEC);
         DynamicRegistries.registerSynced(ESRegistries.AGRO_CLIMATE, AgroClimaticZone.CODEC);
         DynamicRegistries.registerSynced(ESRegistries.SNOW_DEFINITIONS, SnowDefinition.CODEC);
         DynamicRegistries.registerSynced(ESRegistries.SEASON_PHASE, SeasonPhase.CODEC);

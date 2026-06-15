@@ -1,5 +1,6 @@
 {
   "values": [
-    "eclipticseasons:calendar"
+    "eclipticseasons:calendar",
+    "eclipticseasons:season_sensor"
   ]
 }
