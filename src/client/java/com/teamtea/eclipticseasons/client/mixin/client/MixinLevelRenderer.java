@@ -7,6 +7,7 @@ import com.mojang.blaze3d.resource.ResourceHandle;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamtea.eclipticseasons.client.render.worldui.GrowthWorldUiRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.chunk.ChunkSectionsToRender;
 import net.minecraft.client.renderer.state.level.LevelRenderState;
@@ -27,14 +28,10 @@ public abstract class MixinLevelRenderer {
     private SubmitNodeStorage submitNodeStorage;
 
     @Inject(
-            method = {"lambda$addMainPass$0"},
-            at = @At(value = "INVOKE",
-                    // ordinal = 1,
-                    shift = At.Shift.AFTER,
-                    target = "Lnet/minecraft/client/renderer/LevelRenderer;submitBlockDestroyAnimation(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/LevelRenderState;)V")
+            method = {"submitBlockDestroyAnimation"},
+            at = @At(value = "TAIL")
     )
-    private void eclipticseasons$lambda$addMainPass$0(GpuBufferSlice terrainFog, LevelRenderState levelRenderState, ProfilerFiller profiler, ChunkSectionsToRender chunkSectionsToRender, ResourceHandle entityOutlineTarget, ResourceHandle translucentTarget, ResourceHandle mainTarget, ResourceHandle itemEntityTarget, ResourceHandle particleTarget, boolean renderOutline, Matrix4fc modelViewMatrix, CallbackInfo ci,
-                                                      @Local(name = "poseStack") PoseStack poseStack
+    private void eclipticseasons$lambda$addMainPass$0(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci
     ) {
         GrowthWorldUiRenderer.renderLevelStage(poseStack, this.submitNodeStorage);
     }

@@ -24,7 +24,6 @@
     "client.model.MixinModelManager",
     "client.model.MixinTextureAtlasSprite",
     "client.particle.MixinFallingDustParticleProvider",
-    "client.sound.MixinMusicManager",
     "compat.distanthorizons.MixinAbstractDhTintGetter",
     "compat.distanthorizons.MixinClientLevel",
     "compat.distanthorizons.MixinFullDataToRenderDataTransformer",

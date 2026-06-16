@@ -4,13 +4,18 @@ package com.teamtea.eclipticseasons.client.mixin.client;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.client.particle.ParticleUtil;
+import com.teamtea.eclipticseasons.common.core.biome.WeatherManager;
+import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import com.teamtea.eclipticseasons.common.environment.SolarTime;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,5 +68,18 @@ public abstract class MixinClientClientLevel {
         if (!shouldcancel) {
             original.call(instance, pState, pLevel, pPos, pRandom);
         }
+    }
+
+
+    @WrapOperation(at = {@At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getBiome(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/core/Holder;")}, method = {"getPrecipitationAt"})
+    private Holder<Biome> eclipticseasons$getPrecipitationAt_biome(ClientLevel instance, BlockPos pos, Operation<Holder> original) {
+        // ParticleUtil.attachSnowyParticle((ClientLevel)(Object)this,pos,state);
+        return MapChecker.getSurfaceBiome(instance, pos);
+    }
+
+    @WrapOperation(at = {@At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;I)Lnet/minecraft/world/level/biome/Biome$Precipitation;")}, method = {"getPrecipitationAt"})
+    private Biome.Precipitation eclipticseasons$getPrecipitationAt_get(Biome instance, BlockPos pos, int seaLevel, Operation<Biome.Precipitation> original) {
+        // ParticleUtil.attachSnowyParticle((ClientLevel)(Object)this,pos,state);
+        return WeatherManager.getPrecipitationAt((Level) (Object) this, instance, pos);
     }
 }
