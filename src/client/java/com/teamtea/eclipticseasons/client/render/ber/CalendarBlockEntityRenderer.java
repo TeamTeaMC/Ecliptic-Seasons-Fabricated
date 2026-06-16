@@ -22,6 +22,7 @@ import com.teamtea.eclipticseasons.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.profiling.ClientMetricsSamplersProvider;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -35,6 +36,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.LightCoordsUtil;
@@ -95,8 +97,8 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
                 SolarTermHelper.getNext(state.getBiome(), st) : iSolarTermOriginal;
 
 
-        setEnv(facing, state.blockPos, poseStack, Minecraft.getInstance().renderBuffers().bufferSource(), state.lightCoords,
-                (PoseStack matrixStackIn, MultiBufferSource multiBufferSource, Integer combinedLightIn) -> {
+        setEnv(facing, state.blockPos, poseStack, submitNodeCollector, state.lightCoords,
+                (PoseStack matrixStackIn, SubmitNodeCollector multiBufferSource, Integer combinedLightIn) -> {
 
                     matrixStackIn.translate(0, -0.0f, 0);
                     drawIcon(seasonPhaseUsed.getIcon(),
@@ -110,9 +112,9 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
                     if (displayMode == CalendarBlock.DisplayMode.SUB_SEASON) {
                         Season.Sub subSeason = EclipticSeasonsApi.getInstance().getSubSeason(ClientCon.getUseLevel());
                         MutableComponent translatable = Component.translatable("info.eclipticseasons.environment.solar_term.hint5", subSeason.getTranslation());
-                        drawText(1, translatable.getString(), new Color(Optional.ofNullable(subSeason.getSeason().getColor().getColor()).orElse(-1)).getRGB(), matrixStackIn, multiBufferSource);
+                        drawText(1, translatable.getString(), new Color(Optional.ofNullable(TextColor.fromLegacyFormat(subSeason.getSeason().getColor()).getValue()).orElse(-1)).getRGB(), matrixStackIn, multiBufferSource);
                     } else {
-                        drawText(1, seasonPhaseUsed.getPatternTranslation().getString(), new Color(Optional.ofNullable(seasonPhaseUsed.getColor().getColor()).orElse(-1)).getRGB(), matrixStackIn, multiBufferSource);
+                        drawText(1, seasonPhaseUsed.getPatternTranslation().getString(), new Color(Optional.ofNullable(TextColor.fromLegacyFormat(seasonPhaseUsed.getSeason().getColor()).getValue()).orElse(-1)).getRGB(), matrixStackIn, multiBufferSource);
                     }
 
                     if (st != SolarTerm.NONE) {
@@ -155,7 +157,7 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
                 });
     }
 
-    private void setEnv(Direction d, BlockPos pos, PoseStack matrixStackIn, MultiBufferSource txtBuffer, int combinedLightIn, TBiConsumer<PoseStack, MultiBufferSource, Integer> runnable) {
+    private void setEnv(Direction d, BlockPos pos, PoseStack matrixStackIn, SubmitNodeCollector txtBuffer, int combinedLightIn, TBiConsumer<PoseStack, SubmitNodeCollector, Integer> runnable) {
         matrixStackIn.pushPose();
         LocalPlayer player = Minecraft.getInstance().player;
         handleMatrixAngle(matrixStackIn, player, pos, d);
@@ -170,7 +172,7 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
 
     private void drawIcon(Identifier fullIcon,
                           int twidth, int theight, float isize, int x, int y,
-                          PoseStack matrixStackIn, MultiBufferSource txtBuffer, int combinedLightIn) {
+                          PoseStack matrixStackIn, SubmitNodeCollector txtBuffer, int combinedLightIn) {
         matrixStackIn.pushPose();
 
         // matrixStackIn.scale(20, 20, 20);
@@ -179,25 +181,28 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
         // Lighting.setupForFlatItems();
         // GlStateManager._disableCull();
         Identifier location = fullIcon.withPrefix("textures/").withSuffix(".png");
-        VertexConsumer builder = txtBuffer.getBuffer(RenderTypes.entityCutout(location));
+
+        txtBuffer.submitCustomGeometry(matrixStackIn, RenderTypes.entityCutout(location),
+                (pose, builder) -> blitRect(pose, builder, combinedLightIn, OverlayTexture.NO_OVERLAY,
+                        size / 2f,
+                        (float) -size * 0.6f,
+                        size * x,
+                        size * y,
+                        size,
+                        size,
+                        (int) (twidth / (isize / size)),
+                        (int) (theight / (isize / size)),
+                        true));
+        // VertexConsumer builder = txtBuffer.getBuffer(RenderTypes.entityCutout(location));
 
         // builder = txtBuffer.getBuffer(net.minecraftforge.client.RenderTypeHelper.getEntityRenderType(null, false));
-        blitRect(matrixStackIn, builder, combinedLightIn, OverlayTexture.NO_OVERLAY,
-                size / 2f,
-                (float) -size * 0.6f,
-                size * x,
-                size * y,
-                size,
-                size,
-                (int) (twidth / (isize / size)),
-                (int) (theight / (isize / size)),
-                true);
+
         // Lighting.setupFor3DItems();
 
         matrixStackIn.popPose();
     }
 
-    private void drawText(int line, String label, int color, PoseStack matrixStackIn, MultiBufferSource txtBuffer) {
+    private void drawText(int line, String label, int color, PoseStack matrixStackIn, SubmitNodeCollector txtBuffer) {
         // Font fontRenderer = this.font;
         // int textWidth = fontRenderer.width(label);
         // var lh = font.lineHeight;
@@ -240,8 +245,10 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
         for (FormattedCharSequence charSequence : lines.reversed()) {
             int textWidth = font.width(charSequence);
             float drawX = x - textWidth / 2.0f;
-            font.drawInBatch(charSequence, drawX, startY, color, false, matrixStackIn.last().pose(), txtBuffer,
-                    Font.DisplayMode.NORMAL, 0, LightCoordsUtil.FULL_SKY);
+            txtBuffer.submitText(matrixStackIn,drawX, startY,charSequence,false,
+                    Font.DisplayMode.NORMAL, LightCoordsUtil.FULL_SKY,color,0,0 );
+            // font.drawInBatch(charSequence, drawX, startY, color, false, matrixStackIn.last().pose(), txtBuffer,
+            //         Font.DisplayMode.NORMAL, 0, LightCoordsUtil.FULL_SKY);
             startY -= lineHeight;
         }
 
@@ -300,7 +307,7 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
      * @param tWidth  图片长度
      * @param tHeight 图片高度
      **/
-    protected static void blitRect(PoseStack matrixStack, VertexConsumer builder, int packedLight, int overlay, float x0, float y0, float xt, float yt, float width, float height, int tWidth, int tHeight, boolean mirrored) {
+    protected static void blitRect(PoseStack.Pose matrixStack, VertexConsumer builder, int packedLight, int overlay, float x0, float y0, float xt, float yt, float width, float height, int tWidth, int tHeight, boolean mirrored) {
 
         packedLight = LightCoordsUtil.FULL_SKY;
         float pixelScale = 0.0625f;
@@ -326,8 +333,8 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
             x1 = -x1;
         }
 
-        Matrix4f matrix = matrixStack.last().pose();
-        var normal = matrixStack.last();
+        Matrix4f matrix = matrixStack.pose();
+        var normal = matrixStack.copy();
 
         builder.addVertex(matrix, x0, y1, 0.0f).setColor(1.0f, 1.0f, 1.0f, 1.0f).setUv(tx0, ty1).setOverlay(overlay).setLight(packedLight).setNormal(normal, 0.0F, -1.0F, 0.0F);
         builder.addVertex(matrix, x1, y1, 0.0f).setColor(1.0f, 1.0f, 1.0f, 1.0f).setUv(tx1, ty1).setOverlay(overlay).setLight(packedLight).setNormal(normal, 0.0F, -1.0F, 0.0F);

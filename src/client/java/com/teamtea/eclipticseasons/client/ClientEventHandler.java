@@ -203,7 +203,7 @@ public final class ClientEventHandler {
                             .executes(context1 -> {
                                 Minecraft client = context1.getSource().getClient();
                                 client.execute(() -> {
-                                    client.setScreen(new ESModConfigScreen(null));
+                                    client.setScreenAndShow(new ESModConfigScreen(null));
                                 });
                                 return 0;
                             })

@@ -20,7 +20,7 @@ public final class OverlayEventHandler {
         LocalPlayer player = mc.player;
         var level = mc.level;
 
-        if (player != null && level != null && !mc.options.hideGui) {
+        if (player != null && level != null && !mc.gui.hud.isHidden()) {
             // if (KeyMappingRegistry.DEBUG_KEY_1.isDown())
             //     use = System.currentTimeMillis();
 

@@ -93,7 +93,7 @@ public class ParticleUtil {
                     Integer chanceW = null;
                     if (second.weights().contains(ClientCon.nowSolarTerm)) {
                         chanceW = second.weights().get(ClientCon.nowSolarTerm);
-                    } else switch (ClientCon.nowSolarTerm.getSeason()) {
+                    } else switch (ClientCon.nowSeason) {
                         case SPRING -> chanceW = 17;
                         case SUMMER -> chanceW = 27;
                         case AUTUMN -> chanceW = 9;
@@ -117,7 +117,7 @@ public class ParticleUtil {
         if (!isLeaf && ClientConfig.Particle.fallenLeaves.get()
                 && block instanceof LeavesBlock) {
             if (!blockstate.is(EclipticBlockTags.NONE_FALLEN_LEAVES)) {
-                var sd = ClientCon.nowSolarTerm.getSeason();
+                var sd = ClientCon.nowSeason;
                 if (sd != Season.NONE) {
                     int chanceW = 19;
                     switch (sd) {
@@ -136,7 +136,7 @@ public class ParticleUtil {
         }
 
         if (ClientConfig.Particle.butterfly.get()
-                && ClientCon.nowSolarTerm.getSeason() == Season.SPRING
+                && ClientCon.nowSeason == Season.SPRING
                 && ClientCon.isDay
         ) {
             if (!blockstate.isAir()
@@ -149,7 +149,7 @@ public class ParticleUtil {
             }
         }
         if (ClientConfig.Particle.firefly.get()
-                && ClientCon.nowSolarTerm.getSeason() == Season.SUMMER
+                && ClientCon.nowSeason == Season.SUMMER
                 && ClientCon.isEvening
         ) {
             if (!blockstate.isAir()
@@ -163,7 +163,7 @@ public class ParticleUtil {
         }
 
         if (ClientConfig.Particle.wildGoose.get()
-                && ClientCon.nowSolarTerm.getSeason() == Season.AUTUMN
+                && ClientCon.nowSeason == Season.AUTUMN
                 && ClientCon.isNoon
                 && clientLevel.canSeeSky(blockpos$mutableblockpos)
                 && clientLevel.isEmptyBlock(blockpos$mutableblockpos)

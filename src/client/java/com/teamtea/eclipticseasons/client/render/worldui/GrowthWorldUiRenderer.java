@@ -36,7 +36,7 @@ public final class GrowthWorldUiRenderer {
     public static GrowthWorldUiFrameState extractLevelRenderState() {
         Minecraft mc = Minecraft.getInstance();
 
-        if (mc.level == null || mc.player == null || mc.options.hideGui) {
+        if (mc.level == null || mc.player == null || mc.gui.hud.isHidden()) {
             return null;
         }
 
@@ -62,8 +62,8 @@ public final class GrowthWorldUiRenderer {
 
         GrowthWorldUiState uiState = GrowthWorldUiState.from(info);
 
-        Vec3 cameraPos = mc.gameRenderer.getMainCamera().position();
-        Quaternionf cameraRotation = new Quaternionf(mc.gameRenderer.getMainCamera().rotation());
+        Vec3 cameraPos = mc.gameRenderer.mainCamera().position();
+        Quaternionf cameraRotation = new Quaternionf(mc.gameRenderer.mainCamera().rotation());
 
         Vec3 uiPos = calculateUiPos(level, pos, blockState, cameraPos, uiState.yOffset());
 
@@ -172,7 +172,7 @@ public final class GrowthWorldUiRenderer {
 
         Minecraft mc = Minecraft.getInstance();
 
-        if (mc.level == null || mc.player == null || mc.options.hideGui) {
+        if (mc.level == null || mc.player == null || mc.gui.hud.isHidden()) {
             return;
         }
 
