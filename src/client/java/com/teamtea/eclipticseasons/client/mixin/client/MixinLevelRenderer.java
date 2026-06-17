@@ -29,7 +29,7 @@ public abstract class MixinLevelRenderer {
 
     @Inject(
             method = {"submitBlockDestroyAnimation"},
-            at = @At(value = "TAIL")
+            at = @At(value = "RETURN")
     )
     private void eclipticseasons$lambda$addMainPass$0(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci
     ) {

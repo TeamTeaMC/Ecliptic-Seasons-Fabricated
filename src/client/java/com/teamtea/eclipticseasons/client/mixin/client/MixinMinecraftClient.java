@@ -34,7 +34,7 @@ public class MixinMinecraftClient {
 
     @Inject(
             method = "Lnet/minecraft/client/Minecraft;disconnect(Lnet/minecraft/client/gui/screens/Screen;ZZ)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;onDisconnected()V")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;close()V")
     )
     private void es$setLevel(Screen screen, boolean keepResourcePacks, boolean stopSound, CallbackInfo ci) {
         if (level != null) {

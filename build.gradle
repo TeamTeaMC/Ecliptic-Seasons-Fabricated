@@ -76,22 +76,23 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	compileOnly "maven.modrinth:voxy:0.2.14-alpha"
-	implementation "maven.modrinth:sodium:mc26.1.1-0.8.9-fabric"
-	implementation "maven.modrinth:iris:1.10.9+26.1-fabric"
+	implementation "maven.modrinth:sodium:mc26.2-0.9.0-fabric"
+	implementation "maven.modrinth:iris:1.11.1+26.2-fabric"
 
-	implementation "curse.maven:jade-324717:7886518"
+	implementation "maven.modrinth:jade:26.2.1+fabric"
 //	implementation "curse.maven:distant-horizons-508933:7375296"
 
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
 	compileOnly 'org.projectlombok:lombok:1.18.42'
 	annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
-	implementation "curse.maven:forge-config-api-port-547434:7861252"
-	implementation "curse.maven:modmenu-308702:7813924"
+	implementation "maven.modrinth:forge-config-api-port:86ROVP2H"
+
+	implementation "maven.modrinth:modmenu:20.0.0-beta.2"
 	compileOnly "curse.maven:configured-457570:7943179"
 //	implementation "curse.maven:cardinal-components-api-318449:7909405"
 
-	compileOnly "curse.maven:distant-horizons-508933:7948188"
+	compileOnly "maven.modrinth:distanthorizons:3.1.0-b-26.2"
 
 
 	def cca_version = "8.0.0"

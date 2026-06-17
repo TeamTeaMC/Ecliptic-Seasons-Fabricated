@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
 env:
-  MINECRAFT_VERSION: 26.1.1
   RELEASE_TYPE: release
   CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_APITOKEN }}
 
@@ -68,7 +67,7 @@ jobs:
           changelog-file: changelog.md
           loaders: fabric
           game-versions: |
-            [26.1,26.2)
+            [26.2,26.3)
           dependencies: ""
           name: "${{env.RELEASE_NAME}}"
           files: |
