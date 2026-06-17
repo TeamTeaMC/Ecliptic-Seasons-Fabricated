@@ -395,14 +395,14 @@ public class ExtraRenderDispatcher {
 
     public static BlockStateModel shouldRenderedWithSnowInside(
             BlockAndTintGetter blockAndTintGetter, BlockPos pos, BlockState state,
-            BlockPos.@Nullable  MutableBlockPos checkPos) {
+            BlockPos.@Nullable MutableBlockPos checkPos) {
         int layers = getRenderedLevelWithSnowInside(blockAndTintGetter, pos, state, checkPos);
         return layers > 0 ? ExtraModelManager.getSnowLayerModel(layers) : null;
     }
 
     public static int getRenderedLevelWithSnowInside(
             BlockAndTintGetter blockAndTintGetter, BlockPos pos, BlockState state,
-            BlockPos.@Nullable  MutableBlockPos checkPos) {
+            BlockPos.@Nullable MutableBlockPos checkPos) {
 
         if (!ClientConfig.Renderer.snowInFence.get()) return 0;
         Level useLevel = ClientCon.getUseLevel();
@@ -588,6 +588,10 @@ public class ExtraRenderDispatcher {
         boolean snowSelf = !selfState.is(Blocks.SNOW);
         if (snowSelf || notUp) {
 
+            // Snowscape may insert snow blocks into fences/vegetation.
+            // Returning the original shape avoids incorrect face culling of the snow model.
+            if (snowInFence && original.getRenderShape() == RenderShape.MODEL) return original;
+
             int cacheLevel = mapSlice.getLevelForFakeSnow(otherPos);
             if (cacheLevel > IFakeSnowHolder.NONE_CHECK_FAKE_SNOW_LEVEL)
                 return cacheLevel == 0 ? original :
@@ -621,7 +625,7 @@ public class ExtraRenderDispatcher {
         return original;
     }
 
-    public static boolean canSnowy(BlockAndTintGetter blockAndTintGetter, BlockPos pos, BlockState state, long seed, BlockPos.@Nullable  MutableBlockPos checkPos) {
+    public static boolean canSnowy(BlockAndTintGetter blockAndTintGetter, BlockPos pos, BlockState state, long seed, BlockPos.@Nullable MutableBlockPos checkPos) {
         // if (!state.is(Blocks.LILY_PAD))
         //     return null;
         Level level = Minecraft.getInstance().level;
@@ -790,7 +794,7 @@ public class ExtraRenderDispatcher {
         @Override
         public void collectParts(@NonNull RandomSource random, @NonNull List<BlockStateModelPart> output) {
             finalFirst.collectParts(random, output);
-            finalSecond.collectParts(random,output);
+            finalSecond.collectParts(random, output);
         }
 
         @Override
