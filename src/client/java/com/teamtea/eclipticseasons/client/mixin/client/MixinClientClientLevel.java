@@ -4,7 +4,9 @@ package com.teamtea.eclipticseasons.client.mixin.client;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
+import com.teamtea.eclipticseasons.client.core.ClientWeatherChecker;
 import com.teamtea.eclipticseasons.client.particle.ParticleUtil;
 import com.teamtea.eclipticseasons.common.core.biome.WeatherManager;
 import com.teamtea.eclipticseasons.common.core.map.MapChecker;
@@ -12,6 +14,8 @@ import com.teamtea.eclipticseasons.common.environment.SolarTime;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.level.Level;
@@ -81,5 +85,22 @@ public abstract class MixinClientClientLevel {
     private Biome.Precipitation eclipticseasons$getPrecipitationAt_get(Biome instance, BlockPos pos, int seaLevel, Operation<Biome.Precipitation> original) {
         // ParticleUtil.attachSnowyParticle((ClientLevel)(Object)this,pos,state);
         return WeatherManager.getPrecipitationAt((Level) (Object) this, instance, pos);
+    }
+
+
+    @WrapOperation(
+            method = "tickWeatherEffects",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V")
+    )
+    private void eclipticseasons$tickRain_modifySound(ClientLevel instance, BlockPos blockPos, SoundEvent soundEvent, SoundSource soundSource, float pVolume, float pPitch, boolean pDistanceDelay, Operation<Void> original) {
+        original.call(instance, blockPos, soundEvent, soundSource, ClientWeatherChecker.modifyVolume(soundEvent, pVolume, instance), ClientWeatherChecker.modifyPitch(soundEvent, pPitch, instance), pDistanceDelay);
+    }
+
+    @Inject(
+            method = {"tickWeatherEffects"},
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/core/BlockPos;containing(Lnet/minecraft/core/Position;)Lnet/minecraft/core/BlockPos;")
+    )
+    private void eclipticseasons$tickRain_modifyAmount(CallbackInfo ci, @Local(name = "rainLevel") LocalFloatRef floatRef) {
+        floatRef.set(ClientWeatherChecker.modifyRainAmount(floatRef.get(), (Level) (Object) this));
     }
 }
