@@ -48,7 +48,11 @@ public class ClientClientAgent implements ClientAgent {
 
     @Getter
     @Setter
-    boolean change = false;
+    boolean snowChange = false;
+
+    @Getter
+    @Setter
+    boolean termChange = false;
 
 
     @Override

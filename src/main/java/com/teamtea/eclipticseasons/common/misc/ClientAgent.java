@@ -30,10 +30,8 @@ public interface ClientAgent {
     }
 
     default void setChange(boolean change) {
-        if (!change) {
-            setSnowChange(false);
-            setTermChange(false);
-        }
+        setSnowChange(change);
+        setTermChange(change);
     }
 
     default boolean isChange() {
