@@ -23,6 +23,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Optional;
+
 @Mixin({RenderSectionRegion.class})
 public abstract class MixinRenderChunkRegion_IMapSlice implements IMapSlice, IExtraRendererContextOwner {
 
@@ -101,7 +103,7 @@ public abstract class MixinRenderChunkRegion_IMapSlice implements IMapSlice, IEx
                         Heightmap heightmap = wrapped.getOrCreateHeightmapUnprimed(Heightmap.Types.MOTION_BLOCKING);
                         ChunkPos chunkPos = wrapped.getPos();
                         // SnowyRemover snowyRemover = wrapped.getData(AttachmentRegistry.SNOWY_REMOVER);
-                        BiomeHolder biomeHolder = AttachmentRegistry.BIOME_HOLDER.get(wrapped);
+                        BiomeHolder biomeHolder = Optional.ofNullable(AttachmentRegistry.BIOME_HOLDER.getNullable(wrapped)).orElseGet(BiomeHolder::empty);
                         int[] heights = HEIGHT_MAP[localSectionIndex];
                         int[] biomes = BIOME_MAP[localSectionIndex];
                         int[] snowys = SNOWY_MAP[localSectionIndex];

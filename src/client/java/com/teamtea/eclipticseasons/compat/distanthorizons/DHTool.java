@@ -23,6 +23,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -93,7 +94,7 @@ public class DHTool {
                                         return MapColor.SNOW;
                                     } else {
                                         if (!blockStateWrapper_NowQuery.isLiquid()
-                                                && !blockStateWrapper_NowQuery.blockState.blocksMotion()) {
+                                                && !blockStateWrapper_NowQuery.blockState.is(BlockTags.BLOCKS_MOTION_IN_HEIGHTMAP)) {
                                             // 如果colorBelowWithAvoidedBlocks时，这时会查看下面的方块，我们也进行一个染色
                                             // 暂时不处理多层需要跳过的方块，实际上也许保留一点颜色会更好看
                                             if (i + 1 < fullColumnData.size()) {

@@ -451,7 +451,7 @@ public class ExtraRenderDispatcher {
 
             if (neighborState.isAir()) {
                 checkPos.move(Direction.DOWN);
-                if (!blockAndTintGetter.getBlockState(checkPos).blocksMotion()) {
+                if (!blockAndTintGetter.getBlockState(checkPos).is(BlockTags.BLOCKS_MOTION_IN_HEIGHTMAP)) {
                     airNeighborCount++;
                 }
                 continue;

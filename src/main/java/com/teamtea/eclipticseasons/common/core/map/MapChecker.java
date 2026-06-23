@@ -925,7 +925,7 @@ public class MapChecker {
             flag = FLAG_GRASS_LARGE;
         } else if (onBlock instanceof VineBlock) {
             flag = FLAG_VINE;
-        } else if ((onBlock instanceof FarmlandBlock || onBlock instanceof DirtPathBlock)) {
+        } else if ((onBlock instanceof FarmlandBlock || onBlock instanceof PathBlock)) {
             flag = FLAG_FARMLAND;
         } else if (onBlock instanceof TrapDoorBlock ||
                 (onBlock instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) ||

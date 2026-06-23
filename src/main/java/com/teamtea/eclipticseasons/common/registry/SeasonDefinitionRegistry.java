@@ -37,7 +37,7 @@ public class SeasonDefinitionRegistry {
     public static void bootstrap2(BootstrapContext<SeasonDefinition> context) {
         var holderGetter = context.lookup(Registries.BIOME);
         var blockHolderGetter = context.lookup(Registries.BLOCK);
-        var placedFeatureHolderGetter = context.lookup(Registries.CONFIGURED_FEATURE);
+        // var placedFeatureHolderGetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
         HolderSet.Direct<Biome> plains = HolderSet.direct(holderGetter.getOrThrow(Biomes.PLAINS));
         Vec3i above = new Vec3i(0, 1, 0);
@@ -62,8 +62,8 @@ public class SeasonDefinitionRegistry {
                                                         .build())
                                                 .offset(Optional.of(above))
                                                 .build())
-                                        .selector(FeatureSelector.builder().conditions(condition).feature(placedFeatureHolderGetter.getOrThrow(VegetationFeatures.PUMPKIN)).weight(1).offset(Optional.of(above)).build())
-                                        .selector(FeatureSelector.builder().conditions(condition).feature(placedFeatureHolderGetter.getOrThrow(VegetationFeatures.BAMBOO_VEGETATION)).weight(1).offset(Optional.of(above)).build())
+                                        // .selector(FeatureSelector.builder().conditions(condition).feature(placedFeatureHolderGetter.getOrThrow(VegetationFeatures.PUMPKIN)).weight(1).offset(Optional.of(above)).build())
+                                        // .selector(FeatureSelector.builder().conditions(condition).feature(placedFeatureHolderGetter.getOrThrow(VegetationFeatures.BAMBOO_VEGETATION)).weight(1).offset(Optional.of(above)).build())
                                         .selector(BlockSelector.builder().conditions(condition).state(Optional.of(Blocks.DANDELION.defaultBlockState())).weight(1).offset(Optional.of(above)).build())
                                         .selector(BlockSelector.builder().conditions(condition).state(Optional.of(Blocks.OXEYE_DAISY.defaultBlockState())).weight(1).offset(Optional.of(above)).build())
                                         .build()
