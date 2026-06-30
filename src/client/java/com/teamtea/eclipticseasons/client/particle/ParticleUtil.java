@@ -43,8 +43,15 @@ import java.util.*;
 import java.util.List;
 
 public class ParticleUtil {
-
-    private static Holder<Biome> nowBiome = null;
+    public static final Direction[] DIRECTIONS = {
+            Direction.UP,
+            Direction.DOWN,
+            Direction.SOUTH,
+            Direction.EAST,
+            Direction.NORTH,
+            Direction.WEST,
+            null
+    };
 
     public static void createParticle(ClientLevel clientLevel, int x, int y, int z) {
         if (!ClientConfig.Particle.seasonParticle.get()) return;
@@ -306,7 +313,7 @@ public class ParticleUtil {
             blockModel.collectParts(RandomSource.create(42L),parts);
             int tintIndex = -1;
             for (BlockStateModelPart part : parts) {
-                for (Direction direction : new Direction[]{Direction.UP, Direction.DOWN, Direction.SOUTH, Direction.EAST, Direction.NORTH, Direction.WEST, null}) {
+                for (Direction direction : DIRECTIONS) {
                     List<BakedQuad> quads = part.getQuads(direction);
                     for (BakedQuad quad : quads) {
                         int tintedIndex = quad.materialInfo().tintIndex();
@@ -338,21 +345,6 @@ public class ParticleUtil {
                     }
                 }
                 c = new Color((int) ColorHelper.getAvg(rlist), (int) ColorHelper.getAvg(glist), (int) ColorHelper.getAvg(blist));
-                // c = new Color((int) rlist.stream()
-                //         .mapToInt(Integer::intValue)
-                //         .average()
-                //         .orElse(0.0),
-                //         (int) glist.stream()
-                //                 .mapToInt(Integer::intValue)
-                //                 .average()
-                //                 .orElse(0.0),
-                //         (int) blist.stream()
-                //                 .mapToInt(Integer::intValue)
-                //                 .average()
-                //                 .orElse(0.0));
-                // if (c.getRed() == c.getBlue() && c.getBlue() == c.getGreen()) {
-                //     c = Color.WHITE;
-                // }
             }
             Pair<Color, Integer> colorIntegerPair = Pair.of(c, tintIndex);
             LEAVES_COLOR_MAP.put(state, colorIntegerPair);
