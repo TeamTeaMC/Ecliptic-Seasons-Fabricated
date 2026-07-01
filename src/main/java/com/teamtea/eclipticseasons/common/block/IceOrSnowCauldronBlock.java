@@ -52,10 +52,10 @@ public class IceOrSnowCauldronBlock extends AbstractCauldronBlock {
         return Items.CAULDRON.getDefaultInstance();
     }
 
-    @Override
-    protected MapCodec<? extends AbstractCauldronBlock> codec() {
-        return simpleCodec(IceOrSnowCauldronBlock::new);
-    }
+    // @Override
+    // protected MapCodec<? extends AbstractCauldronBlock> codec() {
+    //     return simpleCodec(IceOrSnowCauldronBlock::new);
+    // }
 
     @Override
     protected @NonNull InteractionResult useItemOn(@NonNull ItemStack stack, BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {

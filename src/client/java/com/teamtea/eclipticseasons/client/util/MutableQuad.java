@@ -6,7 +6,9 @@
 package com.teamtea.eclipticseasons.client.util;
 
 import com.mojang.blaze3d.platform.Transparency;
+
 import java.util.Arrays;
+
 import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.client.renderer.FaceInfo;
 import net.minecraft.client.renderer.Sheets;
@@ -14,13 +16,11 @@ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.cuboid.FaceBakery;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.util.ARGB;
 import org.jetbrains.annotations.Contract;
-import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 import org.joml.Vector3f;
@@ -29,7 +29,7 @@ import org.jspecify.annotations.Nullable;
 
 
 public class MutableQuad {
-    private final Vector3f[] positions = new Vector3f[] {
+    private final Vector3f[] positions = new Vector3f[]{
             new Vector3f(),
             new Vector3f(),
             new Vector3f(),
@@ -46,10 +46,15 @@ public class MutableQuad {
     private ChunkSectionLayer chunkLayer;
     @Nullable
     private RenderType itemRenderType;
+    @Nullable
+    private RenderType itemGlintRenderType;
+    @Nullable
+    private RenderType itemGlintSpecialRenderType;
     private int tintIndex = -1;
     private boolean shade = true;
     private int lightEmission;
     private boolean ambientOcclusion;
+
     /**
      * This is only used to reuse position vectors when possible.
      */
@@ -480,6 +485,22 @@ public class MutableQuad {
         return itemRenderType;
     }
 
+    @Contract(pure = true)
+    public RenderType requiredItemGlintSpecialRenderType() {
+        if (itemGlintSpecialRenderType == null) {
+            throw new IllegalStateException("An item RenderType has to be set on this quad before baking");
+        }
+        return itemGlintSpecialRenderType;
+    }
+
+    @Contract(pure = true)
+    public RenderType requiredItemGlintRenderType() {
+        if (itemGlintRenderType == null) {
+            throw new IllegalStateException("An item RenderType has to be set on this quad before baking");
+        }
+        return itemGlintRenderType;
+    }
+
 
     public MutableQuad setSprite(Material.Baked material, Transparency transparency) {
         RenderType itemRenderType;
@@ -588,7 +609,6 @@ public class MutableQuad {
     }
 
 
-
     public MutableQuad setFrom(BakedQuad quad) {
         lastSourceQuad = quad;
         for (int i = 0; i < 4; i++) {
@@ -642,6 +662,8 @@ public class MutableQuad {
         TextureAtlasSprite sprite = requiredSprite();
         ChunkSectionLayer chunkLayer = requiredChunkLayer();
         RenderType itemRenderType = requiredItemRenderType();
+        RenderType itemGlintRenderType = requiredItemGlintRenderType();
+        RenderType itemGlintSpecialRenderType = requiredItemGlintSpecialRenderType();
 
         // Try to reuse objects from the last baked quad that we copied from to reduce allocations if
         // the quad was only partially transformed.
@@ -666,7 +688,7 @@ public class MutableQuad {
             if (canReuseMaterialInfo) {
                 materialInfo = srcInfo;
             } else {
-                materialInfo = new BakedQuad.MaterialInfo(sprite, chunkLayer, itemRenderType, tintIndex, shade, lightEmission);
+                materialInfo = new BakedQuad.MaterialInfo(sprite, chunkLayer, itemRenderType, itemGlintRenderType, itemGlintSpecialRenderType, tintIndex, shade, lightEmission);
             }
 
 
@@ -675,7 +697,7 @@ public class MutableQuad {
             pos1 = new Vector3f(positions[1]);
             pos2 = new Vector3f(positions[2]);
             pos3 = new Vector3f(positions[3]);
-            materialInfo = new BakedQuad.MaterialInfo(sprite, chunkLayer, itemRenderType, tintIndex, shade, lightEmission);
+            materialInfo = new BakedQuad.MaterialInfo(sprite, chunkLayer, itemRenderType, itemGlintRenderType, itemGlintSpecialRenderType, tintIndex, shade, lightEmission);
         }
 
         return new BakedQuad(
@@ -706,7 +728,6 @@ public class MutableQuad {
     }
 
 
-
     /**
      * {@return a copy of this mutable quad}
      */
@@ -728,6 +749,8 @@ public class MutableQuad {
         dest.sprite = sprite;
         dest.chunkLayer = chunkLayer;
         dest.itemRenderType = itemRenderType;
+        dest.itemGlintRenderType = itemGlintRenderType;
+        dest.itemGlintSpecialRenderType = itemGlintSpecialRenderType;
         dest.tintIndex = tintIndex;
         dest.shade = shade;
         dest.lightEmission = lightEmission;
@@ -747,6 +770,8 @@ public class MutableQuad {
         sprite = null;
         chunkLayer = null;
         itemRenderType = null;
+        itemGlintRenderType = null;
+        itemGlintSpecialRenderType = null;
         tintIndex = -1;
         shade = true;
         lightEmission = 0;

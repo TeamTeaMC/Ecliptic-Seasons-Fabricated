@@ -37,7 +37,7 @@ public abstract class MixinWeatherEffectRenderer {
     private static Identifier RAIN_LOCATION;
 
     @WrapOperation(
-            method = {"render"},
+            method = {"prepare"},
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/TextureManager;getTexture(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/texture/AbstractTexture;")
     )
     private AbstractTexture eclipticseasons$renderSnowAndRain_rebindingTexture(

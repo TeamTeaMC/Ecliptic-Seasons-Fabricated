@@ -37,7 +37,6 @@ public abstract class MixinSurfaceSystem {
     public void eclipticseasons$buildSurface_cacheBiome_init(
             RandomState randomState,
             BiomeManager biomeManager,
-            boolean useLegacyRandom,
             WorldGenerationContext generationContext,
             ChunkAccess protoChunk,
             NoiseChunk noiseChunk,
@@ -64,15 +63,14 @@ public abstract class MixinSurfaceSystem {
     public void eclipticseasons$buildSurface_cacheBiome(
             RandomState randomState,
             BiomeManager biomeManager,
-            boolean useLegacyRandom,
             WorldGenerationContext generationContext,
             ChunkAccess protoChunk,
             NoiseChunk noiseChunk,
             SurfaceRules.RuleSource ruleSource,
             @Nullable Set<Holder<Biome>> possibleBiomes,
             CallbackInfo ci,
-            @Local Holder<Biome> biomeHolder,
-            @Local(ordinal = 1) BlockPos.MutableBlockPos blockPos,
+            @Local(name = "surfaceBiome") Holder<Biome> biomeHolder,
+            @Local(name = "blockPos") BlockPos.MutableBlockPos blockPos,
             @Share("biomeArrays") LocalRef<int[]> biomeHolderLocalRef,
             @Share("intCounter") LocalIntRef localIntRef,
             @Share("signal") LocalIntRef signal,
@@ -94,7 +92,6 @@ public abstract class MixinSurfaceSystem {
     public void eclipticseasons$buildSurface_cacheBiome_end(
             RandomState randomState,
             BiomeManager biomeManager,
-            boolean useLegacyRandom,
             WorldGenerationContext generationContext,
             ChunkAccess protoChunk,
             NoiseChunk noiseChunk,
