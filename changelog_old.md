@@ -1,3 +1,8 @@
+### 0.13.9
+
+- Updated biome tags: added `c:is_aquatic_icy` to `extreme_cold`.
+- Updated rain/rainless resource pack biome rules to use `minecraft:river` instead of `#c:is_river`.
+
 ### 0.13.8
 
 - Seasonal particles are now generated based on seasonal signals instead of the natural season.
