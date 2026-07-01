@@ -52,11 +52,13 @@ public final class SimpleNetworkHandler {
                 GrowthInfoQuery.TYPE,
                 (payload, context) -> {
                     Player player = context.player();
-                    if (player instanceof ServerPlayer serverPlayer
-                            && MapChecker.isLoadedOnlyServer(serverPlayer.level(), payload.getPos()))
-                        send(serverPlayer, new GrowthInfoMessage(Optional.ofNullable(GrowthInfoResolver.resolve(
-                                serverPlayer.level(), payload.getPos(), serverPlayer.level().getBlockState(payload.getPos())
-                        ))));
+                    context.server().execute(()->{
+                        if (player instanceof ServerPlayer serverPlayer
+                                && MapChecker.isLoadedOnlyServer(serverPlayer.level(), payload.getPos()))
+                            send(serverPlayer, new GrowthInfoMessage(Optional.ofNullable(GrowthInfoResolver.resolve(
+                                    serverPlayer.level(), payload.getPos(), serverPlayer.level().getBlockState(payload.getPos())
+                            ))));
+                    });
                 }
         );
     }

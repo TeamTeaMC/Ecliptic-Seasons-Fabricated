@@ -67,6 +67,7 @@ public abstract class MixinModelBlockRenderer {
                             mapSlice.getModelCheckPos(),
                             eclipticseasons$parts)
                     .apply(level, pos, blockState, random, eclipticseasons$parts);
+            random.setSeed(seed);
             if (context.isReplace() && context.shouldApply()) {
                 modelLocalRef.set(EmptyStateModel.EMPTY);
             }
