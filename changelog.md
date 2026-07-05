@@ -1,2 +1,0 @@
-- Updated biome tags: added `c:is_aquatic_icy` to `extreme_cold`.
-- Updated rain/rainless resource pack biome rules to use `minecraft:river` instead of `#c:is_river`.
