@@ -19,9 +19,9 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin({Entity.class})
 public abstract class MixinEntity {
-
-    @Shadow
-    private Level level;
+    //
+    // @Shadow
+    // private Level level;
 
     @Shadow
     public abstract Level level();
@@ -30,7 +30,7 @@ public abstract class MixinEntity {
             target = "Lnet/minecraft/world/level/block/state/BlockState;getSoundType()Lnet/minecraft/world/level/block/SoundType;")},
             method = {"playStepSound"})
     public SoundType eclipticseasons$playStepSound(BlockState instance, Operation<SoundType> original, @Local BlockPos pos) {
-        if (EclipticSeasonsApi.getInstance().isSnowyBlock(this.level, instance, pos))
+        if (EclipticSeasonsApi.getInstance().isSnowyBlock(this.level(), instance, pos))
             instance = Blocks.SNOW.defaultBlockState();
         return original.call(instance);
     }
@@ -39,7 +39,7 @@ public abstract class MixinEntity {
             target = "(Lnet/minecraft/core/particles/ParticleType;Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/core/particles/BlockParticleOption;")},
             method = {"spawnSprintParticle"})
     public BlockParticleOption eclipticseasons$spawnSprintParticle_snow(ParticleType<?> type, BlockState state, Operation<BlockParticleOption> original, @Local(ordinal = 0) BlockPos pos) {
-        if (EclipticSeasonsApi.getInstance().isSnowyBlock(level, state, pos)) {
+        if (EclipticSeasonsApi.getInstance().isSnowyBlock(this.level(), state, pos)) {
             state = Blocks.SNOW.defaultBlockState();
         }
         return original.call(type, state);
