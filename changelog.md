@@ -1,2 +1,2 @@
-- Support Sodium 1.11.2.
+- Support Sodium 0.9.1.
 - Support Distant Horizion 3.2.0-b.
