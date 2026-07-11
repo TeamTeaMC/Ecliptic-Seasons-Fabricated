@@ -1,1 +1,2 @@
-* Improved server configuration synchronization.
+- Support Sodium 0.9.1.
+- Support Distant Horizion 3.2.0-b.
