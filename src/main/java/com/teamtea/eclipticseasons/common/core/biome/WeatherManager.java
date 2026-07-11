@@ -357,6 +357,11 @@ public class WeatherManager {
         if (hasNonePrecipitation(biomeWeather.biomeHolder.value()))
             return;
 
+        if (!EclipticUtil.useSolarWeather()) {
+            updateSnowOrMelt(level, biomeWeather, random, size, level.isRaining());
+            return;
+        }
+
         WeatherData weatherData = level.getWeatherData();
 
 

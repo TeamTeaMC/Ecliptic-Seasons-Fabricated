@@ -63,7 +63,7 @@ public abstract class MixinServerLevel extends Level {
 
     @Inject(at = {@At("HEAD")}, method = {"advanceWeatherCycle"})
     public void eclipticseasons$advanceWeatherCycle(CallbackInfo ci) {
-        if (EclipticUtil.useSolarWeather())
+        // if (EclipticUtil.useSolarWeather())
             WeatherManager.agentAdvanceWeatherCycle(getLevel(), random);
     }
 
