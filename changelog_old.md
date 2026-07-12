@@ -1,3 +1,20 @@
+### 0.13.10
+
+- Improved crop growth information under poor network conditions. If a crop is affected by the seasonal growth system,
+  its name is now displayed immediately while detailed information is being retrieved from the server.
+- Removed the unused `BIOME_WEATHER_QUERY_LIST` cache from `WeatherManager`. This legacy cache was no longer used and
+  could increase the risk of memory leaks in complex modded environments due to unexpected `ClientLevel` lifecycles.
+
+### 0.13.9
+
+- Updated biome tags: added `c:is_aquatic_icy` to `extreme_cold`.
+- Updated rain/rainless resource pack biome rules to use `minecraft:river` instead of `#c:is_river`.
+
+### 0.13.8
+
+- Added the Salt Wand, allowing players to clear seasonal snow cover.
+- Fixed compatibility issues between extra snow layers and snow cover removal.
+
 ### 0.13.7
 
 - Added the Season Sensor block.
