@@ -1,6 +1,7 @@
 package com.teamtea.eclipticseasons.common.core.biome;
 
 import com.mojang.serialization.Codec;
+import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.constant.climate.FlatRain;
 import com.teamtea.eclipticseasons.api.constant.tag.ClimateTypeBiomeTags;
 import com.teamtea.eclipticseasons.api.data.misc.ESSortInfo;
@@ -9,6 +10,7 @@ import com.teamtea.eclipticseasons.api.data.weather.special_effect.WeatherEffect
 import com.teamtea.eclipticseasons.api.event.BeforeCheckSnowStatusEvent;
 import com.teamtea.eclipticseasons.api.misc.ITranslatable;
 import com.teamtea.eclipticseasons.api.util.SolarUtil;
+import com.teamtea.eclipticseasons.common.core.map.stub.PlainsStubHolder;
 import com.teamtea.eclipticseasons.common.hook.ESEventHook;
 import com.teamtea.eclipticseasons.common.misc.HeatStrokeTicker;
 import com.teamtea.eclipticseasons.common.network.message.UpdateTempChangeMessage;
@@ -283,13 +285,31 @@ public class WeatherManager {
 
             }
 
-            // add copy
-            Map<Biome, BiomeWeather> biomeBiomeWeatherMap = new IdentityHashMap<>();
-            for (BiomeWeather biomesWeather : biomesWeathers) {
-                // sometimes a fabric mod would make a dummy world without valid registry
-                if (biomesWeather != null && biomesWeather.biomeHolder != null)
-                    biomeBiomeWeatherMap.put(biomesWeather.biomeHolder.value(), biomesWeather);
+
+            for (int i = 0, biomesWeathersSize = biomesWeathers.size(); i < biomesWeathersSize; i++) {
+                BiomeWeather biomesWeather = biomesWeathers.get(i);
+                if (biomesWeather == null) {
+                    // sometimes a fabric mod would make a dummy world without valid registry
+                    EclipticSeasons.LOGGER.error(
+                            "Missing biome weather entry at index {} in level {}",
+                            i,
+                            level.getClass().getName()
+                    );
+
+                    BiomeWeather fallback = new BiomeWeather(PlainsStubHolder.PLAINS);
+                    fallback.location = PlainsStubHolder.PLAINS.key().identifier();
+                    fallback.id = i;
+
+                    biomesWeathers.set(i, fallback);
+                }
             }
+            // add copy
+            // Map<Biome, BiomeWeather> biomeBiomeWeatherMap = new IdentityHashMap<>();
+            // for (BiomeWeather biomesWeather : biomesWeathers) {
+            //     // sometimes a fabric mod would make a dummy world without valid registry
+            //     if (biomesWeather != null && biomesWeather.biomeHolder != null)
+            //         biomeBiomeWeatherMap.put(biomesWeather.biomeHolder.value(), biomesWeather);
+            // }
             // WeatherManager.BIOME_WEATHER_QUERY_LIST.put(level, biomeBiomeWeatherMap);
         }
     }
