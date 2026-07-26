@@ -11,6 +11,7 @@ import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -168,6 +169,12 @@ public class BiomeHolder  {
 
 
     public static final net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate SERIALIZER = (AttachmentTarget attachmentTarget, ServerPlayer serverPlayer) -> {
+        if (attachmentTarget instanceof ChunkAccess chunkAccess) {
+            ServerLevel level = serverPlayer.level();
+            return level.getChunkSource().chunkMap.isChunkTracked(
+                    serverPlayer, chunkAccess.getPos().x(), chunkAccess.getPos().z()
+            );
+        }
         return true;
     };
 }
