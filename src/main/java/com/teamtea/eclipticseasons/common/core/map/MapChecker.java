@@ -1105,17 +1105,17 @@ public class MapChecker {
 
     public static void sendChunkLoginInfo(ServerLevel serverLevel, LevelChunk chunk, ChunkPos
             chunkPos, ServerPlayer player) {
-        // if (event.getLevel() instanceof ServerLevel serverLevel)
-        BiomeHolder biomeHolder = getOrUpdateChunkBiomeData(serverLevel, chunk, chunkPos);
-
-
-        if (biomeHolder != null && biomeHolder.hasUpdated()) {
-            SimpleNetworkHandler.send(player, new ChunkBiomeUpdateMessage(biomeHolder.biomes(), chunk.getPos().x(), chunk.getPos().z(), biomeHolder.version()));
-        }
-        // chunk.removeData(ModContents.BIOME_HOLDER);
-
-        // send others
-        sendChunkInfo(chunk, chunkPos, player, List.of(), List.of());
+        // // if (event.getLevel() instanceof ServerLevel serverLevel)
+        // BiomeHolder biomeHolder = getOrUpdateChunkBiomeData(serverLevel, chunk, chunkPos);
+        //
+        //
+        // if (biomeHolder != null && biomeHolder.hasUpdated()) {
+        //     SimpleNetworkHandler.send(player, new ChunkBiomeUpdateMessage(biomeHolder.biomes(), chunk.getPos().x(), chunk.getPos().z(), biomeHolder.version()));
+        // }
+        // // chunk.removeData(ModContents.BIOME_HOLDER);
+        //
+        // // send others
+        // sendChunkInfo(chunk, chunkPos, player, List.of(), List.of());
     }
 
     // todo 这里注意用接口走set
