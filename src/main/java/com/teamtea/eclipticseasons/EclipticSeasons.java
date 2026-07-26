@@ -35,7 +35,7 @@ import net.neoforged.fml.config.ModConfig;
 import warp.net.neoforged.neoforge.event.TagsUpdatedEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ladysnake.cca.api.v3.chunk.ChunkSyncCallback;
+// import org.ladysnake.cca.api.v3.chunk.ChunkSyncCallback;
 import warp.net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.List;
@@ -234,8 +234,8 @@ public class EclipticSeasons implements ModInitializer {
         ServerPlayerEvents.COPY_FROM.register(AllListener::onPlayerChangedDimension2);
 
         // cca
-        ChunkSyncCallback.EVENT.register((player, chunk) ->
-                AllListener.onChunkWatch(player.level(), chunk, chunk.getPos(), player));
+        // ChunkSyncCallback.EVENT.register((player, chunk) ->
+        //         AllListener.onChunkWatch(player.level(), chunk, chunk.getPos(), player));
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             ServerLifecycleHooks.SERVER = server;

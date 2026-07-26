@@ -44,8 +44,7 @@ public abstract class MixinClonedChunkSection implements ISnowyGetter {
     )
     private void eclipticseasons$init(Level level, LevelChunk chunk, LevelChunkSection section, SectionPos pos, CallbackInfo ci) {
         // eclipticseasons$snowyRemover = chunk.getData(AttachmentRegistry.SNOWY_REMOVER);
-        eclipticseasons$biomeHolder = chunk instanceof EmptyLevelChunk ?
-                BiomeHolder.empty() : AttachmentRegistry.BIOME_HOLDER.get(chunk);
+        eclipticseasons$biomeHolder = chunk.getAttachedOrCreate(AttachmentRegistry.BIOME_HOLDER);
         eclipticseasons$heightmap = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.MOTION_BLOCKING);
         eclipticseasons$chunkInfoMap = MapChecker.getChunkInfoMapOrCreate(level, chunk.getPos().getMiddleBlockPosition(64));
         // eclipticseasons$snowyStatusKeeper = SnowyMapChecker.getSnowyStatusKeeperCopy(chunk);

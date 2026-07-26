@@ -129,9 +129,9 @@ public class NetworkUtil {
         if (ClientCon.getUseLevel() != null) {
             ChunkAccess chunk = ClientCon.getUseLevel().getChunk(chunkBiomeUpdateMessage.x, chunkBiomeUpdateMessage.z, ChunkStatus.FULL, false);
             if (chunk != null) {
-                AttachmentRegistry.BIOME_HOLDER.get(chunk)
-                                .copyFrom(new BiomeHolder(chunkBiomeUpdateMessage.biomes, true, chunkBiomeUpdateMessage.version));
-                // chunk.setData(AttachmentRegistry.BIOME_HOLDER, new BiomeHolder(chunkBiomeUpdateMessage.biomes, true, chunkBiomeUpdateMessage.version));
+                // chunk.getAttachedOrCreate(AttachmentRegistry.BIOME_HOLDER)
+                //                 .copyFrom(new BiomeHolder(chunkBiomeUpdateMessage.biomes, true, chunkBiomeUpdateMessage.version));
+                chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, new BiomeHolder(chunkBiomeUpdateMessage.biomes, true, chunkBiomeUpdateMessage.version));
             }
         }
     }

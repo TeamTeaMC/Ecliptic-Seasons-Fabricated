@@ -17,7 +17,7 @@ public abstract class MixinChunkAccess implements IChunkBiomeHolder {
     @Override
     public BiomeHolder eclipticseasons$getBiomeHolder() {
         if (this.eclipticseasons$biomeHolder == null) {
-            BiomeHolder nullable = AttachmentRegistry.BIOME_HOLDER.getNullable(this);
+            BiomeHolder nullable = ChunkAccess.class.cast(this).getAttached(AttachmentRegistry.BIOME_HOLDER);
             if (nullable != null) {
                 BiomeHolder biomeHolder = nullable;
                 if (biomeHolder.hasUpdated()) {

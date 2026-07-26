@@ -10,6 +10,7 @@ import com.teamtea.eclipticseasons.api.misc.IChunkBiomeHolder;
 import com.teamtea.eclipticseasons.api.util.EclipticUtil;
 import com.teamtea.eclipticseasons.common.core.SolarHolders;
 import com.teamtea.eclipticseasons.common.core.biome.BiomeClimateManager;
+import com.teamtea.eclipticseasons.common.core.map.river.RiverBiomeResolver;
 import com.teamtea.eclipticseasons.common.core.map.stub.PlainsStubHolder;
 import com.teamtea.eclipticseasons.common.core.snow.SnowChecker;
 import com.teamtea.eclipticseasons.common.core.solar.SolarDataManager;
@@ -23,6 +24,7 @@ import com.teamtea.eclipticseasons.config.CommonConfig;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
@@ -803,6 +805,13 @@ public class MapChecker {
         if (biome == null)
             biome = level.registryAccess().getOrThrow(Biomes.PLAINS);
 
+        if (isSmallBiome(biome)
+                && level instanceof ServerLevel serverLevel) {
+            Climate.TargetPoint sample = RiverBiomeResolver.getClimateTargetPoint(serverLevel.getChunkSource().randomState(), pos.mutable());
+            ResourceKey<Biome> biomeResourceKey = RiverBiomeResolver.getClimateBiome(sample);
+            biome = level.registryAccess().get(biomeResourceKey).map(bh -> (Holder) bh).orElse(biome);
+        }
+
         BlockPos.MutableBlockPos relative = null;
 
         int i = 0;
@@ -1096,17 +1105,17 @@ public class MapChecker {
 
     public static void sendChunkLoginInfo(ServerLevel serverLevel, LevelChunk chunk, ChunkPos
             chunkPos, ServerPlayer player) {
-        // if (event.getLevel() instanceof ServerLevel serverLevel)
-        BiomeHolder biomeHolder = getOrUpdateChunkBiomeData(serverLevel, chunk, chunkPos);
-
-
-        if (biomeHolder != null && biomeHolder.hasUpdated()) {
-            SimpleNetworkHandler.send(player, new ChunkBiomeUpdateMessage(biomeHolder.biomes(), chunk.getPos().x(), chunk.getPos().z(), biomeHolder.version()));
-        }
-        // chunk.removeData(ModContents.BIOME_HOLDER);
-
-        // send others
-        sendChunkInfo(chunk, chunkPos, player, List.of(), List.of());
+        // // if (event.getLevel() instanceof ServerLevel serverLevel)
+        // BiomeHolder biomeHolder = getOrUpdateChunkBiomeData(serverLevel, chunk, chunkPos);
+        //
+        //
+        // if (biomeHolder != null && biomeHolder.hasUpdated()) {
+        //     SimpleNetworkHandler.send(player, new ChunkBiomeUpdateMessage(biomeHolder.biomes(), chunk.getPos().x(), chunk.getPos().z(), biomeHolder.version()));
+        // }
+        // // chunk.removeData(ModContents.BIOME_HOLDER);
+        //
+        // // send others
+        // sendChunkInfo(chunk, chunkPos, player, List.of(), List.of());
     }
 
     // todo 这里注意用接口走set
@@ -1121,12 +1130,12 @@ public class MapChecker {
         //     chunk.setData(AttachmentRegistry.BIOME_HOLDER, biomeHolder);
         // } else
         {
-            biomeHolder = AttachmentRegistry.BIOME_HOLDER.get(chunk);
+            biomeHolder = chunk.getAttachedOrCreate(AttachmentRegistry.BIOME_HOLDER);
             if (biomeHolder.hasUpdated() && biomeHolder.version() == BiomeHolder.FLAG_FILL_SMALL) {
-                biomeHolder.copyFrom(BiomeHolder
+                chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, BiomeHolder
                         .fillSmallBiomes(serverLevel, chunk, biomeHolder, biomeDataVersion));
             } else if (!biomeHolder.hasUpdated() || biomeHolder.version() != biomeDataVersion) {
-                biomeHolder.copyFrom(BiomeHolder
+                chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, BiomeHolder
                         .prepareBiomes(serverLevel, chunkPos, biomeDataVersion, biomeHolder.version() != biomeDataVersion));
             }
         }
@@ -1139,8 +1148,8 @@ public class MapChecker {
         var biomeHolder = BiomeHolder
                 .prepareBiomes(serverLevel, chunkPos, biomeDataVersion, true);
         ChunkAccess chunk = serverLevel.getChunk(pos);
-        // chunk.setData(AttachmentRegistry.BIOME_HOLDER, biomeHolder);
-        AttachmentRegistry.BIOME_HOLDER.get(chunk).copyFrom(biomeHolder);
+        chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, biomeHolder);
+        // AttachmentRegistry.BIOME_HOLDER.get(chunk).copyFrom(biomeHolder);
         if (chunk instanceof IChunkBiomeHolder chunkBiomeHolder) {
             chunkBiomeHolder.eclipticseasons$resetBiomeHolder();
         }
@@ -1174,17 +1183,17 @@ public class MapChecker {
 
 
     public static void setNewChunk(ServerLevel serverLevel, ChunkAccess chunk) {
-        BiomeHolder nullable = AttachmentRegistry.BIOME_HOLDER.getNullable(chunk);
+        BiomeHolder nullable = chunk.getAttached(AttachmentRegistry.BIOME_HOLDER);
         if (nullable != null) {
             BiomeHolder biomeHolder = nullable;
             SolarDataManager data = SolarHolders.getSaveData(serverLevel);
             if (data != null && biomeHolder.hasUpdated()
                     && (biomeHolder.version() == BiomeHolder.FLAG_NEED_VERSION)) {
-                // chunk.setData(AttachmentRegistry.BIOME_HOLDER,
-                //         new BiomeHolder(biomeHolder.biomes(), true,
-                //                 data.getBiomeDataVersion()));
-                biomeHolder.copyFrom(new BiomeHolder(biomeHolder.biomes(), true,
-                        data.getBiomeDataVersion()));
+                chunk.setAttached(AttachmentRegistry.BIOME_HOLDER,
+                        new BiomeHolder(biomeHolder.biomes(), true,
+                                data.getBiomeDataVersion()));
+                // biomeHolder.copyFrom(new BiomeHolder(biomeHolder.biomes(), true,
+                //         data.getBiomeDataVersion()));
             }
         }
     }
