@@ -620,6 +620,8 @@ public class MutableQuad {
         sprite = materialInfo.sprite();
         chunkLayer = materialInfo.layer();
         itemRenderType = materialInfo.itemRenderType();
+        itemGlintRenderType = materialInfo.itemGlintRenderType();
+        itemGlintSpecialRenderType = materialInfo.itemGlintSpecialRenderType();
         tintIndex = materialInfo.tintIndex();
         shade = materialInfo.shade();
         lightEmission = materialInfo.lightEmission();

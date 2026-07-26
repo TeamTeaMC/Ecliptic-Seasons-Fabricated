@@ -22,7 +22,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 @Data
-public class BiomeHolder  {
+public class BiomeHolder {
     final int[] biomes;
     boolean hasUpdated;
     int version;
@@ -171,10 +171,11 @@ public class BiomeHolder  {
     public static final net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate SERIALIZER = (AttachmentTarget attachmentTarget, ServerPlayer serverPlayer) -> {
         if (attachmentTarget instanceof ChunkAccess chunkAccess) {
             ServerLevel level = serverPlayer.level();
-            return level.getChunkSource().chunkMap.isChunkTracked(
-                    serverPlayer, chunkAccess.getPos().x(), chunkAccess.getPos().z()
-            );
+            // return level.getChunkSource().chunkMap.isExistingChunkFull(
+            //         chunkAccess.getPos()
+            // );
+            return level.getChunkSource().chunkMap.getChunkToSend(chunkAccess.getPos().pack()) != null;
         }
-        return true;
+        return false;
     };
 }
