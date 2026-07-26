@@ -2,10 +2,16 @@ package com.teamtea.eclipticseasons.common.core.map;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.teamtea.eclipticseasons.common.network.message.codec.PalettedIntArrayCodecs;
+import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.ints.IntList;
 import lombok.*;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -13,10 +19,9 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.ladysnake.cca.api.v8.component.CardinalComponent;
 
 @Data
-public class BiomeHolder implements CardinalComponent {
+public class BiomeHolder  {
     final int[] biomes;
     boolean hasUpdated;
     int version;
@@ -68,6 +73,17 @@ public class BiomeHolder implements CardinalComponent {
                                             }
                                     )
             )
+    );
+
+
+    public static final StreamCodec<ByteBuf, BiomeHolder> STREAM_CODEC = StreamCodec.composite(
+            PalettedIntArrayCodecs.BIOME_256,
+            BiomeHolder::biomes,
+            ByteBufCodecs.BOOL,
+            BiomeHolder::hasUpdated,
+            ByteBufCodecs.VAR_INT,
+            BiomeHolder::version,
+            BiomeHolder::new
     );
 
     public static BiomeHolder prepareBiomes(Level serverLevel, ChunkPos chunkPos, int biomeDataVersion, boolean registryUpdate) {
@@ -131,22 +147,27 @@ public class BiomeHolder implements CardinalComponent {
         return new BiomeHolder(new int[256], false, 0);
     }
 
-    @Override
-    public void readData(ValueInput input) {
-        var snowyStatus = input.read("biome_holder", CODEC);
-        if (snowyStatus.isEmpty()) return;
-        copyFrom(snowyStatus.get());
-    }
+    // @Override
+    // public void readData(ValueInput input) {
+    //     var snowyStatus = input.read("biome_holder", CODEC);
+    //     if (snowyStatus.isEmpty()) return;
+    //     copyFrom(snowyStatus.get());
+    // }
 
+    @Deprecated(forRemoval = true)
     public void copyFrom(BiomeHolder biomeHolder) {
         System.arraycopy(biomeHolder.biomes, 0, this.biomes, 0, biomeHolder.biomes.length);
         this.hasUpdated = biomeHolder.hasUpdated();
         this.version = biomeHolder.version;
     }
 
-    @Override
-    public void writeData(ValueOutput output) {
-        output.storeNullable("biome_holder", CODEC, this);
-    }
+    // @Override
+    // public void writeData(ValueOutput output) {
+    //     output.storeNullable("biome_holder", CODEC, this);
+    // }
 
+
+    public static final net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate SERIALIZER = (AttachmentTarget attachmentTarget, ServerPlayer serverPlayer) -> {
+        return true;
+    };
 }

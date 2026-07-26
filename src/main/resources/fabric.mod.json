@@ -26,9 +26,6 @@
     "fabric-datagen": [
       "com.teamtea.eclipticseasons.client.EclipticSeasonsDataGenerator"
     ],
-    "cardinal-components": [
-      "com.teamtea.eclipticseasons.common.registry.internal.ESChunkComponentInitializer"
-    ],
     "jade": [
       "com.teamtea.eclipticseasons.compat.jade.JadeCompact"
     ],

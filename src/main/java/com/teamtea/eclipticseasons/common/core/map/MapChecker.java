@@ -1130,12 +1130,12 @@ public class MapChecker {
         //     chunk.setData(AttachmentRegistry.BIOME_HOLDER, biomeHolder);
         // } else
         {
-            biomeHolder = AttachmentRegistry.BIOME_HOLDER.get(chunk);
+            biomeHolder = chunk.getAttachedOrCreate(AttachmentRegistry.BIOME_HOLDER);
             if (biomeHolder.hasUpdated() && biomeHolder.version() == BiomeHolder.FLAG_FILL_SMALL) {
-                biomeHolder.copyFrom(BiomeHolder
+                chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, BiomeHolder
                         .fillSmallBiomes(serverLevel, chunk, biomeHolder, biomeDataVersion));
             } else if (!biomeHolder.hasUpdated() || biomeHolder.version() != biomeDataVersion) {
-                biomeHolder.copyFrom(BiomeHolder
+                chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, BiomeHolder
                         .prepareBiomes(serverLevel, chunkPos, biomeDataVersion, biomeHolder.version() != biomeDataVersion));
             }
         }
@@ -1148,8 +1148,8 @@ public class MapChecker {
         var biomeHolder = BiomeHolder
                 .prepareBiomes(serverLevel, chunkPos, biomeDataVersion, true);
         ChunkAccess chunk = serverLevel.getChunk(pos);
-        // chunk.setData(AttachmentRegistry.BIOME_HOLDER, biomeHolder);
-        AttachmentRegistry.BIOME_HOLDER.get(chunk).copyFrom(biomeHolder);
+        chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, biomeHolder);
+        // AttachmentRegistry.BIOME_HOLDER.get(chunk).copyFrom(biomeHolder);
         if (chunk instanceof IChunkBiomeHolder chunkBiomeHolder) {
             chunkBiomeHolder.eclipticseasons$resetBiomeHolder();
         }
@@ -1183,17 +1183,17 @@ public class MapChecker {
 
 
     public static void setNewChunk(ServerLevel serverLevel, ChunkAccess chunk) {
-        BiomeHolder nullable = AttachmentRegistry.BIOME_HOLDER.getNullable(chunk);
+        BiomeHolder nullable = chunk.getAttached(AttachmentRegistry.BIOME_HOLDER);
         if (nullable != null) {
             BiomeHolder biomeHolder = nullable;
             SolarDataManager data = SolarHolders.getSaveData(serverLevel);
             if (data != null && biomeHolder.hasUpdated()
                     && (biomeHolder.version() == BiomeHolder.FLAG_NEED_VERSION)) {
-                // chunk.setData(AttachmentRegistry.BIOME_HOLDER,
-                //         new BiomeHolder(biomeHolder.biomes(), true,
-                //                 data.getBiomeDataVersion()));
-                biomeHolder.copyFrom(new BiomeHolder(biomeHolder.biomes(), true,
-                        data.getBiomeDataVersion()));
+                chunk.setAttached(AttachmentRegistry.BIOME_HOLDER,
+                        new BiomeHolder(biomeHolder.biomes(), true,
+                                data.getBiomeDataVersion()));
+                // biomeHolder.copyFrom(new BiomeHolder(biomeHolder.biomes(), true,
+                //         data.getBiomeDataVersion()));
             }
         }
     }

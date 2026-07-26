@@ -29,12 +29,12 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.NonNull;
-import org.ladysnake.cca.api.v8.component.CardinalComponent;
+// import org.ladysnake.cca.api.v8.component.CardinalComponent;
 
 import java.util.Set;
 
 @Data
-public class HeatStrokeTicker implements CardinalComponent {
+public class HeatStrokeTicker {
     public int tick = 0;
 
     public long lastTime = -1;
@@ -130,11 +130,11 @@ public class HeatStrokeTicker implements CardinalComponent {
     }
 
 
-    @Override
-    public void readData(ValueInput valueInput) {
-    }
-
-    @Override
-    public void writeData(ValueOutput valueOutput) {
-    }
+    // @Override
+    // public void readData(ValueInput valueInput) {
+    // }
+    //
+    // @Override
+    // public void writeData(ValueOutput valueOutput) {
+    // }
 }

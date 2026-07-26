@@ -12,12 +12,12 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.NonNull;
-import org.ladysnake.cca.api.v8.component.CardinalComponent;
+// import org.ladysnake.cca.api.v8.component.CardinalComponent;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public record SolarTermsRecord(Object2IntLinkedOpenHashMap<SolarTerm> solarTerms) implements CardinalComponent {
+public record SolarTermsRecord(Object2IntLinkedOpenHashMap<SolarTerm> solarTerms) {
     public static final int size = SolarTerm.collectValues().length;
 
     public static final MapCodec<SolarTermsRecord> CODEC = RecordCodecBuilder.mapCodec(
@@ -90,16 +90,16 @@ public record SolarTermsRecord(Object2IntLinkedOpenHashMap<SolarTerm> solarTerms
     }
 
 
-    @Override
-    public void readData(ValueInput valueInput) {
-        var snowyStatus = valueInput.read(CODEC);
-        this.solarTerms.putAll(snowyStatus.map(SolarTermsRecord::solarTerms).orElse(new Object2IntLinkedOpenHashMap<>()));
-    }
-
-    @Override
-    public void writeData(ValueOutput valueOutput) {
-        valueOutput.store(CODEC, this);
-    }
+    // @Override
+    // public void readData(ValueInput valueInput) {
+    //     var snowyStatus = valueInput.read(CODEC);
+    //     this.solarTerms.putAll(snowyStatus.map(SolarTermsRecord::solarTerms).orElse(new Object2IntLinkedOpenHashMap<>()));
+    // }
+    //
+    // @Override
+    // public void writeData(ValueOutput valueOutput) {
+    //     valueOutput.store(CODEC, this);
+    // }
 
     public static SolarTermsRecord empty() {
         return new SolarTermsRecord(new Object2IntLinkedOpenHashMap<>());

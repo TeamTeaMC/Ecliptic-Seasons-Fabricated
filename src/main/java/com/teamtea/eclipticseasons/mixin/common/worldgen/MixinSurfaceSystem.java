@@ -113,10 +113,10 @@ public abstract class MixinSurfaceSystem {
     ) {
         // BiomeHolder biomeHolder1 = chunk.getData(AttachmentRegistry.BIOME_HOLDER);
         if (localIntRef.get() == 256) {
-            AttachmentRegistry.BIOME_HOLDER.get(protoChunk)
-                    .copyFrom(new BiomeHolder(biomeHolderLocalRef.get(), true, signal.get()));
-            // chunk.setData(AttachmentRegistry.BIOME_HOLDER,
-            //         new BiomeHolder(biomeHolderLocalRef.get(), true, signal.get()));
+            // AttachmentRegistry.BIOME_HOLDER.get(protoChunk)
+            //         .copyFrom(new BiomeHolder(biomeHolderLocalRef.get(), true, signal.get()));
+            protoChunk.setAttached(AttachmentRegistry.BIOME_HOLDER,
+                    new BiomeHolder(biomeHolderLocalRef.get(), true, signal.get()));
         }
     }
 }

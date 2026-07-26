@@ -15,7 +15,7 @@ public class ClimateTypeFilters {
     public static final RegistryFilter<Biome> WARM_REGION = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_OVERWORLD, ConventionalBiomeTags.IS_VOID);
     public static final RegistryFilter<Biome> HOT_REGION = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_HOT_OVERWORLD);
     public static final RegistryFilter<Biome> COLD_REGION =
-            new RegistryFilter.And<>(new RegistryFilter.Or<>(ConventionalBiomeTags.IS_MOUNTAIN_PEAK, ConventionalBiomeTags.IS_SNOWY, ConventionalBiomeTags.IS_ICY),
+            new RegistryFilter.And<>(new RegistryFilter.Or<>(ConventionalBiomeTags.IS_MOUNTAIN_PEAK, ConventionalBiomeTags.IS_SNOWY, ConventionalBiomeTags.IS_ICY, ConventionalBiomeTags.IS_AQUATIC_ICY),
                     new RegistryFilter.Or<>(ConventionalBiomeTags.IS_OVERWORLD)
             );
 
