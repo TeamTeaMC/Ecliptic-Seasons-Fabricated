@@ -39,7 +39,7 @@ public class WorldRenderer {
 
         if (Minecraft.getInstance().isPaused()) {
             if (oldBlurStatus == ON_BLUR || reMainTick > 0) {
-                gameRenderer.clearPostEffect();
+                gameRenderer.clearSpectatedEntityPostEffect();
                 oldBlurStatus = NONE_BLUR;
                 reMainTick = 0;
                 updateUniform("RadiusMultiplier", 0f);
@@ -62,7 +62,7 @@ public class WorldRenderer {
                     {
 
                         // 我们写的shader好像有问题？
-                        gameRenderer.setPostEffect(EclipticSeasons.rl("blur"));
+                        gameRenderer.setSpectatedEntityPostEffect(EclipticSeasons.rl("blur"));
 //                        gameRenderer.loadEffect(Identifier.withDefaultNamespace("shaders/post/blur.json"));
                     }
                 }
@@ -84,7 +84,7 @@ public class WorldRenderer {
                 if (reMainTick <= 0) {
                     oldBlurStatus = blurStatus;
                     if (oldBlurStatus == NONE_BLUR) {
-                        gameRenderer.clearPostEffect();
+                        gameRenderer.clearSpectatedEntityPostEffect();
                     }
                     reMainTick = 0;
                 }
@@ -93,7 +93,7 @@ public class WorldRenderer {
     }
 
     public static void updateUniform(String name, float value) {
-        Identifier identifier = Minecraft.getInstance().gameRenderer.currentPostEffect();
+        Identifier identifier = Minecraft.getInstance().gameRenderer.spectatedEntityPostEffect();
         if (identifier == null) return;
         PostChain postChain = Minecraft.getInstance().getShaderManager().getPostChain(identifier, LevelTargetBundle.MAIN_TARGETS);
 

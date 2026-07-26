@@ -51,7 +51,8 @@ public class MutableQuad {
     @Nullable
     private RenderType itemGlintSpecialRenderType;
     private int tintIndex = -1;
-    private boolean shade = true;
+    @Nullable
+    private Direction shadeDirectionOverride = null;
     private int lightEmission;
     private boolean ambientOcclusion;
 
@@ -546,12 +547,12 @@ public class MutableQuad {
     }
 
     @Contract(pure = true)
-    public boolean shade() {
-        return shade;
+    public Direction shade() {
+        return shadeDirectionOverride;
     }
 
-    public MutableQuad setShade(boolean shade) {
-        this.shade = shade;
+    public MutableQuad setShadeDirectionOverride(Direction shadeDirectionOverride) {
+        this.shadeDirectionOverride = shadeDirectionOverride;
         return this;
     }
 
@@ -623,7 +624,7 @@ public class MutableQuad {
         itemGlintRenderType = materialInfo.itemGlintRenderType();
         itemGlintSpecialRenderType = materialInfo.itemGlintSpecialRenderType();
         tintIndex = materialInfo.tintIndex();
-        shade = materialInfo.shade();
+        shadeDirectionOverride = materialInfo.shadeDirectionOverride();
         lightEmission = materialInfo.lightEmission();
         return this;
     }
@@ -685,12 +686,12 @@ public class MutableQuad {
                     chunkLayer == srcInfo.layer() &&
                     itemRenderType == srcInfo.itemRenderType() &&
                     tintIndex == srcInfo.tintIndex() &&
-                    shade == srcInfo.shade() &&
+                    shadeDirectionOverride == srcInfo.shadeDirectionOverride() &&
                     lightEmission == srcInfo.lightEmission();
             if (canReuseMaterialInfo) {
                 materialInfo = srcInfo;
             } else {
-                materialInfo = new BakedQuad.MaterialInfo(sprite, chunkLayer, itemRenderType, itemGlintRenderType, itemGlintSpecialRenderType, tintIndex, shade, lightEmission);
+                materialInfo = new BakedQuad.MaterialInfo(sprite, chunkLayer, itemRenderType, itemGlintRenderType, itemGlintSpecialRenderType, tintIndex, shadeDirectionOverride, lightEmission);
             }
 
 
@@ -699,7 +700,7 @@ public class MutableQuad {
             pos1 = new Vector3f(positions[1]);
             pos2 = new Vector3f(positions[2]);
             pos3 = new Vector3f(positions[3]);
-            materialInfo = new BakedQuad.MaterialInfo(sprite, chunkLayer, itemRenderType, itemGlintRenderType, itemGlintSpecialRenderType, tintIndex, shade, lightEmission);
+            materialInfo = new BakedQuad.MaterialInfo(sprite, chunkLayer, itemRenderType, itemGlintRenderType, itemGlintSpecialRenderType, tintIndex, shadeDirectionOverride, lightEmission);
         }
 
         return new BakedQuad(
@@ -754,7 +755,7 @@ public class MutableQuad {
         dest.itemGlintRenderType = itemGlintRenderType;
         dest.itemGlintSpecialRenderType = itemGlintSpecialRenderType;
         dest.tintIndex = tintIndex;
-        dest.shade = shade;
+        dest.shadeDirectionOverride = shadeDirectionOverride;
         dest.lightEmission = lightEmission;
         dest.ambientOcclusion = ambientOcclusion;
         dest.lastSourceQuad = lastSourceQuad;
@@ -775,7 +776,7 @@ public class MutableQuad {
         itemGlintRenderType = null;
         itemGlintSpecialRenderType = null;
         tintIndex = -1;
-        shade = true;
+        shadeDirectionOverride = null;
         lightEmission = 0;
         ambientOcclusion = false;
         lastSourceQuad = null;

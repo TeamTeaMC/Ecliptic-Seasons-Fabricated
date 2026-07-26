@@ -16,10 +16,10 @@ public class BlockRegistry {
 
     // 1. 定义日历和湿度计
     public static final Block calendar = register("calendar",
-            p -> new CalendarBlock(p.strength(0.5f).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)));
+            p -> new CalendarBlock(p.strength(0.5f).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.POPPED)));
 
     public static final Block hygrometer = register("hygrometer",
-            p -> new HygrometerBlock(p.strength(0.5f).sound(SoundType.AMETHYST).noOcclusion().pushReaction(PushReaction.DESTROY).randomTicks()));
+            p -> new HygrometerBlock(p.strength(0.5f).sound(SoundType.AMETHYST).noOcclusion().pushReaction(PushReaction.POPPED).randomTicks()));
 
     // 2. 锅釜系列 (使用 ofLegacyCopy 对应原本逻辑)
     public static final Block snow_cauldron = register("snow_cauldron",

@@ -55,15 +55,15 @@ public record SolarTermsRecord(Object2IntLinkedOpenHashMap<SolarTerm> solarTerms
     );
     public static final StreamCodec<RegistryFriendlyByteBuf, SolarTermsRecord> STREAM_CODEC = new StreamCodec<>() {
         public SolarTermsRecord decode(RegistryFriendlyByteBuf byteBuf) {
-            var intArray = byteBuf.readIntIdList();
-            var counter = byteBuf.readIntIdList();
+            var intArray = byteBuf.readVarIntArray();
+            var counter = byteBuf.readVarIntArray();
 
             final Object2IntLinkedOpenHashMap<SolarTerm> solarTerms = new Object2IntLinkedOpenHashMap<>();
 
-            for (int i = 0, intArrayLength = intArray.size(); i < intArrayLength; i++) {
-                int id = intArray.getInt(i);
+            for (int i = 0, intArrayLength = intArray.length; i < intArrayLength; i++) {
+                int id = intArray[i];
                 solarTerms.put(
-                        SolarTerm.collectValues()[id], counter.getInt(i)
+                        SolarTerm.collectValues()[id], counter[i]
                 );
             }
             return new SolarTermsRecord(solarTerms);
@@ -71,14 +71,18 @@ public record SolarTermsRecord(Object2IntLinkedOpenHashMap<SolarTerm> solarTerms
 
         public void encode(RegistryFriendlyByteBuf byteBuf, SolarTermsRecord solarHolder) {
 
-            byteBuf.writeIntIdList(solarHolder.solarTerms
+            byteBuf.writeVarIntArray(solarHolder.solarTerms
                     .keySet().stream().map(Enum::ordinal)
-                    .collect(Collectors.toCollection(IntArrayList::new))
+                            .mapToInt(Integer::intValue)
+                            .toArray()
+                    // .collect(Collectors.toCollection(IntArrayList::new))
             );
 
-            byteBuf.writeIntIdList(solarHolder.solarTerms
-                    .values().stream()
-                    .collect(Collectors.toCollection(IntArrayList::new))
+            byteBuf.writeVarIntArray(solarHolder.solarTerms
+                    .values()
+                    .intStream()
+                    // .mapToInt(Integer::intValue)
+                    .toArray()
             );
 
         }

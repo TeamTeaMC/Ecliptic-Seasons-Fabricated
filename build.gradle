@@ -85,7 +85,7 @@ dependencies {
 
 	implementation "maven.modrinth:forge-config-api-port:86ROVP2H"
 
-	implementation "maven.modrinth:modmenu:20.0.0-beta.2"
+	compileOnly "maven.modrinth:modmenu:20.0.0-beta.2"
 	compileOnly "curse.maven:configured-457570:7943179"
 //	implementation "curse.maven:cardinal-components-api-318449:7909405"
 

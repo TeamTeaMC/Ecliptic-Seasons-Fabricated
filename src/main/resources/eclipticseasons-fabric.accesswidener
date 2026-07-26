@@ -20,7 +20,7 @@ accessible field net/minecraft/world/level/FoliageColor pixels [I
 accessible field net/minecraft/world/level/GrassColor pixels [I
 
 # --- Loot & Data Gen (Common) ---
-accessible method net/minecraft/data/loot/LootTableProvider getName ()Ljava/lang/String;
+#accessible method net/minecraft/data/loot/LootTableProvider getName ()Ljava/lang/String;
 
 # --- Server Chunk & Level Management ---
 accessible method net/minecraft/server/level/ServerChunkCache getVisibleChunkIfPresent (J)Lnet/minecraft/server/level/ChunkHolder;
@@ -38,10 +38,10 @@ accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
 accessible method net/minecraft/commands/arguments/ResourceKeyArgument resolveKey (Lcom/mojang/brigadier/context/CommandContext;Ljava/lang/String;Lnet/minecraft/resources/ResourceKey;Lcom/mojang/brigadier/exceptions/DynamicCommandExceptionType;)Lnet/minecraft/core/Holder$Reference;
 
 # --- Server Clock & Timeline ---
-accessible class net/minecraft/world/clock/ServerClockManager$ClockInstance
-accessible method net/minecraft/world/clock/ServerClockManager getInstance (Lnet/minecraft/core/Holder;)Lnet/minecraft/world/clock/ServerClockManager$ClockInstance;
-accessible field net/minecraft/world/clock/ServerClockManager$ClockInstance totalTicks J
-accessible field net/minecraft/world/clock/ServerClockManager$ClockInstance timeMarkers Ljava/util/Map;
+#accessible class net/minecraft/world/clock/ServerClockManager$ClockInstance
+#accessible method net/minecraft/world/clock/ServerClockManager getInstance (Lnet/minecraft/core/Holder;)Lnet/minecraft/world/clock/ServerClockManager$ClockInstance;
+#accessible field net/minecraft/world/clock/ServerClockManager$ClockInstance totalTicks J
+accessible field net/minecraft/world/clock/ServerClockManager$ServerClockInstance timeMarkers Ljava/util/Map;
 accessible class net/minecraft/world/timeline/Timeline$TimeMarkerInfo
 accessible method net/minecraft/world/timeline/Timeline$TimeMarkerInfo <init> (IZ)V
 accessible field net/minecraft/world/timeline/Timeline timeMarkers Ljava/util/Map;
@@ -78,14 +78,14 @@ mutable field net/minecraft/client/renderer/BiomeColors DRY_FOLIAGE_COLOR_RESOLV
 
 # --- Game & Post Processing ---
 accessible method net/minecraft/client/multiplayer/ClientLevel getSkyFlashTime ()I
-accessible field net/minecraft/client/renderer/GameRenderer effectActive Z
+#accessible field net/minecraft/client/renderer/GameRenderer effectActive Z
 accessible field net/minecraft/client/renderer/PostChain passes Ljava/util/List;
-accessible method net/minecraft/client/renderer/GameRenderer setPostEffect (Lnet/minecraft/resources/Identifier;)V
+accessible method net/minecraft/client/renderer/GameRenderer setSpectatedEntityPostEffect (Lnet/minecraft/resources/Identifier;)V
 
 # --- Client Clock Management ---
-accessible method net/minecraft/client/ClientClockManager getInstance (Lnet/minecraft/core/Holder;)Lnet/minecraft/client/ClientClockManager$ClockInstance;
-accessible class net/minecraft/client/ClientClockManager$ClockInstance
-accessible field net/minecraft/client/ClientClockManager$ClockInstance partialTick F
+#accessible method net/minecraft/client/ClientClockManager getInstance (Lnet/minecraft/core/Holder;)Lnet/minecraft/client/ClientClockManager$ClockInstance;
+#accessible class net/minecraft/client/ClientClockManager$ClockInstance
+#accessible field net/minecraft/client/ClientClockManager$ClockInstance partialTick F
 
 # --- Models & Data Generation (Client Side) ---
 accessible class net/minecraft/client/data/models/ModelProvider$ItemInfoCollector
