@@ -302,6 +302,7 @@ public class ESModConfigScreen extends Screen {
         );
 
         put(WEATHER,
+                CommonConfig.Resource.NotIgnoreRiver,
                 CommonConfig.Weather.notRainInDesert,
                 CommonConfig.Weather.shouldInitSnowForExtremeColdBiomes,
                 CommonConfig.Weather.rainChanceMultiplier,
@@ -328,8 +329,7 @@ public class ESModConfigScreen extends Screen {
         put(DEBUG,
                 ClientConfig.Debug.debugInfo,
                 ClientConfig.Debug.smoothSnowyEdges,
-                ClientConfig.Debug.frozenWater,
-                CommonConfig.Resource.NotIgnoreRiver
+                ClientConfig.Debug.frozenWater
         );
 
         put(COMPAT,

@@ -13,6 +13,7 @@
     "common.chunk.MixinFallingBlock",
     "common.chunk.MixinLevelChunk",
     "common.chunk.MixinPalettedContainer",
+    "common.chunk.MixinPlayerChunkSender",
     "common.chunk.MixinSimpleBitStorage",
     "common.chunk.MixinZeroBitStorage",
     "common.command.MixinWeatherCommand",

@@ -745,7 +745,7 @@ public class ExtraRenderDispatcher {
 
     public static boolean maySnowyAt(Level level, IMapSlice mapSlice, BlockState state, BlockPos checkPos, RandomSource random, long seed) {
         if (mapSlice != null) {
-            int snowyStatus = mapSlice.getSnowyStatus(checkPos);
+            // int snowyStatus = mapSlice.getSnowyStatus(checkPos);
             // if (snowyStatus == SnowyRemover.SnowyFlag.SNOWY_ALWAYS.ordinal()) {
             //     return true;
             // }

@@ -39,10 +39,10 @@ repositories {
 		}
 	}
 
-	maven {
-		name = 'Ladysnake Mods'
-		url = 'https://maven.ladysnake.org/releases'
-	}
+//	maven {
+//		name = 'Ladysnake Mods'
+//		url = 'https://maven.ladysnake.org/releases'
+//	}
 }
 
 loom {
@@ -95,16 +95,16 @@ dependencies {
 	compileOnly "maven.modrinth:distanthorizons:3.2.0-b-26.1.2"
 
 
-	def cca_version = "8.0.0"
-
-	implementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${cca_version}"
-	include "org.ladysnake.cardinal-components-api:cardinal-components-base:${cca_version}"
+//	def cca_version = "8.0.0"
+//
+//	implementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${cca_version}"
+//	include "org.ladysnake.cardinal-components-api:cardinal-components-base:${cca_version}"
 
 //	implementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cca_version}"
 //	include "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cca_version}"
 
-	implementation "org.ladysnake.cardinal-components-api:cardinal-components-chunk:${cca_version}"
-	include "org.ladysnake.cardinal-components-api:cardinal-components-chunk:${cca_version}"
+//	implementation "org.ladysnake.cardinal-components-api:cardinal-components-chunk:${cca_version}"
+//	include "org.ladysnake.cardinal-components-api:cardinal-components-chunk:${cca_version}"
 
 	compileOnly "com.electronwill.night-config:core:3.8.3"
 	compileOnly("com.electronwill.night-config:toml:3.8.3")

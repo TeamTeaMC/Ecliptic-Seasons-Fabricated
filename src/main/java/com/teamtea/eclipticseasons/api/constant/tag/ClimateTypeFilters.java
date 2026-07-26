@@ -15,7 +15,7 @@ public class ClimateTypeFilters {
     public static final RegistryFilter<Biome> WARM_REGION = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_OVERWORLD, ConventionalBiomeTags.IS_VOID);
     public static final RegistryFilter<Biome> HOT_REGION = new RegistryFilter.TagHolder<>(ConventionalBiomeTags.IS_HOT_OVERWORLD);
     public static final RegistryFilter<Biome> COLD_REGION =
-            new RegistryFilter.And<>(new RegistryFilter.Or<>(ConventionalBiomeTags.IS_MOUNTAIN_PEAK, ConventionalBiomeTags.IS_SNOWY, ConventionalBiomeTags.IS_ICY),
+            new RegistryFilter.And<>(new RegistryFilter.Or<>(ConventionalBiomeTags.IS_MOUNTAIN_PEAK, ConventionalBiomeTags.IS_SNOWY, ConventionalBiomeTags.IS_ICY, ConventionalBiomeTags.IS_AQUATIC_ICY),
                     new RegistryFilter.Or<>(ConventionalBiomeTags.IS_OVERWORLD)
             );
 
@@ -33,7 +33,7 @@ public class ClimateTypeFilters {
     public static final RegistryFilter<Biome> SOFT = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_BEACH, ConventionalBiomeTags.IS_OCEAN);
     public static final RegistryFilter<Biome> RAINY = new RegistryFilter.DirectHolder<>(Biomes.JUNGLE);
 
-    public static final RegistryFilter<Biome> IS_SMALL = new RegistryFilter.Or<>(ConventionalBiomeTags.IS_RIVER, ConventionalBiomeTags.IS_CAVE);
+    public static final RegistryFilter<Biome> IS_SMALL = new RegistryFilter.Or<>(new RegistryFilter.DirectHolder<>(Biomes.RIVER), new RegistryFilter.Or<>(ConventionalBiomeTags.IS_CAVE));
 
     // biome color
     public static final RegistryFilter<Biome> SEASONAL_COLOR_CHANGE = SEASONAL;

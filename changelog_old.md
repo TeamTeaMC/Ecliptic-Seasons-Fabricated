@@ -1,3 +1,10 @@
+### 0.14.1.1
+
+- Used Fabric Attachment system instead of CardinalComponent to store Biome Holder Chunk info.
+- Fixed an issue that assumes Frozen River as Warm Region.
+- Updated river biome cache generation to use climate-based evaluation, improving winter snow behavior.
+- Fixed a potential server-side memory leak caused by improperly retained chunk cache data.
+
 ### 0.13.10
 
 - Improved crop growth information under poor network conditions. If a crop is affected by the seasonal growth system,
