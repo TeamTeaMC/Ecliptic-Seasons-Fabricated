@@ -764,13 +764,14 @@ public class ExtraRenderDispatcher {
         boolean isSnowy = true;
         if (CommonConfig.Snow.notSnowyNearGlowingBlock.get()
                 && !EclipticUtil.canSnowyBlockInteract()) {
-            // if (mapSlice != null
-            //         && mapSlice.getSnowyStatus(checkPos) == SnowyRemover.SNOWY) {
-            //     if (blockAndTintGetter.getBrightness(LightLayer.BLOCK, checkPos) >=
-            //             CommonConfig.Snow.notSnowyNearGlowingBlockLevel.getAsInt()) {
-            //         isSnowy = false;
-            //     }
-            // }
+            if (mapSlice != null
+                    // && mapSlice.getSnowyStatus(checkPos) == SnowyRemover.SNOWY
+            ) {
+                if (blockAndTintGetter.getBrightness(LightLayer.BLOCK, checkPos) >=
+                        CommonConfig.Snow.notSnowyNearGlowingBlockLevel.getAsInt()) {
+                    isSnowy = false;
+                }
+            }
 
             if (mapSlice == null) {
                 if (blockAndTintGetter.getBrightness(LightLayer.BLOCK, checkPos) >=
