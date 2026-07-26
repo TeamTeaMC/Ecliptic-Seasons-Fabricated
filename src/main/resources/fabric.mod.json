@@ -33,11 +33,6 @@
       "com.teamtea.eclipticseasons.compat.modmenu.ModMenuCompact"
     ]
   },
-  "custom": {
-    "cardinal-components": [
-      "eclipticseasons:biome_holder"
-    ]
-  },
   "mixins": [
     "eclipticseasons.mixins.json",
     {
