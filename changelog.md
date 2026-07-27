@@ -1,1 +1,1 @@
-- Fixed an issue where rendered snow cover was not applied to areas with high light levels.
+- clean client level cache when solar term changes
