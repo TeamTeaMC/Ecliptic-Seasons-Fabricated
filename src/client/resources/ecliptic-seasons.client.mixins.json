@@ -40,7 +40,7 @@
     "compat.sodium.MixinDefaultModelEmitter",
     "compat.sodium.MixinLevelSlice",
     "compat.sodium.Mixin_ColorSource",
-    "compat.sodium.Mixin_FoliageColorSource"
+    "compat.sodium.Mixin_FoliageColorSource",
     "compat.voxy.MixinAccessorModelFactory",
     "compat.voxy.MixinAccessorVoxyRenderSystem",
     "compat.voxy.MixinClientLevel",
