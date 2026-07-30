@@ -16,7 +16,6 @@ import com.teamtea.eclipticseasons.api.data.crop.CropGrowControlBuilder;
 import com.teamtea.eclipticseasons.api.data.weather.CustomRainBuilder;
 import com.teamtea.eclipticseasons.api.data.weather.CustomSnowTerm;
 import com.teamtea.eclipticseasons.api.data.weather.WeatherDimension;
-import com.teamtea.eclipticseasons.api.data.weather.WeatherRegion;
 import com.teamtea.eclipticseasons.api.data.weather.special_effect.WeatherEffect;
 import com.teamtea.eclipticseasons.compat.Platform;
 import com.teamtea.eclipticseasons.config.CommonConfig;

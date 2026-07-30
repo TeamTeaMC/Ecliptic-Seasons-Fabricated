@@ -36,7 +36,8 @@ public class CompositeEffect implements WeatherEffect {
 
     @Override
     public boolean shouldChangePrecipitation(Level level, Biome biome, BlockPos pos, boolean isPrecipitation, Biome.Precipitation original) {
-        for (WeatherEffect content : contents) {
+        for (int i = 0, contentsSize = contents.size(); i < contentsSize; i++) {
+            WeatherEffect content = contents.get(i);
             if (content.shouldChangePrecipitation(level, biome, pos, isPrecipitation, original)) return true;
         }
         return false;
@@ -44,7 +45,8 @@ public class CompositeEffect implements WeatherEffect {
 
     @Override
     public Biome.Precipitation getModifiedPrecipitation(Level level, Biome biome, BlockPos pos, boolean isPrecipitation, Biome.Precipitation original) {
-        for (WeatherEffect content : contents) {
+        for (int i = 0, contentsSize = contents.size(); i < contentsSize; i++) {
+            WeatherEffect content = contents.get(i);
             if (content.shouldChangePrecipitation(level, biome, pos, isPrecipitation, original))
                 return content.getModifiedPrecipitation(level, biome, pos, isPrecipitation, original);
         }
@@ -53,7 +55,8 @@ public class CompositeEffect implements WeatherEffect {
 
     @Override
     public boolean withFog() {
-        for (WeatherEffect content : contents) {
+        for (int i = 0, contentsSize = contents.size(); i < contentsSize; i++) {
+            WeatherEffect content = contents.get(i);
             if (content.withFog()) return true;
         }
         return false;
@@ -63,7 +66,8 @@ public class CompositeEffect implements WeatherEffect {
     public float getFogDensity(Level level, BlockPos pos) {
         float result = 0f;
         int count = 0;
-        for (WeatherEffect content : contents) {
+        for (int i = 0, contentsSize = contents.size(); i < contentsSize; i++) {
+            WeatherEffect content = contents.get(i);
             if (content.withFog()) {
                 result += content.getFogDensity(level, pos);
                 count++;
@@ -93,7 +97,8 @@ public class CompositeEffect implements WeatherEffect {
     }
 
     public boolean anyApply(BiFunction<WeatherEffect, Boolean, Boolean> apply, boolean rain) {
-        for (WeatherEffect content : contents) {
+        for (int i = 0, contentsSize = contents.size(); i < contentsSize; i++) {
+            WeatherEffect content = contents.get(i);
             if (apply.apply(content, rain))
                 return true;
         }
@@ -101,7 +106,8 @@ public class CompositeEffect implements WeatherEffect {
     }
 
     public <T> T apply(T original, BiFunction<WeatherEffect, Boolean, Boolean> should, BBiFunction<WeatherEffect, T, Boolean, T> apply, boolean rain) {
-        for (WeatherEffect content : contents) {
+        for (int i = 0, contentsSize = contents.size(); i < contentsSize; i++) {
+            WeatherEffect content = contents.get(i);
             if (should.apply(content, rain))
                 original = apply.apply(content, original, rain);
         }
