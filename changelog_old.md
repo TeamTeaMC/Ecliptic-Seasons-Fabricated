@@ -1,9 +1,21 @@
-### 0.14.1.1
+### 0.14.3
+
+- Optimized surface biome cache recalculation for existing worlds after installing Ecliptic Seasons or clearing cached
+  data.
+
+### 0.14.2
+
+- Clean client level cache when solar term changes
+
+### 0.14.1
 
 - Used Fabric Attachment system instead of CardinalComponent to store Biome Holder Chunk info.
 - Fixed an issue that assumes Frozen River as Warm Region.
-- Updated river biome cache generation to use climate-based evaluation, improving winter snow behavior.
 - Fixed a potential server-side memory leak caused by improperly retained chunk cache data.
+
+### 0.14.0
+
+- Updated river biome cache generation to use climate-based evaluation, improving winter snow behavior.
 
 ### 0.13.10
 
