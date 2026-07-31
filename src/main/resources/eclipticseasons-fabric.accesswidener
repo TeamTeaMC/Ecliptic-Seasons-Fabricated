@@ -21,6 +21,8 @@ accessible field net/minecraft/world/level/GrassColor pixels [I
 
 # --- Loot & Data Gen (Common) ---
 #accessible method net/minecraft/data/loot/LootTableProvider getName ()Ljava/lang/String;
+accessible field net/minecraft/core/RegistrySetBuilder entries Ljava/util/List;
+accessible class net/minecraft/core/RegistrySetBuilder$RegistryStub
 
 # --- Server Chunk & Level Management ---
 accessible method net/minecraft/server/level/ServerChunkCache getVisibleChunkIfPresent (J)Lnet/minecraft/server/level/ChunkHolder;

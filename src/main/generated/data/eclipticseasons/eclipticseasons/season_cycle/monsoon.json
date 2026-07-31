@@ -1,0 +1,31 @@
+{
+  "biomes": "#eclipticseasons:rain/monsoonal",
+  "phases": {
+    "solar_terms": {
+      "autumnal_equinox": "eclipticseasons:wet_middle",
+      "beginning_of_autumn": "eclipticseasons:rain_end",
+      "beginning_of_spring": "eclipticseasons:dry_middle",
+      "beginning_of_summer": "eclipticseasons:rain_start",
+      "beginning_of_winter": "eclipticseasons:dry_start",
+      "cold_dew": "eclipticseasons:wet_middle",
+      "end_of_heat": "eclipticseasons:wet_start",
+      "first_frost": "eclipticseasons:wet_end",
+      "fresh_green": "eclipticseasons:dry_end",
+      "grain_in_ear": "eclipticseasons:rain_middle",
+      "grain_rain": "eclipticseasons:dry_end",
+      "greater_cold": "eclipticseasons:dry_middle",
+      "greater_heat": "eclipticseasons:rain_end",
+      "heavy_snow": "eclipticseasons:dry_start",
+      "insects_awakening": "eclipticseasons:dry_end",
+      "lesser_cold": "eclipticseasons:dry_middle",
+      "lesser_fullness": "eclipticseasons:rain_middle",
+      "lesser_heat": "eclipticseasons:rain_end",
+      "light_snow": "eclipticseasons:dry_start",
+      "rain_water": "eclipticseasons:dry_middle",
+      "spring_equinox": "eclipticseasons:dry_end",
+      "summer_solstice": "eclipticseasons:rain_end",
+      "white_dew": "eclipticseasons:wet_start",
+      "winter_solstice": "eclipticseasons:dry_start"
+    }
+  }
+}

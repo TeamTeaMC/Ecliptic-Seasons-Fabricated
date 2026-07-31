@@ -1,0 +1,105 @@
+{
+  "parent": [],
+  "apply_target": {
+    "blocks": "#eclipticseasons:crops/summer"
+  },
+  "climate": "eclipticseasons:temperate",
+  "solar_terms": {
+    "autumnal_equinox": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "beginning_of_autumn": {
+      "fertile_chance": 0.3,
+      "grow_chance": 0.3
+    },
+    "beginning_of_spring": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "beginning_of_summer": {
+      "fertile_chance": 0.75,
+      "grow_chance": 0.75
+    },
+    "beginning_of_winter": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "cold_dew": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "end_of_heat": {
+      "fertile_chance": 0.2,
+      "grow_chance": 0.2
+    },
+    "first_frost": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "fresh_green": {
+      "fertile_chance": 0.15,
+      "grow_chance": 0.15
+    },
+    "grain_in_ear": {
+      "fertile_chance": 1.025,
+      "grow_chance": 1.025
+    },
+    "grain_rain": {
+      "fertile_chance": 0.1,
+      "grow_chance": 0.1
+    },
+    "greater_cold": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "greater_heat": {
+      "fertile_chance": 0.7,
+      "grow_chance": 0.7
+    },
+    "heavy_snow": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "insects_awakening": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "lesser_cold": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "lesser_fullness": {
+      "fertile_chance": 0.95,
+      "grow_chance": 0.95
+    },
+    "lesser_heat": {
+      "fertile_chance": 0.8,
+      "grow_chance": 0.8
+    },
+    "light_snow": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "rain_water": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "spring_equinox": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    },
+    "summer_solstice": {},
+    "white_dew": {
+      "fertile_chance": 0.1,
+      "grow_chance": 0.1
+    },
+    "winter_solstice": {
+      "fertile_chance": 0.0,
+      "grow_chance": 0.0
+    }
+  },
+  "unlike_greenhouse_material": {
+    "blocks": "#minecraft:ice"
+  }
+}

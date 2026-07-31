@@ -1,0 +1,31 @@
+{
+  "biomes": "#eclipticseasons:agro/cold",
+  "phases": {
+    "solar_terms": {
+      "autumnal_equinox": "eclipticseasons:cold_autumnal_equinox",
+      "beginning_of_autumn": "eclipticseasons:cold_beginning_of_autumn",
+      "beginning_of_spring": "eclipticseasons:cold_beginning_of_spring",
+      "beginning_of_summer": "eclipticseasons:cold_beginning_of_summer",
+      "beginning_of_winter": "eclipticseasons:cold_beginning_of_winter",
+      "cold_dew": "eclipticseasons:cold_cold_dew",
+      "end_of_heat": "eclipticseasons:cold_end_of_heat",
+      "first_frost": "eclipticseasons:cold_first_frost",
+      "fresh_green": "eclipticseasons:cold_fresh_green",
+      "grain_in_ear": "eclipticseasons:cold_grain_in_ear",
+      "grain_rain": "eclipticseasons:cold_grain_rain",
+      "greater_cold": "eclipticseasons:cold_greater_cold",
+      "greater_heat": "eclipticseasons:cold_greater_heat",
+      "heavy_snow": "eclipticseasons:cold_heavy_snow",
+      "insects_awakening": "eclipticseasons:cold_insects_awakening",
+      "lesser_cold": "eclipticseasons:cold_lesser_cold",
+      "lesser_fullness": "eclipticseasons:cold_lesser_fullness",
+      "lesser_heat": "eclipticseasons:cold_lesser_heat",
+      "light_snow": "eclipticseasons:cold_light_snow",
+      "rain_water": "eclipticseasons:cold_rain_water",
+      "spring_equinox": "eclipticseasons:cold_spring_equinox",
+      "summer_solstice": "eclipticseasons:cold_summer_solstice",
+      "white_dew": "eclipticseasons:cold_white_dew",
+      "winter_solstice": "eclipticseasons:cold_winter_solstice"
+    }
+  }
+}

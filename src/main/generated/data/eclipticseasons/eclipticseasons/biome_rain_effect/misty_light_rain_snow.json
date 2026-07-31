@@ -1,0 +1,21 @@
+{
+  "type": "composite",
+  "contents": [
+    {
+      "type": "amount",
+      "amount": 0.35
+    },
+    {
+      "type": "rain_texture",
+      "texture": "eclipticseasons:textures/environment/thin_rain.png"
+    },
+    {
+      "type": "snow_texture",
+      "texture": "eclipticseasons:textures/environment/thin_snow.png"
+    },
+    {
+      "type": "fog",
+      "density": 0.35
+    }
+  ]
+}

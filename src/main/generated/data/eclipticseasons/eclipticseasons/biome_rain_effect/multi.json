@@ -1,0 +1,12 @@
+{
+  "type": "composite",
+  "contents": [
+    {
+      "type": "snow"
+    },
+    {
+      "type": "fog",
+      "density": 0.52
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "color": "blue",
+  "font": {
+    "id": "eclipticseasons:solar_icons",
+    "label": "v"
+  },
+  "icon": {
+    "height": 120,
+    "i": 3,
+    "j": 3,
+    "texture": "eclipticseasons:font/seasons_icons",
+    "width": 180
+  },
+  "name": "eclipticseasons:hot_winter_solstice",
+  "season": "winter"
+}

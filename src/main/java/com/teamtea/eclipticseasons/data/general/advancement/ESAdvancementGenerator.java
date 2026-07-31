@@ -13,9 +13,12 @@ import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.predicates.LocationPredicate;
 import net.minecraft.advancements.predicates.entity.EntityPredicate;
 import net.minecraft.advancements.triggers.*;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.advancements.AdvancementSubProvider;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -23,23 +26,41 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootTable;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class ESAdvancementGenerator implements AdvancementSubProvider {
+public class ESAdvancementGenerator extends AdvancementSubProvider {
     AdvancementHolder seasons;
 
+
+    private final HolderGetter<EntityType<?>> entityTypes;
+    private final HolderGetter<Item> items;
+    private final HolderGetter<Block> blocks;
+    private final HolderGetter<EntityType<?>> types;
+    private final HolderGetter<LootTable> lootTables;
+
+    protected final BootstrapContext<Advancement> consumer;
+
+    public ESAdvancementGenerator(final BootstrapContext<Advancement> output) {
+        super(output);
+        this.entityTypes = output.lookup(Registries.ENTITY_TYPE);
+        this.items = output.lookup(Registries.ITEM);
+        this.blocks = output.lookup(Registries.BLOCK);
+        this.types = output.lookup(Registries.ENTITY_TYPE);
+        this.lootTables = output.lookup(Registries.LOOT_TABLE);
+        this.consumer = output;
+    }
+
     @Override
-    public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> consumer) {
-        HolderLookup<Block> blocks = registries.lookupOrThrow(Registries.BLOCK);
-        HolderLookup<Item> items = registries.lookupOrThrow(Registries.ITEM);
-        HolderLookup<EntityType<?>> types = registries.lookupOrThrow(Registries.ENTITY_TYPE);
+    public void generate() {
 
         seasons = Advancement.Builder.advancement()
                 .display(ItemRegistry.calendar_item,
@@ -60,7 +81,7 @@ public class ESAdvancementGenerator implements AdvancementSubProvider {
                         AdvancementType.TASK, true, true, false)
                 .addCriterion("solar_terms", SolarTermsCriterion.TriggerInstance.simple())
                 .requirements(AdvancementRequirements.Strategy.AND)
-                .rewards(AdvancementRewards.Builder.loot(ESLootTables.snowless_hometown))
+                .rewards(AdvancementRewards.Builder.loot(lootTables.getOrThrow(ESLootTables.snowless_hometown)))
                 .save(consumer, getNameId("main/root"));
 
         AdvancementHolder heatStroke = Advancement.Builder.advancement()
@@ -174,7 +195,7 @@ public class ESAdvancementGenerator implements AdvancementSubProvider {
         buildWinter(items, consumer);
     }
 
-    private void buildSpring(HolderLookup<Item> items, HolderLookup<EntityType<?>> types, Consumer<AdvancementHolder> consumer) {
+    private void buildSpring(HolderGetter<Item> items, HolderGetter<EntityType<?>> types, BootstrapContext<Advancement> consumer) {
         AdvancementHolder spring_start = buildAdvancementHolder(seasons, Items.WHEAT_SEEDS,
                 Component.translatable("advancement.eclipticseasons.spring_start"),
                 Component.translatable("advancement.eclipticseasons.spring_start.desc"),
@@ -242,7 +263,7 @@ public class ESAdvancementGenerator implements AdvancementSubProvider {
         //         consumer, "quests/spring_end", ESLootTables.spring_greenhouse_essence);
     }
 
-    private void buildSummer(HolderLookup<Item> items, Consumer<AdvancementHolder> consumer) {
+    private void buildSummer(HolderGetter<Item> items, BootstrapContext<Advancement> consumer) {
         AdvancementHolder summer_start = buildAdvancementHolder(seasons, Items.MELON_SEEDS,
                 Component.translatable("advancement.eclipticseasons.summer_start"),
                 Component.translatable("advancement.eclipticseasons.summer_start.desc"),
@@ -293,7 +314,7 @@ public class ESAdvancementGenerator implements AdvancementSubProvider {
     }
 
 
-    private void buildAutumn(HolderLookup<Item> items, HolderLookup<Block> blocks, Consumer<AdvancementHolder> consumer) {
+    private void buildAutumn(HolderGetter<Item> items, HolderGetter<Block> blocks, BootstrapContext<Advancement> consumer) {
         AdvancementHolder autumn_start = buildAdvancementHolder(seasons, Items.PUMPKIN_SEEDS,
                 Component.translatable("advancement.eclipticseasons.autumn_start"),
                 Component.translatable("advancement.eclipticseasons.autumn_start.desc"),
@@ -346,7 +367,7 @@ public class ESAdvancementGenerator implements AdvancementSubProvider {
         //         consumer, "quests/autumn_end", ESLootTables.autumn_greenhouse_essence);
     }
 
-    private void buildWinter(HolderLookup<Item> items, Consumer<AdvancementHolder> consumer) {
+    private void buildWinter(HolderGetter<Item> items, BootstrapContext<Advancement> consumer) {
         AdvancementHolder winter_start = buildAdvancementHolder(seasons, Items.SNOWBALL,
                 Component.translatable("advancement.eclipticseasons.winter_start"),
                 Component.translatable("advancement.eclipticseasons.winter_start.desc"),
@@ -401,7 +422,7 @@ public class ESAdvancementGenerator implements AdvancementSubProvider {
                                                     ItemLike icon,
                                                     Component tittle, Component desc,
                                                     String criterionKey, Criterion<?> criterion,
-                                                    Consumer<AdvancementHolder> consumer, String id) {
+                                                    BootstrapContext<Advancement> consumer, String id) {
         return buildAdvancementHolder(parent, icon, tittle, desc, criterionKey, criterion, consumer, id, null);
     }
 
@@ -409,7 +430,7 @@ public class ESAdvancementGenerator implements AdvancementSubProvider {
                                                     ItemLike icon,
                                                     Component tittle, Component desc,
                                                     String criterionKey, Criterion<?> criterion,
-                                                    Consumer<AdvancementHolder> consumer, String id,
+                                                    BootstrapContext<Advancement> consumer, String id,
                                                     ResourceKey<LootTable> lootTable) {
         Advancement.Builder advancement = Advancement.Builder.advancement();
         if (parent != null) {
@@ -418,7 +439,7 @@ public class ESAdvancementGenerator implements AdvancementSubProvider {
                 advancement = advancement.addCriterion("parent_need", ParentNeedCriterion.TriggerInstance.simple(parent));
         }
         if (lootTable != null) {
-            advancement = advancement.rewards(AdvancementRewards.Builder.loot(lootTable));
+            advancement = advancement.rewards(AdvancementRewards.Builder.loot(lootTables.getOrThrow(lootTable)));
         }
         return advancement.display(icon,
                         tittle,

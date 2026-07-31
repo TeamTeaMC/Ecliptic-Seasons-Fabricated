@@ -1,0 +1,93 @@
+{
+  "parent": [],
+  "apply_target": {
+    "blocks": "#eclipticseasons:crops/spring_summer_winter"
+  },
+  "climate": "eclipticseasons:temperate",
+  "solar_terms": {
+    "autumnal_equinox": {
+      "fertile_chance": 0.2,
+      "grow_chance": 0.2
+    },
+    "beginning_of_autumn": {
+      "fertile_chance": 0.3,
+      "grow_chance": 0.3
+    },
+    "beginning_of_spring": {
+      "fertile_chance": 0.8,
+      "grow_chance": 0.8
+    },
+    "beginning_of_summer": {},
+    "beginning_of_winter": {
+      "fertile_chance": 0.6,
+      "grow_chance": 0.6
+    },
+    "cold_dew": {
+      "fertile_chance": 0.1,
+      "grow_chance": 0.1
+    },
+    "end_of_heat": {
+      "fertile_chance": 0.3,
+      "grow_chance": 0.3
+    },
+    "first_frost": {
+      "fertile_chance": 0.1,
+      "grow_chance": 0.1
+    },
+    "fresh_green": {
+      "fertile_chance": 1.01,
+      "grow_chance": 1.01
+    },
+    "grain_in_ear": {
+      "fertile_chance": 1.025,
+      "grow_chance": 1.025
+    },
+    "grain_rain": {},
+    "greater_cold": {
+      "fertile_chance": 0.55,
+      "grow_chance": 0.55
+    },
+    "greater_heat": {
+      "fertile_chance": 0.8,
+      "grow_chance": 0.8
+    },
+    "heavy_snow": {
+      "fertile_chance": 0.9,
+      "grow_chance": 0.9
+    },
+    "insects_awakening": {},
+    "lesser_cold": {
+      "fertile_chance": 0.6,
+      "grow_chance": 0.6
+    },
+    "lesser_fullness": {
+      "fertile_chance": 1.01,
+      "grow_chance": 1.01
+    },
+    "lesser_heat": {
+      "fertile_chance": 0.9,
+      "grow_chance": 0.9
+    },
+    "light_snow": {
+      "fertile_chance": 0.8,
+      "grow_chance": 0.8
+    },
+    "rain_water": {
+      "fertile_chance": 0.9,
+      "grow_chance": 0.9
+    },
+    "spring_equinox": {
+      "fertile_chance": 1.025,
+      "grow_chance": 1.025
+    },
+    "summer_solstice": {},
+    "white_dew": {
+      "fertile_chance": 0.2,
+      "grow_chance": 0.2
+    },
+    "winter_solstice": {
+      "fertile_chance": 0.7,
+      "grow_chance": 0.7
+    }
+  }
+}

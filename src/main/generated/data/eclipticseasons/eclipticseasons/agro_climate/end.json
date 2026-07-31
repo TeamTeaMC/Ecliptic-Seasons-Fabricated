@@ -1,0 +1,8 @@
+{
+  "biomes": "#c:is_end",
+  "global": {
+    "death_chance": 0.01,
+    "fertile_chance": 0.5,
+    "grow_chance": 0.35
+  }
+}

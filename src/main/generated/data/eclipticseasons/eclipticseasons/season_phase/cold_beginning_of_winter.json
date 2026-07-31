@@ -1,0 +1,15 @@
+{
+  "color": "blue",
+  "font": {
+    "id": "eclipticseasons:solar_icons",
+    "label": "s"
+  },
+  "icon": {
+    "height": 120,
+    "j": 3,
+    "texture": "eclipticseasons:font/seasons_icons",
+    "width": 180
+  },
+  "name": "eclipticseasons:cold_beginning_of_winter",
+  "season": "winter"
+}

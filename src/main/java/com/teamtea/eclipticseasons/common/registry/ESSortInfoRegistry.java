@@ -4,8 +4,8 @@ import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.data.misc.ESSortInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

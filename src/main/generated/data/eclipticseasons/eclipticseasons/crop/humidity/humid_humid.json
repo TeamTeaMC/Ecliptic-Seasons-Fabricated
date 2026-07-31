@@ -1,0 +1,29 @@
+{
+  "parent": [],
+  "apply_target": {
+    "blocks": "#eclipticseasons:crops/humid_humid"
+  },
+  "climate": "#eclipticseasons:all",
+  "humidity": {
+    "arid": {
+      "fertile_chance": 0.5,
+      "grow_chance": 0.0
+    },
+    "average": {
+      "fertile_chance": 0.3,
+      "grow_chance": 0.3
+    },
+    "dry": {
+      "fertile_chance": 0.8,
+      "grow_chance": 0.0
+    },
+    "humid": {
+      "fertile_chance": 1.025,
+      "grow_chance": 1.025
+    },
+    "moist": {
+      "fertile_chance": 0.6,
+      "grow_chance": 0.6
+    }
+  }
+}

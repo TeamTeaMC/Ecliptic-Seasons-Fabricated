@@ -1,0 +1,16 @@
+{
+  "color": "gold",
+  "font": {
+    "id": "eclipticseasons:solar_icons",
+    "label": "n"
+  },
+  "icon": {
+    "height": 120,
+    "i": 1,
+    "j": 2,
+    "texture": "eclipticseasons:font/seasons_icons",
+    "width": 180
+  },
+  "name": "eclipticseasons:cold_end_of_heat",
+  "season": "autumn"
+}
