@@ -27,6 +27,7 @@
     "common.level.MixinServerLevel",
     "common.worldgen.MixinSurfaceSystem",
     "data.RegistrySetBuilderMixin",
+    "data.TagProviderMixin",
     "game.MixinBee_BeePollinateGoal",
     "game.MixinBeehiveBlockEntity",
     "game.MixinBreedGoal",

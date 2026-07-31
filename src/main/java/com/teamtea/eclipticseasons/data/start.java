@@ -2,7 +2,10 @@ package com.teamtea.eclipticseasons.data;
 
 import com.teamtea.eclipticseasons.data.datapack.DatapackRegistryGenerator;
 import com.teamtea.eclipticseasons.data.general.advancement.ESAdvancementGenerator;
+import com.teamtea.eclipticseasons.data.general.loot.EclipticSeasonsGiftLootTables;
+import com.teamtea.eclipticseasons.data.general.loot.EclipticSeasonsLootTableProvider;
 import com.teamtea.eclipticseasons.data.general.recipe.ESRecipeProvider;
+import com.teamtea.eclipticseasons.data.general.tag.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.core.HolderLookup;
@@ -33,8 +36,17 @@ public class start implements DataGeneratorEntrypoint {
         pack.addProvider(DatapackRegistryGenerator::new);
         pack.addProvider(ESRecipeProvider.Runner::new);
         pack.addProvider(ESAdvancementGenerator::new);
+        EclipticSeasonsLootTableProvider.addAll(pack::addProvider);
 
-
+        //tag
+        pack.addProvider(CropClimateTagsDataProvider::new);
+        pack.addProvider(EffectTagsDataProvider::new);
+        pack.addProvider(EnhancementTagsDataProvider::new);
+        pack.addProvider(ESBlockTagProvider::new);
+        pack.addProvider(ESEntityTypeTagsProvider::new);
+        pack.addProvider(ESItemTagProvider::new);
+        pack.addProvider(TagsDataProvider::new);
+        pack.addProvider(TimeLineTagDataProvider::new);
     }
 
     @Override

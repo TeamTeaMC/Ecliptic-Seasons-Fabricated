@@ -242,6 +242,7 @@ public class AgroClimateRegistry {
                 super(type, owner, key, value);
             }
 
+            // net.minecraft.core.registries.codec.RegistryFileCodec uses a special context
             @Override
             public boolean canSerializeIn(@NonNull HolderOwner<T> context) {
                 return true;
