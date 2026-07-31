@@ -11,7 +11,7 @@
       "translate": "advancement.eclipticseasons.quest.desc"
     },
     "icon": {
-      "id": "minecraft:wildflowers"
+      "id": "minecraft:exposed_copper_lantern"
     },
     "show_toast": false,
     "title": {

@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 public class Advancements extends AdvancementProvider {
     public Advancements() {
         super(List.of(
-                ESAdvancementGenerator::new
+                // ESAdvancementGenerator::new
         ));
     }
 

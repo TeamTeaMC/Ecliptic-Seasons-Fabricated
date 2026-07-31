@@ -10,7 +10,7 @@
       "translate": "advancement.eclipticseasons.root.desc"
     },
     "icon": {
-      "id": "minecraft:leaf_litter"
+      "id": "minecraft:wildflowers"
     },
     "title": {
       "translate": "advancement.eclipticseasons.root"
@@ -22,9 +22,7 @@
     ]
   ],
   "rewards": {
-    "loot": [
-      "eclipticseasons:gifts/snowless_hometown"
-    ]
+    "loot": "eclipticseasons:gifts/snowless_hometown"
   },
   "sends_telemetry_event": true
 }

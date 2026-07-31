@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -203,7 +204,7 @@ public class AgroClimateRegistry {
 
         @Override
         public @NonNull Optional<Holder.Reference<T>> get(@NonNull ResourceKey<T> pResourceKey) {
-            return Optional.of(Holder.Reference.createStandAlone(this,pResourceKey));
+            return Optional.of(EmptyHolder.createStandAlone(this, pResourceKey));
         }
 
         @Override
@@ -227,8 +228,28 @@ public class AgroClimateRegistry {
         }
 
         @Override
+        public boolean canSerialize(@NonNull HolderOwner<T> owner) {
+            return true;
+        }
+
+        @Override
         public @NonNull Lifecycle registryLifecycle() {
             return Lifecycle.stable();
+        }
+
+        public static class EmptyHolder<T> extends Holder.Reference<T> {
+            protected EmptyHolder(Type type, HolderOwner<T> owner, @Nullable ResourceKey<T> key, @Nullable T value) {
+                super(type, owner, key, value);
+            }
+
+            @Override
+            public boolean canSerializeIn(@NonNull HolderOwner<T> context) {
+                return true;
+            }
+
+            public static <T> EmptyHolder<T> createStandAlone(final @NonNull HolderOwner<T> owner, final @NonNull ResourceKey<T> key) {
+                return new EmptyHolder<>(Type.STAND_ALONE, owner, key, null);
+            }
         }
     }
 }

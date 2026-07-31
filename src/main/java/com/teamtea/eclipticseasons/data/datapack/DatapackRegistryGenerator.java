@@ -3,6 +3,7 @@ package com.teamtea.eclipticseasons.data.datapack;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.common.registry.*;
 import com.teamtea.eclipticseasons.data.general.advancement.Advancements;
+import com.teamtea.eclipticseasons.data.general.recipe.ESRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderLookup;
@@ -32,7 +33,11 @@ public class DatapackRegistryGenerator extends FabricDynamicRegistryProvider {
             .add(ESRegistries.WEATHER_EFFECT, WeatherEffectRegistry::bootstrap)
             .add(ESRegistries.BIOME_RAIN, BiomeRainRegistry::bootstrap)
             .add(ESRegistries.SPECIAL_DAYS, SpecialDaysRegistry::bootstrap)
-            ;
+            // extra registries
+            // .add(Registries.LOOT_TABLE, _ -> {})
+            // .add(Registries.ADVANCEMENT,_ -> {})
+            // .add(ESRecipeProvider.create())
+    ;
 
     // public static void apply(RegistrySetBuilder registryBuilder) {
     //

@@ -3,9 +3,13 @@ package com.teamtea.eclipticseasons.data.general.advancement;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.common.advancement.ParentNeedCriterion;
 import com.teamtea.eclipticseasons.common.advancement.SolarTermsCriterion;
+import com.teamtea.eclipticseasons.common.registry.AgroClimateRegistry;
 import com.teamtea.eclipticseasons.common.registry.BlockRegistry;
 import com.teamtea.eclipticseasons.common.registry.ESLootTables;
 import com.teamtea.eclipticseasons.common.registry.ItemRegistry;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.advancement.FabricAdvancementBuilder;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.predicates.BlockPredicate;
@@ -16,6 +20,7 @@ import net.minecraft.advancements.triggers.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -35,31 +40,36 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-public class ESAdvancementGenerator extends AdvancementSubProvider {
+public class ESAdvancementGenerator extends FabricAdvancementProvider {
     AdvancementHolder seasons;
 
 
-    private final HolderGetter<EntityType<?>> entityTypes;
-    private final HolderGetter<Item> items;
-    private final HolderGetter<Block> blocks;
-    private final HolderGetter<EntityType<?>> types;
-    private final HolderGetter<LootTable> lootTables;
+    private HolderGetter<EntityType<?>> entityTypes;
+    private HolderGetter<Item> items;
+    private HolderGetter<Block> blocks;
+    private HolderGetter<EntityType<?>> types;
+    private HolderGetter<LootTable> lootTables;
 
-    protected final BootstrapContext<Advancement> consumer;
+    protected Consumer<AdvancementHolder> consumer;
 
-    public ESAdvancementGenerator(final BootstrapContext<Advancement> output) {
-        super(output);
-        this.entityTypes = output.lookup(Registries.ENTITY_TYPE);
-        this.items = output.lookup(Registries.ITEM);
-        this.blocks = output.lookup(Registries.BLOCK);
-        this.types = output.lookup(Registries.ENTITY_TYPE);
-        this.lootTables = output.lookup(Registries.LOOT_TABLE);
-        this.consumer = output;
+    public ESAdvancementGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(output, registryLookup);
     }
 
     @Override
+    public void generateAdvancement(HolderLookup.Provider output, Consumer<AdvancementHolder> consumer) {
+        this.entityTypes = output.lookupOrThrow(Registries.ENTITY_TYPE);
+        this.items = output.lookupOrThrow(Registries.ITEM);
+        this.blocks = output.lookupOrThrow(Registries.BLOCK);
+        this.types = output.lookupOrThrow(Registries.ENTITY_TYPE);
+        this.lootTables = new AgroClimateRegistry.BiomeRegistryLookup<>(output.lookupOrThrow(Registries.LOOT_TABLE), Registries.LOOT_TABLE);
+        this.consumer = consumer;
+        generate();
+    }
+
     public void generate() {
 
         seasons = Advancement.Builder.advancement()
@@ -195,7 +205,7 @@ public class ESAdvancementGenerator extends AdvancementSubProvider {
         buildWinter(items, consumer);
     }
 
-    private void buildSpring(HolderGetter<Item> items, HolderGetter<EntityType<?>> types, BootstrapContext<Advancement> consumer) {
+    private void buildSpring(HolderGetter<Item> items, HolderGetter<EntityType<?>> types, Consumer<AdvancementHolder> consumer) {
         AdvancementHolder spring_start = buildAdvancementHolder(seasons, Items.WHEAT_SEEDS,
                 Component.translatable("advancement.eclipticseasons.spring_start"),
                 Component.translatable("advancement.eclipticseasons.spring_start.desc"),
@@ -263,7 +273,7 @@ public class ESAdvancementGenerator extends AdvancementSubProvider {
         //         consumer, "quests/spring_end", ESLootTables.spring_greenhouse_essence);
     }
 
-    private void buildSummer(HolderGetter<Item> items, BootstrapContext<Advancement> consumer) {
+    private void buildSummer(HolderGetter<Item> items, Consumer<AdvancementHolder> consumer) {
         AdvancementHolder summer_start = buildAdvancementHolder(seasons, Items.MELON_SEEDS,
                 Component.translatable("advancement.eclipticseasons.summer_start"),
                 Component.translatable("advancement.eclipticseasons.summer_start.desc"),
@@ -314,7 +324,7 @@ public class ESAdvancementGenerator extends AdvancementSubProvider {
     }
 
 
-    private void buildAutumn(HolderGetter<Item> items, HolderGetter<Block> blocks, BootstrapContext<Advancement> consumer) {
+    private void buildAutumn(HolderGetter<Item> items, HolderGetter<Block> blocks, Consumer<AdvancementHolder> consumer) {
         AdvancementHolder autumn_start = buildAdvancementHolder(seasons, Items.PUMPKIN_SEEDS,
                 Component.translatable("advancement.eclipticseasons.autumn_start"),
                 Component.translatable("advancement.eclipticseasons.autumn_start.desc"),
@@ -367,7 +377,7 @@ public class ESAdvancementGenerator extends AdvancementSubProvider {
         //         consumer, "quests/autumn_end", ESLootTables.autumn_greenhouse_essence);
     }
 
-    private void buildWinter(HolderGetter<Item> items, BootstrapContext<Advancement> consumer) {
+    private void buildWinter(HolderGetter<Item> items, Consumer<AdvancementHolder> consumer) {
         AdvancementHolder winter_start = buildAdvancementHolder(seasons, Items.SNOWBALL,
                 Component.translatable("advancement.eclipticseasons.winter_start"),
                 Component.translatable("advancement.eclipticseasons.winter_start.desc"),
@@ -422,7 +432,7 @@ public class ESAdvancementGenerator extends AdvancementSubProvider {
                                                     ItemLike icon,
                                                     Component tittle, Component desc,
                                                     String criterionKey, Criterion<?> criterion,
-                                                    BootstrapContext<Advancement> consumer, String id) {
+                                                    Consumer<AdvancementHolder> consumer, String id) {
         return buildAdvancementHolder(parent, icon, tittle, desc, criterionKey, criterion, consumer, id, null);
     }
 
@@ -430,7 +440,7 @@ public class ESAdvancementGenerator extends AdvancementSubProvider {
                                                     ItemLike icon,
                                                     Component tittle, Component desc,
                                                     String criterionKey, Criterion<?> criterion,
-                                                    BootstrapContext<Advancement> consumer, String id,
+                                                    Consumer<AdvancementHolder> consumer, String id,
                                                     ResourceKey<LootTable> lootTable) {
         Advancement.Builder advancement = Advancement.Builder.advancement();
         if (parent != null) {
@@ -452,9 +462,11 @@ public class ESAdvancementGenerator extends AdvancementSubProvider {
     }
 
 
-    private String getNameId(String id) {
-        return EclipticSeasonsApi.MODID + ":" + id;
+    // private String getNameId(String id) {
+    //     return EclipticSeasonsApi.MODID + ":" + id;
+    // }
+
+    private Identifier getNameId(String id) {
+        return Identifier.parse(EclipticSeasonsApi.MODID + ":" + id);
     }
-
-
 }
