@@ -24,7 +24,6 @@
       "com.teamtea.eclipticseasons.EclipticSeasonsClient"
     ],
     "fabric-datagen": [
-      "com.teamtea.eclipticseasons.data.start",
       "com.teamtea.eclipticseasons.client.EclipticSeasonsDataGenerator"
     ],
     "jade": [
