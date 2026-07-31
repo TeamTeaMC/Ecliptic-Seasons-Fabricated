@@ -1,5 +1,6 @@
 package com.teamtea.eclipticseasons.data;
 
+import com.teamtea.eclipticseasons.data.font.ESFontProvider;
 import com.teamtea.eclipticseasons.data.model.ES2ModelProvider;
 import com.teamtea.eclipticseasons.data.sound.ESSoundDefinitionsProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -18,6 +19,7 @@ public class startClient implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = generator.createPack();
         pack.addProvider(ESSoundDefinitionsProvider::new);
         pack.addProvider(ES2ModelProvider::new);
+        pack.addProvider(ESFontProvider::new);
     }
 
     @Override
