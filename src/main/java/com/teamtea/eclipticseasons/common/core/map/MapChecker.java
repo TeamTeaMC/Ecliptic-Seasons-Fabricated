@@ -16,7 +16,6 @@ import com.teamtea.eclipticseasons.common.core.snow.SnowChecker;
 import com.teamtea.eclipticseasons.common.core.solar.SolarDataManager;
 import com.teamtea.eclipticseasons.common.misc.SimplePair;
 import com.teamtea.eclipticseasons.common.core.biome.WeatherManager;
-import com.teamtea.eclipticseasons.common.network.message.ChunkBiomeUpdateMessage;
 import com.teamtea.eclipticseasons.common.network.message.ChunkUpdateMessage;
 import com.teamtea.eclipticseasons.common.network.SimpleNetworkHandler;
 import com.teamtea.eclipticseasons.common.registry.AttachmentRegistry;
@@ -38,7 +37,6 @@ import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -1136,7 +1134,7 @@ public class MapChecker {
                         .fillSmallBiomes(serverLevel, chunk, biomeHolder, biomeDataVersion));
             } else if (!biomeHolder.hasUpdated() || biomeHolder.version() != biomeDataVersion) {
                 chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, BiomeHolder
-                        .prepareBiomes(serverLevel, chunkPos, biomeDataVersion, biomeHolder.version() != biomeDataVersion));
+                        .prepareBiomes(serverLevel, chunk, chunkPos, biomeDataVersion, biomeHolder.version() != biomeDataVersion));
             }
         }
         return biomeHolder;
@@ -1146,7 +1144,7 @@ public class MapChecker {
         int biomeDataVersion = EclipticUtil.getBiomeDataVersion(serverLevel);
         ChunkPos chunkPos = ChunkPos.containing(pos);
         var biomeHolder = BiomeHolder
-                .prepareBiomes(serverLevel, chunkPos, biomeDataVersion, true);
+                .prepareBiomes(serverLevel, serverLevel.getChunk(pos), chunkPos, biomeDataVersion, true);
         ChunkAccess chunk = serverLevel.getChunk(pos);
         chunk.setAttached(AttachmentRegistry.BIOME_HOLDER, biomeHolder);
         // AttachmentRegistry.BIOME_HOLDER.get(chunk).copyFrom(biomeHolder);
