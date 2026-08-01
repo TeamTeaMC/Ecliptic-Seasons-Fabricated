@@ -16,6 +16,7 @@ import com.teamtea.eclipticseasons.config.CommonConfig;
 import com.teamtea.eclipticseasons.config.StartConfig;
 import com.teamtea.eclipticseasons.config.sync.ESConfigFilePayload;
 import com.teamtea.eclipticseasons.config.sync.ESConfigSync;
+import com.teamtea.eclipticseasons.config.update.ConfigMigrator;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -138,6 +139,7 @@ public class EclipticSeasons implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ConfigMigrator.init();
 
         fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry.INSTANCE.register(MODID, ModConfig.Type.COMMON, CommonConfig.COMMON_CONFIG);
         fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry.INSTANCE.register(MODID, ModConfig.Type.CLIENT, ClientConfig.CLIENT_CONFIG);
