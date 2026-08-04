@@ -19,6 +19,7 @@ import com.teamtea.eclipticseasons.config.sync.ESConfigSync;
 import com.teamtea.eclipticseasons.config.update.ConfigMigrator;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityLevelChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
@@ -234,6 +235,7 @@ public class EclipticSeasons implements ModInitializer {
 
         ServerPlayerEvents.AFTER_RESPAWN.register(AllListener::onPlayerChangedDimension);
         ServerPlayerEvents.COPY_FROM.register(AllListener::onPlayerChangedDimension2);
+        ServerEntityLevelChangeEvents.AFTER_PLAYER_CHANGE_LEVEL.register(AllListener::onPlayerChangedDimensionFabric);
 
         // cca
         // ChunkSyncCallback.EVENT.register((player, chunk) ->
