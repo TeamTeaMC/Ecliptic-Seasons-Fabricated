@@ -10,12 +10,12 @@ import net.minecraft.sounds.SoundEvent;
 
 public class SoundEventsRegistry {
 
-    public static final SoundEvent SPRING_FOREST = register("ambient.spring_forest");
-    public static final SoundEvent GARDEN_WIND = register("ambient.garden_wind");
-    public static final SoundEvent NIGHT_RIVER = register("ambient.night_river");
-    public static final SoundEvent WINDY_LEAVE = register("ambient.windy_leave");
-    public static final SoundEvent WINTER_FOREST = register("ambient.winter_forest");
-    public static final SoundEvent WINTER_COLD = register("ambient.winter_cold");
+    public static final SoundEvent spring_forest = register("ambient.spring_forest");
+    public static final SoundEvent garden_wind = register("ambient.garden_wind");
+    public static final SoundEvent night_river = register("ambient.night_river");
+    public static final SoundEvent windy_leave = register("ambient.windy_leave");
+    public static final SoundEvent winter_forest = register("ambient.winter_forest");
+    public static final SoundEvent winter_cold = register("ambient.winter_cold");
     public static final SoundEvent WIND_CHIMES = register("block.wind_chimes");
     public static final SoundEvent BAMBOO_WIND_CHIMES = register("block.bamboo_wind_chimes");
     public static final SoundEvent PAPER_WIND_CHIMES = register("block.paper_wind_chimes");

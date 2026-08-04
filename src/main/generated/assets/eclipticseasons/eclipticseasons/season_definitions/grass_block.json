@@ -1,6 +1,24 @@
 {
   "blocks": "minecraft:grass_block",
-  "biomes": "#eclipticseasons:rain/seasonal",
+  "biomes": {
+    "values": [
+      {
+        "values": [
+          "#eclipticseasons:rain/seasonal"
+        ],
+        "type": "neoforge:or"
+      },
+      {
+        "value": "#c:is_hot",
+        "type": "neoforge:not"
+      },
+      {
+        "value": "#c:is_cold",
+        "type": "neoforge:not"
+      }
+    ],
+    "type": "neoforge:and"
+  },
   "slices": [
     {
       "solar_term": "beginning_of_spring",

@@ -1,5 +1,9 @@
 package com.teamtea.eclipticseasons.data;
 
+import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
+import com.teamtea.eclipticseasons.data.datapack.client.ClientModelDefinitionProvider;
+import com.teamtea.eclipticseasons.data.datapack.client.ClientSeasonModelDefinitionProvider;
+import com.teamtea.eclipticseasons.data.datapack.client.SeasonalBiomeAmbientProvider;
 import com.teamtea.eclipticseasons.data.font.ESFontProvider;
 import com.teamtea.eclipticseasons.data.model.ES2ModelProvider;
 import com.teamtea.eclipticseasons.data.sound.ESSoundDefinitionsProvider;
@@ -20,6 +24,14 @@ public class startClient implements DataGeneratorEntrypoint {
         pack.addProvider(ESSoundDefinitionsProvider::new);
         pack.addProvider(ES2ModelProvider::new);
         pack.addProvider(ESFontProvider::new);
+
+        pack.addProvider((output, registriesFuture) ->
+                new SeasonalBiomeAmbientProvider(output, EclipticSeasonsApi.MODID, registriesFuture));
+        pack.addProvider((output, registriesFuture) ->
+                new ClientSeasonModelDefinitionProvider(output, EclipticSeasonsApi.MODID, registriesFuture));
+        pack.addProvider((output, registriesFuture) ->
+                new ClientModelDefinitionProvider(output, EclipticSeasonsApi.MODID, registriesFuture));
+
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamtea.eclipticseasons.api.util.fast.Enum2ObjectMap;
+import com.teamtea.eclipticseasons.compat.fabric.ExtendHolderSetCodec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
@@ -114,7 +115,8 @@ public class CodecUtil {
 
 
     public static <E> Codec<HolderSet<E>> holderSetCodec(ResourceKey<? extends Registry<E>> registryKey) {
-        return RegistryCodecs.holderSet(registryKey, false);
+        // return RegistryCodecs.holderSet(registryKey, false);
+        return new ExtendHolderSetCodec<>(registryKey,RegistryCodecs.holder(registryKey),false);
     }
 
     //public static <E> Codec<E> empty(E e) {
