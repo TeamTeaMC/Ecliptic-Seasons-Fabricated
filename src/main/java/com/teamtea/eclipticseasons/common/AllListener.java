@@ -51,7 +51,7 @@ public class AllListener {
     // TagsUpdatedEvent invoke before ServerAboutToStartEvent
 
     public static void onTagsUpdatedEvent(TagsUpdatedEvent tagsUpdatedEvent) {
-        NaturalPlantHandler.initCache(tagsUpdatedEvent.getRegistries(),tagsUpdatedEvent instanceof TagsUpdatedEvent.ServerDataLoad);
+        NaturalPlantHandler.initCache(tagsUpdatedEvent.getRegistries(), tagsUpdatedEvent instanceof TagsUpdatedEvent.ServerDataLoad);
         BiomeClimateManager.resetBiomeTemps(tagsUpdatedEvent.getRegistries(), tagsUpdatedEvent instanceof TagsUpdatedEvent.ServerDataLoad);
         WeatherManager.informUpdateBiomes(tagsUpdatedEvent.getRegistries(), tagsUpdatedEvent instanceof TagsUpdatedEvent.ServerDataLoad);
         CropInfoManager.init(tagsUpdatedEvent);
@@ -179,6 +179,11 @@ public class AllListener {
         }
     }
 
+    public static void onPlayerChangedDimensionFabric(ServerPlayer player, ServerLevel origin, ServerLevel destination) {
+        {
+            WeatherManager.onLoggedIn(player, destination, false);
+        }
+    }
 
     public static void onPlayerChangedDimension2(ServerPlayer serverPlayer, ServerPlayer serverPlayer1, boolean b) {
         {
