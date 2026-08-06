@@ -1,16 +1,16 @@
 {
+  "season": "winter",
+  "name": "eclipticseasons:hot_light_snow",
   "color": "blue",
+  "icon": {
+    "texture": "eclipticseasons:font/seasons_icons",
+    "width": 180,
+    "height": 120,
+    "i": 1,
+    "j": 3
+  },
   "font": {
     "id": "eclipticseasons:solar_icons",
     "label": "t"
-  },
-  "icon": {
-    "height": 120,
-    "i": 1,
-    "j": 3,
-    "texture": "eclipticseasons:font/seasons_icons",
-    "width": 180
-  },
-  "name": "eclipticseasons:hot_light_snow",
-  "season": "winter"
+  }
 }

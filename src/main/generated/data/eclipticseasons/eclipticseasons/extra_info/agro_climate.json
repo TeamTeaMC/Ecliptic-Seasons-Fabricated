@@ -1,5 +1,4 @@
 {
-  "priority": 800,
   "registry": "eclipticseasons:agro_climate",
   "target": [
     "eclipticseasons:temperate",
@@ -7,5 +6,6 @@
     "eclipticseasons:hot",
     "eclipticseasons:nether",
     "eclipticseasons:end"
-  ]
+  ],
+  "priority": 800
 }

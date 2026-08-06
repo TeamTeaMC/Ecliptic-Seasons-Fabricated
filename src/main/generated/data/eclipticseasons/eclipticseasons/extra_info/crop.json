@@ -1,5 +1,4 @@
 {
-  "priority": 800,
   "registry": "eclipticseasons:crop",
   "target": [
     "eclipticseasons:seasons/spring",
@@ -32,5 +31,6 @@
     "eclipticseasons:humidity/moist_moist",
     "eclipticseasons:humidity/moist_humid",
     "eclipticseasons:humidity/humid_humid"
-  ]
+  ],
+  "priority": 800
 }

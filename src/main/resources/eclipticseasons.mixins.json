@@ -26,6 +26,8 @@
     "common.level.MixinMinecraftServer",
     "common.level.MixinServerLevel",
     "common.worldgen.MixinSurfaceSystem",
+    "data.MixinsFabricDynamicRegistryProvider",
+    "data.MixinsRegistriesDatapackGenerator",
     "data.RegistrySetBuilderMixin",
     "data.TagProviderMixin",
     "game.MixinBee_BeePollinateGoal",

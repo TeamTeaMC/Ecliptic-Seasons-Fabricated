@@ -1,15 +1,15 @@
 {
+  "season": "spring",
+  "name": "eclipticseasons:hot_fresh_green",
   "color": "dark_green",
+  "icon": {
+    "texture": "eclipticseasons:font/seasons_icons",
+    "width": 180,
+    "height": 120,
+    "i": 4
+  },
   "font": {
     "id": "eclipticseasons:solar_icons",
     "label": "e"
-  },
-  "icon": {
-    "height": 120,
-    "i": 4,
-    "texture": "eclipticseasons:font/seasons_icons",
-    "width": 180
-  },
-  "name": "eclipticseasons:hot_fresh_green",
-  "season": "spring"
+  }
 }

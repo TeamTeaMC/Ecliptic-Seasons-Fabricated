@@ -1,29 +1,29 @@
 {
+  "humidity": {
+    "arid": {
+      "grow_chance": 0.35,
+      "fertile_chance": 0.35
+    },
+    "dry": {
+      "grow_chance": 0.95,
+      "fertile_chance": 0.95
+    },
+    "average": {
+      "grow_chance": 1.025,
+      "fertile_chance": 1.025
+    },
+    "moist": {
+      "grow_chance": 0.95,
+      "fertile_chance": 0.95
+    },
+    "humid": {
+      "grow_chance": 0.35,
+      "fertile_chance": 0.35
+    }
+  },
+  "climate": "#eclipticseasons:all",
   "parent": [],
   "apply_target": {
     "blocks": "#eclipticseasons:crops/dry_moist"
-  },
-  "climate": "#eclipticseasons:all",
-  "humidity": {
-    "arid": {
-      "fertile_chance": 0.35,
-      "grow_chance": 0.35
-    },
-    "average": {
-      "fertile_chance": 1.025,
-      "grow_chance": 1.025
-    },
-    "dry": {
-      "fertile_chance": 0.95,
-      "grow_chance": 0.95
-    },
-    "humid": {
-      "fertile_chance": 0.35,
-      "grow_chance": 0.35
-    },
-    "moist": {
-      "fertile_chance": 0.95,
-      "grow_chance": 0.95
-    }
   }
 }

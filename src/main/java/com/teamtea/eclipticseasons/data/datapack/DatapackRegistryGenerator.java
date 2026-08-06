@@ -31,6 +31,9 @@ public class DatapackRegistryGenerator extends FabricDynamicRegistryProvider {
             .add(ESRegistries.WEATHER_EFFECT, WeatherEffectRegistry::bootstrap)
             .add(ESRegistries.BIOME_RAIN, BiomeRainRegistry::bootstrap)
             .add(ESRegistries.SPECIAL_DAYS, SpecialDaysRegistry::bootstrap)
+
+
+            // .add(ESRegistries.SEASON_DEFINITION, SeasonDefinitionRegistry::bootstrap2)
     ;
 
 

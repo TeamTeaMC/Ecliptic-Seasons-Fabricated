@@ -1,108 +1,108 @@
 {
+  "solar_terms": {
+    "beginning_of_spring": {
+      "grow_chance": 0.5,
+      "fertile_chance": 0.5
+    },
+    "rain_water": {
+      "grow_chance": 0.64,
+      "fertile_chance": 0.64
+    },
+    "insects_awakening": {
+      "grow_chance": 0.75,
+      "fertile_chance": 0.75
+    },
+    "spring_equinox": {
+      "grow_chance": 0.85,
+      "fertile_chance": 0.85
+    },
+    "fresh_green": {
+      "grow_chance": 1.01,
+      "fertile_chance": 1.01
+    },
+    "grain_rain": {
+      "grow_chance": 0.85,
+      "fertile_chance": 0.85
+    },
+    "beginning_of_summer": {
+      "grow_chance": 0.2,
+      "fertile_chance": 0.2
+    },
+    "lesser_fullness": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "grain_in_ear": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "summer_solstice": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "lesser_heat": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "greater_heat": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "beginning_of_autumn": {
+      "grow_chance": 0.7,
+      "fertile_chance": 0.7
+    },
+    "end_of_heat": {
+      "grow_chance": 0.75,
+      "fertile_chance": 0.75
+    },
+    "white_dew": {
+      "grow_chance": 0.9,
+      "fertile_chance": 0.9
+    },
+    "autumnal_equinox": {
+      "grow_chance": 1.01,
+      "fertile_chance": 1.01
+    },
+    "cold_dew": {
+      "grow_chance": 0.7,
+      "fertile_chance": 0.7
+    },
+    "first_frost": {
+      "grow_chance": 0.5,
+      "fertile_chance": 0.5
+    },
+    "beginning_of_winter": {
+      "grow_chance": 0.15,
+      "fertile_chance": 0.15
+    },
+    "light_snow": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "heavy_snow": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "winter_solstice": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "lesser_cold": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    },
+    "greater_cold": {
+      "grow_chance": 0.0,
+      "fertile_chance": 0.0
+    }
+  },
+  "climate": "eclipticseasons:temperate",
+  "unlike_greenhouse_material": {
+    "blocks": "#minecraft:ice"
+  },
   "parent": [],
   "apply_target": {
     "blocks": "#eclipticseasons:crops/spring_autumn"
-  },
-  "climate": "eclipticseasons:temperate",
-  "solar_terms": {
-    "autumnal_equinox": {
-      "fertile_chance": 1.01,
-      "grow_chance": 1.01
-    },
-    "beginning_of_autumn": {
-      "fertile_chance": 0.7,
-      "grow_chance": 0.7
-    },
-    "beginning_of_spring": {
-      "fertile_chance": 0.5,
-      "grow_chance": 0.5
-    },
-    "beginning_of_summer": {
-      "fertile_chance": 0.2,
-      "grow_chance": 0.2
-    },
-    "beginning_of_winter": {
-      "fertile_chance": 0.15,
-      "grow_chance": 0.15
-    },
-    "cold_dew": {
-      "fertile_chance": 0.7,
-      "grow_chance": 0.7
-    },
-    "end_of_heat": {
-      "fertile_chance": 0.75,
-      "grow_chance": 0.75
-    },
-    "first_frost": {
-      "fertile_chance": 0.5,
-      "grow_chance": 0.5
-    },
-    "fresh_green": {
-      "fertile_chance": 1.01,
-      "grow_chance": 1.01
-    },
-    "grain_in_ear": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "grain_rain": {
-      "fertile_chance": 0.85,
-      "grow_chance": 0.85
-    },
-    "greater_cold": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "greater_heat": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "heavy_snow": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "insects_awakening": {
-      "fertile_chance": 0.75,
-      "grow_chance": 0.75
-    },
-    "lesser_cold": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "lesser_fullness": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "lesser_heat": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "light_snow": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "rain_water": {
-      "fertile_chance": 0.64,
-      "grow_chance": 0.64
-    },
-    "spring_equinox": {
-      "fertile_chance": 0.85,
-      "grow_chance": 0.85
-    },
-    "summer_solstice": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    },
-    "white_dew": {
-      "fertile_chance": 0.9,
-      "grow_chance": 0.9
-    },
-    "winter_solstice": {
-      "fertile_chance": 0.0,
-      "grow_chance": 0.0
-    }
-  },
-  "unlike_greenhouse_material": {
-    "blocks": "#minecraft:ice"
   }
 }
