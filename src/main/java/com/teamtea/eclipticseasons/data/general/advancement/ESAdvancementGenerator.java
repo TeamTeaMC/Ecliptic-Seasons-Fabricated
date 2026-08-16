@@ -4,11 +4,11 @@ import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.common.advancement.ParentNeedCriterion;
 import com.teamtea.eclipticseasons.common.advancement.SolarTermsCriterion;
 import com.teamtea.eclipticseasons.common.registry.AgroClimateRegistry;
-import com.teamtea.eclipticseasons.common.registry.BlockRegistry;
 import com.teamtea.eclipticseasons.common.registry.ESLootTables;
 import com.teamtea.eclipticseasons.common.registry.ItemRegistry;
+import com.teamtea.eclipticseasons.api.constant.simulation.SeasonalSimulationLevel;
+import com.teamtea.eclipticseasons.common.resource.conditions.SeasonalSimulationLevelCondition;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.advancement.FabricAdvancementBuilder;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.advancements.*;
@@ -17,13 +17,9 @@ import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.predicates.LocationPredicate;
 import net.minecraft.advancements.predicates.entity.EntityPredicate;
 import net.minecraft.advancements.triggers.*;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.advancements.AdvancementSubProvider;
-import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -31,13 +27,11 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -54,6 +48,7 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
     private HolderGetter<LootTable> lootTables;
 
     protected Consumer<AdvancementHolder> consumer;
+    protected Consumer<AdvancementHolder> consumerCrop;
 
     public ESAdvancementGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
@@ -67,6 +62,7 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
         this.types = output.lookupOrThrow(Registries.ENTITY_TYPE);
         this.lootTables = new AgroClimateRegistry.BiomeRegistryLookup<>(output.lookupOrThrow(Registries.LOOT_TABLE), Registries.LOOT_TABLE);
         this.consumer = consumer;
+        this.consumerCrop = withConditions(consumer, SeasonalSimulationLevelCondition.builder().level(SeasonalSimulationLevel.AGRICULTURE).build());
         generate();
     }
 
@@ -110,7 +106,7 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
                 Component.translatable("advancement.eclipticseasons.green_house"),
                 Component.translatable("advancement.eclipticseasons.green_house.desc"),
                 "core_require", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.growth_detector),
-                consumer, "main/green_house");
+                consumerCrop, "main/green_house");
 
         // AdvancementHolder greenhouse_core_container = buildAdvancementHolder(green_house, ItemRegistry.greenhouse_core_container_item.get(),
         //         Component.translatable("advancement.eclipticseasons.greenhouse_core_container"),
@@ -197,12 +193,12 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
                         AdvancementType.TASK, false, false, false)
                 .addCriterion("tick", PlayerTrigger.TriggerInstance.tick())
                 .requirements(AdvancementRequirements.Strategy.AND)
-                .save(consumer, getNameId("main/quest"));
+                .save(consumerCrop, getNameId("main/quest"));
 
-        buildSpring(items, types, consumer);
-        buildSummer(items, consumer);
-        buildAutumn(items, blocks, consumer);
-        buildWinter(items, consumer);
+        buildSpring(items, types, consumerCrop);
+        buildSummer(items, consumerCrop);
+        buildAutumn(items, blocks, consumerCrop);
+        buildWinter(items, consumerCrop);
     }
 
     private void buildSpring(HolderGetter<Item> items, HolderGetter<EntityType<?>> types, Consumer<AdvancementHolder> consumer) {

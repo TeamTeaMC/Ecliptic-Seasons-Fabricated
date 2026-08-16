@@ -3,27 +3,26 @@ package com.teamtea.eclipticseasons.data.general.recipe;
 
 import com.teamtea.eclipticseasons.common.registry.BlockRegistry;
 import com.teamtea.eclipticseasons.common.registry.ItemRegistry;
+import com.teamtea.eclipticseasons.api.constant.simulation.SeasonalSimulationLevel;
+import com.teamtea.eclipticseasons.common.resource.conditions.SeasonalSimulationLevelCondition;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.MultiRegistryBootstrap;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.*;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
-import org.jspecify.annotations.NonNull;
 
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class ESRecipeProvider extends VanillaRecipeProvider {
+
+    protected Runner runner;
 
     public ESRecipeProvider(final BootstrapContext<Recipe<?>> recipeOutput, final BootstrapContext<Advancement> advancementOutput) {
         super(recipeOutput, advancementOutput);
@@ -37,20 +36,28 @@ public class ESRecipeProvider extends VanillaRecipeProvider {
 
         @Override
         protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
-            return new ESRecipeProvider(recipes,advancements);
+            ESRecipeProvider esRecipeProvider = new ESRecipeProvider(recipes, advancements);
+            esRecipeProvider.runner = this;
+            return esRecipeProvider;
+        }
+
+        @Override
+        public RecipeOutput withConditions(RecipeOutput output, ResourceCondition... conditions) {
+            return super.withConditions(output, conditions);
         }
     }
-    public static MultiRegistryBootstrap create() {
-        return new MultiRegistryBootstrap() {
-            public @NonNull Set<ResourceKey<? extends Registry<?>>> requestedRegistries() {
-                return Set.of(Registries.RECIPE, Registries.ADVANCEMENT);
-            }
 
-            public void run(final MultiRegistryBootstrap.@NonNull BootstrapGetter registries) {
-                (new ESRecipeProvider(registries.get(Registries.RECIPE), registries.get(Registries.ADVANCEMENT))).buildRecipes();
-            }
-        };
-    }
+    // public static MultiRegistryBootstrap create() {
+    //     return new MultiRegistryBootstrap() {
+    //         public @NonNull Set<ResourceKey<? extends Registry<?>>> requestedRegistries() {
+    //             return Set.of(Registries.RECIPE, Registries.ADVANCEMENT);
+    //         }
+    //
+    //         public void run(final MultiRegistryBootstrap.@NonNull BootstrapGetter registries) {
+    //             (new ESRecipeProvider(registries.get(Registries.RECIPE), registries.get(Registries.ADVANCEMENT), )).buildRecipes();
+    //         }
+    //     };
+    // }
 
     @Override
     public void buildRecipes() {
@@ -176,7 +183,10 @@ public class ESRecipeProvider extends VanillaRecipeProvider {
                 .pattern("z  ")
                 .group("growth_detector")
                 .unlockedBy("has_glass", has(ConventionalItemTags.GLASS_BLOCKS))
-                .save(output);
+                .save(runner.withConditions(
+                        output,
+                        SeasonalSimulationLevelCondition.builder().level(SeasonalSimulationLevel.AGRICULTURE).build()
+                ));
 
         // shaped(RecipeCategory.TOOLS, ItemRegistry.seasonal_prayer_scroll_item.get())
         //         .define('x', ConventionalItemTags.SEEDS)
