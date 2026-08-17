@@ -1,1 +1,1 @@
-- #7 (https://github.com/TeamTeaMC/Ecliptic-Seasons-Fabricated/issues/7)
+- Fixed incorrect river climate evaluation with mods that modify vanilla climate sampling.
