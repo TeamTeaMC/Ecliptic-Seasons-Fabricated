@@ -93,6 +93,7 @@ dependencies {
 //	implementation "curse.maven:cardinal-components-api-318449:7909405"
 
 	compileOnly "maven.modrinth:distanthorizons:3.2.0-b-26.1.2"
+//	runtimeOnly "maven.modrinth:distanthorizons:3.2.0-b-26.1.2"
 
 
 //	def cca_version = "8.0.0"
