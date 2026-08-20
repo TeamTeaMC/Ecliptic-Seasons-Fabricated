@@ -116,7 +116,7 @@ public class DHTool {
                 return snowColor;
                 // ColorUtil.setAlpha(instance.getBlockColor(dhBlockPos, iBiomeWrapper, fullDataSourceV2, BlockStateWrapper.fromBlockState(Blocks.SNOW.defaultBlockState(), instance)), 255)
             }
-            if (!queriedWrapper.isLiquid() && !queriedState.blockState.is(BlockTags.BLOCKS_MOTION)) {
+            if (!queriedWrapper.isLiquid() && !queriedState.blockState.blocksMotion()) {
                 if (i + 1 == targetDataIndex) {
                     return snowColor;
                 }
