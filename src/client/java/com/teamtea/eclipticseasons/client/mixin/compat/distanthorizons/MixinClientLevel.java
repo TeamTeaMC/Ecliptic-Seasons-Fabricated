@@ -2,6 +2,7 @@ package com.teamtea.eclipticseasons.client.mixin.compat.distanthorizons;
 
 
 import com.teamtea.eclipticseasons.client.util.ClientCon;
+import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
 import com.teamtea.eclipticseasons.compat.distanthorizons.DHClientTool;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
@@ -17,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.BooleanSupplier;
 
-
+@ConditionalMixin(value = "distanthorizons", version = "3.0.0-b")
 @Mixin({ClientLevel.class})
 public abstract class MixinClientLevel extends Level {
 

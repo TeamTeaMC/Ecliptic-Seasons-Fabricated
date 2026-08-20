@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WeatherEffectRenderer.class)
@@ -73,12 +74,11 @@ public abstract class MixinWeatherEffectRenderer {
     }
 
 
-    @WrapOperation(
+    @ModifyArg(
             method = {"render"},
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/TextureManager;getTexture(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/texture/AbstractTexture;")
     )
-    private AbstractTexture eclipticseasons$renderSnowAndRain_rebindingTexture(
-            TextureManager instance, Identifier identifier, Operation<AbstractTexture> original) {
-        return original.call(instance, ClientWeatherChecker.modifyRainAmount3(instance,identifier,identifier==RAIN_LOCATION));
+    private Identifier eclipticseasons$renderSnowAndRain_rebindingTexture(Identifier location) {
+        return ClientWeatherChecker.modifyRainAmount3(location, location == RAIN_LOCATION);
     }
 }

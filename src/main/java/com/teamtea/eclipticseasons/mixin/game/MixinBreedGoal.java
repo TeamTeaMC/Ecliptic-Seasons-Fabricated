@@ -1,6 +1,7 @@
 package com.teamtea.eclipticseasons.mixin.game;
 
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.teamtea.eclipticseasons.common.game.AnimalHooks;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.animal.Animal;
@@ -17,13 +18,14 @@ public abstract class MixinBreedGoal {
 
     @Shadow public abstract void stop();
 
-    @Inject(at = {@At("RETURN")}, method = {"canUse"}, cancellable = true)
-    public void eclipticseasons$canUse(CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValue()) {
-            if(AnimalHooks.cancelBreed(animal)){
+    @ModifyReturnValue(at = {@At("RETURN")}, method = {"canUse"})
+    public boolean eclipticseasons$canUse(boolean original) {
+        if (original) {
+            if (AnimalHooks.cancelBreed(animal)) {
                 stop();
-                cir.setReturnValue(false);
+                original = false;
             }
         }
+        return original;
     }
 }
