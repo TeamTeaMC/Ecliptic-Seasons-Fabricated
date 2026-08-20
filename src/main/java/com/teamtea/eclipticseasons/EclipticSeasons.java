@@ -167,6 +167,7 @@ public class EclipticSeasons implements ModInitializer {
         CommandRegistrationCallback.EVENT.register(CommandHandler::onRegisterCommands);
 
 
+        ResourceConditionRegistry.init();
 
         BlockRegistry.init();
         ItemRegistry.init();

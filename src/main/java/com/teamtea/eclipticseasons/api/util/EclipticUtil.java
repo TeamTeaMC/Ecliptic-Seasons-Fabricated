@@ -19,6 +19,7 @@ import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import com.teamtea.eclipticseasons.common.core.solar.SolarDataManager;
 import com.teamtea.eclipticseasons.common.game.AnimalHooks;
 import com.teamtea.eclipticseasons.common.misc.MapColorReplacer;
+import com.teamtea.eclipticseasons.api.constant.simulation.SeasonalSimulationLevel;
 import com.teamtea.eclipticseasons.config.CommonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -345,6 +346,11 @@ public class EclipticUtil {
             public List<Holder<SpecialDays>> getSpecialDays(Level level, BlockPos pos) {
                 SolarDataManager saveData = SolarHolders.getSaveData(level);
                 return saveData == null ? List.of() : saveData.getSpecialDays(level, pos);
+            }
+
+            @Override
+            public SeasonalSimulationLevel getSeasonalSimulationLevel() {
+                return CommonConfig.Season.seasonalSimulationLevel.get();
             }
         };
     }

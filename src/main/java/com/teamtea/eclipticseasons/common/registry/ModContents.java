@@ -3,6 +3,8 @@ package com.teamtea.eclipticseasons.common.registry;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
+import com.teamtea.eclipticseasons.api.constant.simulation.SeasonalSimulationLevel;
+import com.teamtea.eclipticseasons.api.constant.tag.ESItemTags;
 import com.teamtea.eclipticseasons.api.data.misc.ESSortInfo;
 import com.teamtea.eclipticseasons.api.data.season.SeasonCycle;
 import com.teamtea.eclipticseasons.api.data.season.SpecialDays;
@@ -52,11 +54,15 @@ public class ModContents {
                     .icon(() -> new ItemStack(ItemRegistry.calendar_item))
                     .title(Component.translatable("itemGroup." + EclipticSeasonsApi.MODID + ".core"))
                     .displayItems((params, output) -> {
-                        output.accept(ItemRegistry.hygrometer);
-                        output.accept(ItemRegistry.growth_detector);
                         output.accept(ItemRegistry.calendar_item);
-                        output.accept(ItemRegistry.snowless_hometown);
+                        output.accept(ItemRegistry.hygrometer);
                         output.accept(ItemRegistry.season_sensor_item);
+                        if (ItemRegistry.growth_detector.builtInRegistryHolder().is(ESItemTags.AGRICULTURE_CONTENT)
+                                || !EclipticSeasonsApi.getInstance().getSeasonalSimulationLevel().enable(SeasonalSimulationLevel.AGRICULTURE)) {
+                            output.accept(ItemRegistry.growth_detector);
+                        }
+
+                        output.accept(ItemRegistry.snowless_hometown);
                     })
                     .build()
     );
