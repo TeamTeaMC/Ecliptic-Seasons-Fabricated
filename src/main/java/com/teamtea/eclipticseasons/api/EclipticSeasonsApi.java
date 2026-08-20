@@ -6,6 +6,7 @@ import com.teamtea.eclipticseasons.api.constant.solar.SolarTerm;
 import com.teamtea.eclipticseasons.api.constant.solar.gregorian.GregorianMonth;
 import com.teamtea.eclipticseasons.api.data.season.SpecialDays;
 import com.teamtea.eclipticseasons.api.util.EclipticUtil;
+import com.teamtea.eclipticseasons.api.constant.simulation.SeasonalSimulationLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -174,4 +175,6 @@ public interface EclipticSeasonsApi extends ESApiLegacy {
     Humidity getAdjustedHumidity(ServerLevel level, BlockPos pos);
 
     List<Holder<SpecialDays>> getSpecialDays(Level level, BlockPos pos);
+
+    SeasonalSimulationLevel getSeasonalSimulationLevel();
 }

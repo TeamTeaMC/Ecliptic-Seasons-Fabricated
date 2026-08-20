@@ -1,10 +1,12 @@
 package com.teamtea.eclipticseasons.config;
 
 
+import com.electronwill.nightconfig.core.EnumGetMethod;
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.constant.solar.SolarTerm;
 import com.teamtea.eclipticseasons.api.util.EclipticUtil;
 import com.teamtea.eclipticseasons.common.core.crop.CropGrowthHandler;
+import com.teamtea.eclipticseasons.api.constant.simulation.SeasonalSimulationLevel;
 import com.teamtea.eclipticseasons.compat.CompatModule;
 import lombok.Getter;
 import lombok.Setter;
@@ -101,6 +103,8 @@ public class CommonConfig {
     }
 
     public static class Season {
+        public static ModConfigSpec.EnumValue<SeasonalSimulationLevel> seasonalSimulationLevel;
+
         public static ModConfigSpec.BooleanValue enableInform;
         public static ModConfigSpec.BooleanValue enableInformIcon;
         public static ModConfigSpec.BooleanValue enableLocalInfoCalendar;
@@ -125,6 +129,12 @@ public class CommonConfig {
         public static ModConfigSpec.BooleanValue realWorldSolarTerms;
 
         private static void load(ModConfigSpec.Builder builder) {
+            builder.push("Core");
+            seasonalSimulationLevel = builder.comment("Controls the intensity of seasonal simulation")
+                    .worldRestart()
+                    .defineEnum("SeasonalSimulationLevel", SeasonalSimulationLevel.AGRICULTURE, EnumGetMethod.NAME_IGNORECASE);
+            builder.pop();
+
             builder.push("Season");
             lastingDaysOfEachTerm = builder.comment("The duration of a single Solar Term in Minecraft days.\nLogic: 1 Year = 4 Seasons | 1 Season = 6 Solar Terms.")
                     .defineInRange("LastingDaysOfEachTerm", 7, 1, 5000);
@@ -577,9 +587,15 @@ public class CommonConfig {
     @Setter
     private static boolean vanillaSnowAndIce = false;
 
+    @Getter
+    @Setter
+    private static SeasonalSimulationLevel seasonalSimulationLevel = SeasonalSimulationLevel.CUSTOM;
+
     public static void UpdateConfig() {
         // if (config.getSpec() == COMMON_CONFIG)
         {
+            seasonalSimulationLevel= Season.seasonalSimulationLevel.get();
+
             vanillaSnowAndIce = Temperature.iceMelt.get() && Temperature.snowDown.get();
             useSolarWeather = Weather.useSolarWeather.get();
             forceCropCompatMode = Crop.forceCompatMode.get();
