@@ -5,6 +5,7 @@ import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.api.constant.crop.CropHumidityType;
 import com.teamtea.eclipticseasons.api.constant.crop.CropSeasonType;
 import com.teamtea.eclipticseasons.api.constant.tag.ESItemTags;
+import com.teamtea.eclipticseasons.common.registry.ItemRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
@@ -68,6 +69,36 @@ public final class ESItemTagProvider extends FabricTagsProvider.ItemTagsProvider
         tag(ESItemTags.HEAT_PROTECTIVE_HELMETS);
         tag(ESItemTags.UNAFFECTED_BY_SEASONS);
         tag(ESItemTags.UNAFFECTED_BY_HUMIDITY);
+
+        tag(ESItemTags.AGRICULTURE_CONTENT).add(
+                ItemRegistry.growth_detector
+                // ItemRegistry.greenhouse_core_container_item,
+                // ItemRegistry.spring_greenhouse_core_item,
+                // ItemRegistry.summer_greenhouse_core_item,
+                // ItemRegistry.autumn_greenhouse_core_item,
+                // ItemRegistry.winter_greenhouse_core_item,
+                // ItemRegistry.spring_greenhouse_essence_item,
+                // ItemRegistry.summer_greenhouse_essence_item,
+                // ItemRegistry.autumn_greenhouse_essence_item,
+                // ItemRegistry.winter_greenhouse_essence_item,
+                // ItemRegistry.seasonal_prayer_scroll_item,
+                // ItemRegistry.block_in_wooden_grate_block_item,
+                // ItemRegistry.humidity_tank_item,
+                // ItemRegistry.dehumidifier_item.get()
+                // ItemRegistry.calendar_item,
+                // ItemRegistry.season_sensor_item,
+                // ItemRegistry.broom,
+                // ItemRegistry.salt_wand,
+                // ItemRegistry.ice_wand,
+                // ItemRegistry.hygrometer,
+                // ItemRegistry.snowless_hometown,
+                // ItemRegistry.bamboo_wind_chimes_item,
+                // ItemRegistry.paper_wind_chimes_item,
+                // ItemRegistry.wind_chimes_item,
+                // ItemRegistry.pinwheel_orange_item,
+                // ItemRegistry.pinwheel_lime_item,
+                // ItemRegistry.pinwheel_blue_item.get()
+        );
     }
 
 

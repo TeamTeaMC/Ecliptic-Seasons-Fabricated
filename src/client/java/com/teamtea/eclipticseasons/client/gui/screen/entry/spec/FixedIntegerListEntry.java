@@ -1,7 +1,7 @@
-package com.teamtea.eclipticseasons.client.gui.screen.entry;
+package com.teamtea.eclipticseasons.client.gui.screen.entry.spec;
 
 import com.teamtea.eclipticseasons.client.gui.screen.ESModConfigScreen;
-import com.teamtea.eclipticseasons.client.gui.screen.entry.base.ConfigEntry;
+import com.teamtea.eclipticseasons.client.gui.screen.entry.base.SpecEntry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -12,7 +12,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FixedIntegerListEntry extends ConfigEntry.SpecEntry<List<? extends Integer>> {
+public class FixedIntegerListEntry extends SpecEntry<List<? extends Integer>> {
     private final ModConfigSpec.Range<Integer> range;
 
     public FixedIntegerListEntry(ModConfigSpec.ConfigValue<List<? extends Integer>> spec, ModConfigSpec.Range<Integer> integerRange) {
@@ -35,12 +35,13 @@ public class FixedIntegerListEntry extends ConfigEntry.SpecEntry<List<? extends 
         gridLayout.defaultCellSetting().paddingHorizontal(4).paddingBottom(3).alignHorizontallyCenter();
         int columnSize = spec.getDefault().size() == 6 ? 3 : 1;
         GridLayout.RowHelper helper = gridLayout.createRowHelper(columnSize);
-        helper.addChild(new StringWidget(Component.empty().append(label).withStyle(ChatFormatting.ITALIC), screen.getFont()), columnSize);
+        helper.addChild(new StringWidget(getLabel(screen).withStyle(ChatFormatting.ITALIC), screen.getFont()), columnSize);
         List<Integer> integers = new ArrayList<>(spec.get());
         for (int i = 0; i < integers.size(); i++) {
             int possibleValue = integers.get(i);
             final EditBox box = new EditBox(screen.getFont(), Button.DEFAULT_WIDTH, Button.DEFAULT_HEIGHT, Component.empty());
-            box.setWidth(width * 2 / 3);
+            int widthBox = width * 2 / 3 - 2;
+            box.setWidth(widthBox);
             box.setEditable(true);
             box.setValue(possibleValue + "");
             int finalI = i;
@@ -69,8 +70,4 @@ public class FixedIntegerListEntry extends ConfigEntry.SpecEntry<List<? extends 
         return null;
     }
 
-    @Override
-    public int getColumn() {
-        return 2;
-    }
 }
