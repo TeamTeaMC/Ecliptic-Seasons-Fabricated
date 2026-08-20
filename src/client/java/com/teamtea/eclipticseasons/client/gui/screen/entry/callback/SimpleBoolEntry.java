@@ -21,6 +21,11 @@ public class SimpleBoolEntry extends ConfigEntry {
         this.setter = setter;
         this.oldValue = value.getAsBoolean();
     }
+    
+    @Override
+    public int getColumn() {
+        return 1;
+    }
 
     @Override
     public SyncType getSyncType() {
