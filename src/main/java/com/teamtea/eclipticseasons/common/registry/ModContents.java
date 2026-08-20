@@ -58,7 +58,7 @@ public class ModContents {
                         output.accept(ItemRegistry.hygrometer);
                         output.accept(ItemRegistry.season_sensor_item);
                         if (ItemRegistry.growth_detector.builtInRegistryHolder().is(ESItemTags.AGRICULTURE_CONTENT)
-                                || !EclipticSeasonsApi.getInstance().getSeasonalSimulationLevel().enable(SeasonalSimulationLevel.AGRICULTURE)) {
+                                && EclipticSeasonsApi.getInstance().getSeasonalSimulationLevel().enable(SeasonalSimulationLevel.AGRICULTURE)) {
                             output.accept(ItemRegistry.growth_detector);
                         }
 
