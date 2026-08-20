@@ -1,5 +1,6 @@
 package com.teamtea.eclipticseasons.compat.distanthorizons;
 
+import com.seibel.distanthorizons.common.wrappers.block.BlockStateWrapper;
 import com.seibel.distanthorizons.common.wrappers.world.ClientLevelWrapper;
 import com.seibel.distanthorizons.core.api.internal.SharedApi;
 import com.seibel.distanthorizons.core.enums.EDhDirection;
@@ -8,11 +9,13 @@ import com.seibel.distanthorizons.core.level.DhClientLevel;
 import com.seibel.distanthorizons.core.level.DhClientServerLevel;
 import com.seibel.distanthorizons.core.level.IDhClientLevel;
 import com.seibel.distanthorizons.core.pos.DhSectionPos;
+import com.seibel.distanthorizons.core.pos.blockPos.DhBlockPos;
 import com.seibel.distanthorizons.core.render.QuadTree.LodQuadTree;
 import com.seibel.distanthorizons.core.render.QuadTree.LodRenderSection;
 import com.seibel.distanthorizons.core.util.gridList.MovableGridRingList;
 import com.seibel.distanthorizons.core.util.objects.quadTree.QuadNode;
 import com.seibel.distanthorizons.core.world.IDhClientWorld;
+import com.seibel.distanthorizons.coreapi.util.ColorUtil;
 import com.teamtea.eclipticseasons.client.mixin.compat.distanthorizons.MixinAbstractDhTintGetter;
 import com.teamtea.eclipticseasons.client.mixin.compat.distanthorizons.MixinQuadTree;
 import com.teamtea.eclipticseasons.client.util.ClientCon;
@@ -20,6 +23,7 @@ import com.teamtea.eclipticseasons.compat.CompatModule;
 import it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class DHClientTool {
     public static void forceReloadAll() {
+        if (ClientCon.getAgent().isTermChange()) {
+            ClientCon.getAgent().setTermChange(false);
+            MixinAbstractDhTintGetter.getBiomeColorCache().clear();
+        }
+
         if (!CompatModule.CommonConfig.DistantHorizonsWinterLOD.get()) return;
         if (!CompatModule.ClientConfig.DistantHorizonsWinterLODForceUpdateAll.get()) return;
 
@@ -36,13 +45,10 @@ public class DHClientTool {
         if (level == null || (level.getGameTime() % (20 * 15)) != 0) return;
         IDhClientWorld clientWorld = SharedApi.tryGetDhClientWorld();
         if (ClientCon.getAgent().isChange()
-                && ClientLevelWrapper.getWrapper(Minecraft.getInstance().level) instanceof ClientLevelWrapper clientLevelWrapper
+                && ClientLevelWrapper.getWrapper(level) instanceof ClientLevelWrapper clientLevelWrapper
                 && clientWorld.getLevel(clientLevelWrapper) instanceof IDhClientLevel clientLevel) {
 
-            if (ClientCon.getAgent().isTermChange()) {
-                ClientCon.getAgent().setTermChange(false);
-                MixinAbstractDhTintGetter.getBiomeColorCache().clear();
-            }
+            DHTool.setSnowColor(ColorUtil.setAlpha(clientLevelWrapper.getBlockColor(DhBlockPos.ZERO, null, null, BlockStateWrapper.fromBlockState(Blocks.SNOW.defaultBlockState(), clientLevelWrapper)), 255));
 
             ClientCon.getAgent().setSnowChange(false);
 
