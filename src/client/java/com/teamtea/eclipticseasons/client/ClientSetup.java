@@ -13,6 +13,7 @@ import com.teamtea.eclipticseasons.client.util.ClientClientAgent;
 import com.teamtea.eclipticseasons.client.util.ClientCon;
 import com.teamtea.eclipticseasons.common.registry.BlockEntityRegistry;
 import com.teamtea.eclipticseasons.common.registry.ParticleRegistry;
+import com.teamtea.eclipticseasons.config.ClientConfig;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.SimpleUnbakedExtraModel;
@@ -124,7 +125,7 @@ public class ClientSetup {
     }
 
     private static void registerStandalone(ModelLoadingPlugin.@UnknownNullability Context event, StandaloneModelKey<BlockStateModel> snowyCustom) {
-        event.addModel(snowyCustom.toFabric(), SimpleUnbakedExtraModel.blockStateModel(Identifier.parse(snowyCustom.getName())) );
+        event.addModel(snowyCustom.toFabric(), SimpleUnbakedExtraModel.blockStateModel(Identifier.parse(snowyCustom.getName())));
     }
 
 
@@ -146,6 +147,16 @@ public class ClientSetup {
                 Blocks.SPRUCE_LEAVES,
                 Blocks.BIRCH_LEAVES,
                 Blocks.MANGROVE_LEAVES);
+        try {
+            for (String s : ClientConfig.Renderer.seasonalColorOverrides.get()) {
+                FoliageColorSource.Impl parse = FoliageColorSource.createOrNull(s);
+                if (parse != null) {
+                    BlockColorRegistry.register(List.of(parse), parse.content().block());
+                }
+            }
+        } catch (Exception e) {
+            EclipticSeasons.logger(e);
+        }
     }
 
 
