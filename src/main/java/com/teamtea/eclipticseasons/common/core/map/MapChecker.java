@@ -855,7 +855,7 @@ public class MapChecker {
                     int qx = QuartPos.fromBlock(relative.getX());
                     int qy = QuartPos.fromBlock(relative.getY());
                     int qz = QuartPos.fromBlock(relative.getZ());
-                    biome = biomeSource.getNoiseBiome(qx, qy, qz, serverLevel.getChunkSource().randomState().sampler());
+                    biome = biomeSource.createResolver(serverLevel.getChunkSource().randomState().sampler()).getNoiseBiome(qx, qy, qz);
                 } else if (bid < 0) {
                     y = getHeightSafe(level, relative) + 1;
                     if (y > maxBuildHeight || y <= minBuildHeight) {

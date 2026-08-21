@@ -17,6 +17,7 @@ import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.predicates.LocationPredicate;
 import net.minecraft.advancements.predicates.entity.EntityPredicate;
 import net.minecraft.advancements.triggers.*;
+import net.minecraft.core.ClientAsset;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -26,6 +27,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -69,11 +71,11 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
     public void generate() {
 
         seasons = Advancement.Builder.advancement()
-                .display(ItemRegistry.calendar_item,
+                .display(new DisplayInfo(new ItemStackTemplate(ItemRegistry.calendar_item),
                         Component.translatable("advancement.eclipticseasons.base"),
                         Component.translatable("advancement.eclipticseasons.base.desc"),
-                        Identifier.parse("minecraft:gui/advancements/backgrounds/husbandry"),
-                        AdvancementType.TASK, false, false, false)
+                        Optional.of(new ClientAsset.ResourceTexture(Identifier.parse("minecraft:gui/advancements/backgrounds/husbandry"))),
+                        AdvancementType.TASK, false, false, false))
                 .addCriterion("tick", PlayerTrigger.TriggerInstance.tick())
                 .requirements(AdvancementRequirements.Strategy.AND)
                 .save(consumer, getNameId("main/base"));
@@ -83,7 +85,6 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
                 .display(Items.WILDFLOWERS,
                         Component.translatable("advancement.eclipticseasons.root"),
                         Component.translatable("advancement.eclipticseasons.root.desc"),
-                        null,
                         AdvancementType.TASK, true, true, false)
                 .addCriterion("solar_terms", SolarTermsCriterion.TriggerInstance.simple())
                 .requirements(AdvancementRequirements.Strategy.AND)
@@ -95,7 +96,6 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
                 .display(Items.MAGMA_BLOCK,
                         Component.translatable("advancement.eclipticseasons.heat_stroke"),
                         Component.translatable("advancement.eclipticseasons.heat_stroke.desc"),
-                        null,
                         AdvancementType.TASK, true, false, true)
                 .addCriterion("heat_stroke", SolarTermsCriterion.TriggerInstance.simple2())
                 .requirements(AdvancementRequirements.Strategy.AND)
@@ -189,7 +189,6 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
                 .display(Items.COPPER_LANTERN.weathering().exposed(),
                         Component.translatable("advancement.eclipticseasons.quest"),
                         Component.translatable("advancement.eclipticseasons.quest.desc"),
-                        null,
                         AdvancementType.TASK, false, false, false)
                 .addCriterion("tick", PlayerTrigger.TriggerInstance.tick())
                 .requirements(AdvancementRequirements.Strategy.AND)
@@ -223,7 +222,6 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
                         .display(Items.WOOL.white(),
                                 Component.translatable("advancement.eclipticseasons.spring_feed"),
                                 Component.translatable("advancement.eclipticseasons.spring_feed.desc"),
-                                null,
                                 AdvancementType.TASK, false, true, false)
                         // .addCriterion("core_require_sheep", PlayerInteractTrigger.TriggerInstance.itemUsedOnEntity(
                         //         ItemPredicate.Builder.item().of(items, ItemTags.SHEEP_FOOD),
@@ -447,10 +445,9 @@ public class ESAdvancementGenerator extends FabricAdvancementProvider {
         if (lootTable != null) {
             advancement = advancement.rewards(AdvancementRewards.Builder.loot(lootTables.getOrThrow(lootTable)));
         }
-        return advancement.display(icon,
+        return advancement.display(icon.asItem(),
                         tittle,
                         desc,
-                        null,
                         AdvancementType.TASK, false, true, false)
                 .addCriterion(criterionKey, criterion)
                 .requirements(AdvancementRequirements.Strategy.AND)

@@ -317,14 +317,29 @@ public final class GrowthWorldUiRenderer {
             int backgroundColor,
             int lightCoords
     ) {
-        collector.submitCustomGeometry(
-                poseStack, RenderTypes.textBackground(), (lambdaPose, buffer) -> {
-                    buffer.addVertex(lambdaPose, left, bottom, z).setColor(backgroundColor).setLight(lightCoords);
-                    buffer.addVertex(lambdaPose, right, bottom, z).setColor(backgroundColor).setLight(lightCoords);
-                    buffer.addVertex(lambdaPose, right, top, z).setColor(backgroundColor).setLight(lightCoords);
-                    buffer.addVertex(lambdaPose, left, top, z).setColor(backgroundColor).setLight(lightCoords);
-                }
+        poseStack.pushPose();
+        poseStack.translate(0.0F, 0.0F, z);
+
+        collector.submitTextBackground(
+                poseStack,
+                left,
+                top,
+                right,
+                bottom,
+                backgroundColor,
+                Font.DisplayMode.NORMAL,
+                lightCoords
         );
+
+        poseStack.popPose();
+        // collector.submitCustomGeometry(
+        //         poseStack, RenderTypes.textBackground(), (lambdaPose, buffer) -> {
+        //             buffer.addVertex(lambdaPose, left, bottom, z).setColor(backgroundColor).setLight(lightCoords);
+        //             buffer.addVertex(lambdaPose, right, bottom, z).setColor(backgroundColor).setLight(lightCoords);
+        //             buffer.addVertex(lambdaPose, right, top, z).setColor(backgroundColor).setLight(lightCoords);
+        //             buffer.addVertex(lambdaPose, left, top, z).setColor(backgroundColor).setLight(lightCoords);
+        //         }
+        // );
         // consumer.addVertex(matrix, left, bottom, z).setColor(color).setLight(light);
         // consumer.addVertex(matrix, right, bottom, z).setColor(color).setLight(light);
         // consumer.addVertex(matrix, right, top, z).setColor(color).setLight(light);
