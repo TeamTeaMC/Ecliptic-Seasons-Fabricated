@@ -1,4 +1,4 @@
-package com.teamtea.eclipticseasons.compat.voxy;
+package com.teamtea.eclipticseasons.compat.voxy.client;
 
 import com.teamtea.eclipticseasons.api.event.SolarTermChangeEvent;
 import com.teamtea.eclipticseasons.compat.CompatModule;

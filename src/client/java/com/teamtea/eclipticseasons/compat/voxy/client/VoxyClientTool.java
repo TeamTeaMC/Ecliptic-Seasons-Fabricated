@@ -1,10 +1,11 @@
-package com.teamtea.eclipticseasons.compat.voxy;
+package com.teamtea.eclipticseasons.compat.voxy.client;
 
 import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
 import com.teamtea.eclipticseasons.client.core.context.ExtraRendererContext;
 import com.teamtea.eclipticseasons.client.util.ClientCon;
 import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import com.teamtea.eclipticseasons.compat.CompatModule;
+import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import me.cortex.voxy.client.core.model.bakery.ReuseVertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

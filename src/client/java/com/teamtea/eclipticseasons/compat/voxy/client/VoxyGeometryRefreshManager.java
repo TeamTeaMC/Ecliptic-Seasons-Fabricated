@@ -1,4 +1,4 @@
-package com.teamtea.eclipticseasons.compat.voxy;
+package com.teamtea.eclipticseasons.compat.voxy.client;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
