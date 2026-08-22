@@ -36,8 +36,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin({ModelFactory.class})
-@ConditionalMixin(value = "voxy",version = "0.2.16-beta")
-public abstract class MixinModelFactory  implements IVoxyModelFactory {
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
+public abstract class MixinModelFactory implements IVoxyModelFactory {
 
     @Shadow
     @Final
@@ -139,8 +139,24 @@ public abstract class MixinModelFactory  implements IVoxyModelFactory {
      * 在这里读取 biomes 和 modelsRequiringBiomeColours，
      * 避免从渲染线程并发遍历这两个 ArrayList。
      */
-    @Inject(method = "processAllThings", at = @At("RETURN"))
-    private void eclipticseasons$rebuildTintTable(CallbackInfoReturnable<Boolean> cir) {
+
+    @ModifyExpressionValue(
+            remap = false,
+            method = "processAllThings",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lme/cortex/voxy/client/core/model/ModelFactory;processModelResult()Z"
+            )
+    )
+    private boolean eclipticseasons$rebuildTintTable(boolean hasMoreModels) {
+        if (!hasMoreModels) {
+            eclipticseasons$rebuildTintTable$Impl();
+        }
+        return hasMoreModels;
+    }
+
+    @Unique
+    private void eclipticseasons$rebuildTintTable$Impl() {
         if (!eclipticseasons$refreshTintRequested) return;
         eclipticseasons$refreshTintRequested = false;
 

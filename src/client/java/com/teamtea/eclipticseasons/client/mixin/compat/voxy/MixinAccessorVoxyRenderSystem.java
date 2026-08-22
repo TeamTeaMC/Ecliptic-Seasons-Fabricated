@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * Reuses an already registered mixin filename so no mixin-json edit is needed.
  */
 @Mixin(AsyncNodeManager.class)
-@ConditionalMixin(value = "voxy", version = "0.2.16-beta")
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
 public abstract class MixinAccessorVoxyRenderSystem implements IVoxyAsyncNodeManager {
 
     @Unique
@@ -71,7 +71,7 @@ public abstract class MixinAccessorVoxyRenderSystem implements IVoxyAsyncNodeMan
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void eclipticseasons$register(int maxNodeCount, IGeometryData geometryData,
-                                         RenderGenerationService renderService, CallbackInfo ci) {
+                                          RenderGenerationService renderService, CallbackInfo ci) {
         eclipticseasons$renderService = renderService;
         VoxyGeometryRefreshManager.register(this);
     }

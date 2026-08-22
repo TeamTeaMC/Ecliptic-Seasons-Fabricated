@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * This class keeps its old name because it is already registered in the mixin json.
  */
 @Mixin(RenderDataFactory.class)
-@ConditionalMixin(value = "voxy", version = "0.2.16-beta")
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
 public abstract class MixinWorldUpdater {
 
     @Shadow

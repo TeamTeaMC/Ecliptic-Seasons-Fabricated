@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.concurrent.locks.LockSupport;
 
 @Mixin({ModelBakerySubsystem.class})
-@ConditionalMixin(value = "voxy",version = "0.2.16-beta")
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
 public abstract class MixinModelBakerySubsystem implements IVoxyModelBakerySubsystem {
 
 

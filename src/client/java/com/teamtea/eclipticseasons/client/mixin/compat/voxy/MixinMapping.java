@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin({Mapper.class})
-@ConditionalMixin(value = "voxy",version = "0.2.16-beta")
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
 public abstract class MixinMapping {
 
     @Unique

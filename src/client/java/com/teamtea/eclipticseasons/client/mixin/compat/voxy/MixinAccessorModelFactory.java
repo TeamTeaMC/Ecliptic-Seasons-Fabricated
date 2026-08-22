@@ -17,7 +17,7 @@ import java.util.concurrent.locks.StampedLock;
  * Reuses an already registered mixin filename so no mixin-json edit is needed.
  */
 @Mixin(SectionUpdateRouter.class)
-@ConditionalMixin(value = "voxy", version = "0.2.16-beta")
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
 public abstract class MixinAccessorModelFactory implements IVoxySectionUpdateRouter {
 
     @Shadow

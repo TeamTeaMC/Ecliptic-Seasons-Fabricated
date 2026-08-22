@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ModelStore.class)
-@ConditionalMixin(value = "voxy", version = "0.2.16-beta")
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
 public interface ModelStoreAccessor {
 
     @Accessor("modelColourBuffer")

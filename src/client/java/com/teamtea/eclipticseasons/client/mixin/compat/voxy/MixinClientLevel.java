@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.BooleanSupplier;
 
 @Mixin(ClientLevel.class)
-@ConditionalMixin(value = "voxy", version = "0.2.16-beta")
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
 public abstract class MixinClientLevel {
 
     @Inject(method = "tick", at = @At("HEAD"))
