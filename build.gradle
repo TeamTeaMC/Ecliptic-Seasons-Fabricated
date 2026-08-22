@@ -75,11 +75,11 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	compileOnly "maven.modrinth:voxy:0.2.18-beta"
-	implementation "maven.modrinth:sodium:mc26.2-0.9.0-fabric"
-	implementation "maven.modrinth:iris:1.11.1+26.2-fabric"
+	implementation "maven.modrinth:voxy:0.2.18-beta"
+	implementation "maven.modrinth:sodium:mc26.2-0.9.1-fabric"
+	implementation "maven.modrinth:iris:1.11.2+26.2-fabric"
 
-	implementation "maven.modrinth:jade:26.2.1+fabric"
+	implementation "maven.modrinth:jade:26.2.11+fabric"
 //	implementation "curse.maven:distant-horizons-508933:7375296"
 
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
