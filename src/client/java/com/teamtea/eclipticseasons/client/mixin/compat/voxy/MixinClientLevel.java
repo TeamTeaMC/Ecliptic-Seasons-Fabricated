@@ -1,8 +1,7 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
-
 import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
-import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
+import com.teamtea.eclipticseasons.compat.voxy.VoxyClientTool;
 import net.minecraft.client.multiplayer.ClientLevel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,13 +10,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.BooleanSupplier;
 
+@Mixin(ClientLevel.class)
+@ConditionalMixin(value = "voxy", version = "0.2.14-alpha")
+public abstract class MixinClientLevel {
 
-@Mixin({ClientLevel.class})
-@ConditionalMixin(value = "voxy",version = "0.2.18-beta")
-public abstract class MixinClientLevel  {
-
-    @Inject(at = {@At("HEAD")}, method = {"tick"})
-    public void eclipticseasons$tick_refresh_voxy(BooleanSupplier pHasTimeLeft, CallbackInfo ci) {
-        VoxyTool.tryUpdate();
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void eclipticseasons$tickVoxyRefresh(BooleanSupplier hasTimeLeft, CallbackInfo ci) {
+        VoxyClientTool.forceReloadAll();
     }
 }

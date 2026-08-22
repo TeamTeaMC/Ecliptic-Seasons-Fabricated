@@ -45,6 +45,9 @@ public class BlockRegistry {
     public static final Block snowyVine = register("snowy_vine",
             p -> new VineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE).setId(key("snowy_vine")).dynamicShape().noOcclusion()));
 
+    public static final Block thinIce = register("thin_ice",
+            p -> new VineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ICE).setId(key("thin_ice")).noOcclusion()));
+
     public static final Block season_sensor = register("season_sensor",
             p -> new SeasonSensorBlock(BlockBehaviour.Properties.of()
                     .strength(0.5F)
