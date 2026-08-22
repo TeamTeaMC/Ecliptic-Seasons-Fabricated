@@ -2,8 +2,9 @@ package com.teamtea.eclipticseasons.client.model.block;
 
 import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
 import com.teamtea.eclipticseasons.client.model.block.part.SimpleBlockModelPart;
-import com.teamtea.eclipticseasons.client.model.block.quad.QuadFilter;
 import com.teamtea.eclipticseasons.client.model.block.quad.ReUVBakedQuad;
+import com.teamtea.eclipticseasons.client.model.block.quad.QuadFilter;
+import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
@@ -16,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -23,44 +25,86 @@ import java.util.List;
 import java.util.Map;
 
 public class DerivedSnowyBlockStateModel implements NeoLikeBlockStateModel {
-    public static final DerivedSnowyBlockStateModel INSTANCE = new DerivedSnowyBlockStateModel();
-    public static final DerivedSnowyBlockStateModel CUSTOM = new DerivedSnowyBlockStateModel();
-    public static final DerivedSnowyBlockStateModel CUSTOM_AO = new DerivedSnowyBlockStateModel();
+    // public static final DerivedSnowyBlockStateModel INSTANCE = new DerivedSnowyBlockStateModel();
+    // public static final DerivedSnowyBlockStateModel CUSTOM = new DerivedSnowyBlockStateModel();
+    // public static final DerivedSnowyBlockStateModel CUSTOM_AO = new DerivedSnowyBlockStateModel();
 
-    public static final Map<BlockState, SimpleBlockModelPart> PART_CACHE_MAP = new IdentityHashMap<>();
+    protected static final Map<BlockStateModel, SimpleBlockModelPart> PART_CACHE_MAP = new IdentityHashMap<>();
+    protected static final Map<BlockStateModel, DerivedSnowyBlockStateModel> SHARED_MODELS = new IdentityHashMap<>();
 
-    private DerivedSnowyBlockStateModel() {
+    public static DerivedSnowyBlockStateModel createCustom(BlockState state) {
+        return create(state, MapChecker.FLAG_CUSTOM);
+    }
+
+    public static DerivedSnowyBlockStateModel createCustomAO(BlockState state) {
+        return create(state, MapChecker.FLAG_CUSTOM_AO);
+    }
+
+    private static @Nullable DerivedSnowyBlockStateModel create(BlockState state, int flag) {
+        BlockStateModel original = ExtraModelManager.models.blockStateModels().get(state);
+
+        if (original == null) {
+            return null;
+        }
+
+        synchronized (SHARED_MODELS) {
+            return SHARED_MODELS.computeIfAbsent(
+                    original,
+                    model -> new DerivedSnowyBlockStateModel(state, model, flag)
+            );
+        }
+    }
+
+    private final BlockStateModel original;
+    private final int flag;
+    private final BlockState defaultState;
+
+    private DerivedSnowyBlockStateModel(BlockState state, BlockStateModel original, int flag) {
+        this.original = original;
+        this.flag = flag;
+        this.defaultState = state;
+    }
+
+    public static void clearCache() {
+        PART_CACHE_MAP.clear();
+        SHARED_MODELS.clear();
     }
 
     @Override
     public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockStateModelPart> parts) {
-        BlockStateModel blockStateModel = ExtraModelManager.models.blockStateModels().get(state);
-        if (blockStateModel != null) {
-            blockStateModel.collectParts(random, parts);
+        if (parts.isEmpty()) {
+            BlockStateModel blockStateModel = ExtraModelManager.models.blockStateModels().get(state);
+            if (blockStateModel != null) {
+                blockStateModel.collectParts(random, parts);
+            }
+            changeSprite(original, state, parts);
         }
-        changeSprite(state, parts);
     }
 
     @Override
-    public void collectParts(@NonNull RandomSource random, @NonNull List<BlockStateModelPart> output) {
+    public void collectParts(@NonNull RandomSource random, @NonNull List<BlockStateModelPart> parts) {
+        if (original != null) {
+            original.collectParts(random, parts);
+        }
+        changeSprite(original, defaultState, parts);
     }
 
     @Override
     public Material.@NonNull Baked particleMaterial() {
-        throw new UnsupportedOperationException();
+        return ExtraModelManager.getSnowLayerModel(1).particleMaterial();
     }
 
     @Override
     public @BakedQuad.MaterialFlags int materialFlags() {
-        throw new UnsupportedOperationException();
+        return ExtraModelManager.getSnowLayerModel(1).materialFlags();
     }
 
     private static final Direction[] DIRECTIONS_TO_CHECK = {
             Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST, null};
 
-    public static void changeSprite(BlockState state, List<BlockStateModelPart> parts) {
+    public static void changeSprite(BlockStateModel original, BlockState state, List<BlockStateModelPart> parts) {
         if (parts.isEmpty()) return;
-        SimpleBlockModelPart simpleBlockModelPart = PART_CACHE_MAP.get(state);
+        SimpleBlockModelPart simpleBlockModelPart = PART_CACHE_MAP.get(original);
         if (simpleBlockModelPart != null) {
             parts.add(simpleBlockModelPart);
             return;
@@ -74,11 +118,11 @@ public class DerivedSnowyBlockStateModel implements NeoLikeBlockStateModel {
                 List<BakedQuad> quads = object.getQuads(value);
                 if (quads.isEmpty()) continue;
                 // for (BakedQuad quad : quads) {
-                //                 //     // quadCollection = value == null ?
-                //                 //     //         quadCollection.addUnculledFace(quad) :
-                //                 //     //         quadCollection.addCulledFace(value, quad);
-                //                 //     quadNew.add(quad);
-                //                 // }
+                //     // quadCollection = value == null ?
+                //     //         quadCollection.addUnculledFace(quad) :
+                //     //         quadCollection.addCulledFace(value, quad);
+                //     quadNew.add(quad);
+                // }
                 quadNew.addAll(quads);
             }
         }
@@ -116,10 +160,11 @@ public class DerivedSnowyBlockStateModel implements NeoLikeBlockStateModel {
         map.put(Direction.UP, makeSnowyBakedQuads(bqr, quads, tooTiny));
         // parts.clear();
         SimpleBlockModelPart part = new SimpleBlockModelPart(map);
-        PART_CACHE_MAP.put(state, part);
+        PART_CACHE_MAP.put(original, part);
         parts.add(part);
         bqr.reset();
     }
+
 
     public static List<BakedQuad> makeSnowyBakedQuads(ReUVBakedQuad bqr, List<BakedQuad> quadsCTM, boolean tooTiny) {
 
