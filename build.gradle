@@ -75,6 +75,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
+	implementation "curse.maven:particle-rain-421897:8055423"
+
 	implementation "maven.modrinth:voxy:Zt3LPI0b"
 	implementation "maven.modrinth:sodium:mc26.1.2-0.9.1-fabric"
 	implementation "maven.modrinth:iris:1.11.2+26.1-fabric"
