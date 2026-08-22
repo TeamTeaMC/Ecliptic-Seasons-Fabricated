@@ -1,10 +1,10 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
 import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
-import com.teamtea.eclipticseasons.compat.voxy.IVoxyAsyncNodeManager;
-import com.teamtea.eclipticseasons.compat.voxy.IVoxyGeometryCache;
-import com.teamtea.eclipticseasons.compat.voxy.IVoxySectionUpdateRouter;
-import com.teamtea.eclipticseasons.compat.voxy.VoxyGeometryRefreshManager;
+import com.teamtea.eclipticseasons.compat.voxy.client.IVoxyAsyncNodeManager;
+import com.teamtea.eclipticseasons.compat.voxy.client.IVoxyGeometryCache;
+import com.teamtea.eclipticseasons.compat.voxy.client.IVoxySectionUpdateRouter;
+import com.teamtea.eclipticseasons.compat.voxy.client.VoxyGeometryRefreshManager;
 import com.teamtea.eclipticseasons.config.ClientConfig;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import me.cortex.voxy.client.core.gl.GlBuffer;

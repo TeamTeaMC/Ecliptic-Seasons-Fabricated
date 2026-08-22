@@ -1,7 +1,7 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
 import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
-import com.teamtea.eclipticseasons.compat.voxy.IVoxyGeometryCache;
+import com.teamtea.eclipticseasons.compat.voxy.client.IVoxyGeometryCache;
 import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
 import me.cortex.voxy.client.core.rendering.GeometryCache;
 import me.cortex.voxy.client.core.rendering.building.BuiltSection;

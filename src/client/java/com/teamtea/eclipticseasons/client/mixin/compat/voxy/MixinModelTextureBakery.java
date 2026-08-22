@@ -1,9 +1,7 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
-import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
-import com.teamtea.eclipticseasons.compat.voxy.VoxyClientTool;
+import com.teamtea.eclipticseasons.compat.voxy.client.VoxyClientTool;
 import com.teamtea.eclipticseasons.compat.voxy.helper.IVoxyModelController;
 import me.cortex.voxy.client.core.model.bakery.ReuseVertexConsumer;
 import me.cortex.voxy.client.core.model.bakery.SoftwareModelTextureBakery;

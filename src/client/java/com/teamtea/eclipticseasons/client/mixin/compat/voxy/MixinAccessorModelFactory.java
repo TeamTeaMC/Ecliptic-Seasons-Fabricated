@@ -1,7 +1,7 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
 import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
-import com.teamtea.eclipticseasons.compat.voxy.IVoxySectionUpdateRouter;
+import com.teamtea.eclipticseasons.compat.voxy.client.IVoxySectionUpdateRouter;
 import it.unimi.dsi.fastutil.longs.Long2ByteMap;
 import it.unimi.dsi.fastutil.longs.Long2ByteOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;

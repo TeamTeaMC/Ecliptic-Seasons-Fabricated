@@ -8,7 +8,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import me.cortex.voxy.common.util.Pair;
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
-import com.teamtea.eclipticseasons.compat.voxy.IVoxyModelFactory;
+import com.teamtea.eclipticseasons.compat.voxy.client.IVoxyModelFactory;
 import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import com.teamtea.eclipticseasons.compat.voxy.helper.IVoxyModelController;
 import me.cortex.voxy.client.core.gl.GlBuffer;
