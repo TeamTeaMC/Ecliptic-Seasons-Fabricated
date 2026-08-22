@@ -1,5 +1,6 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
+import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
 import me.cortex.voxy.common.voxelization.VoxelizedSection;
 import me.cortex.voxy.common.world.WorldEngine;
 import me.cortex.voxy.common.world.WorldUpdater;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin({WorldUpdater.class})
+@ConditionalMixin(value = "voxy",version = "0.2.18-beta")
 public class MixinWorldUpdater {
     @Inject(
             remap = false,

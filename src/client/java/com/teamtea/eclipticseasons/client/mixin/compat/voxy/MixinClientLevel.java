@@ -1,6 +1,7 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
 
+import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
 import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import net.minecraft.client.multiplayer.ClientLevel;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,6 +13,7 @@ import java.util.function.BooleanSupplier;
 
 
 @Mixin({ClientLevel.class})
+@ConditionalMixin(value = "voxy",version = "0.2.18-beta")
 public abstract class MixinClientLevel  {
 
     @Inject(at = {@At("HEAD")}, method = {"tick"})
