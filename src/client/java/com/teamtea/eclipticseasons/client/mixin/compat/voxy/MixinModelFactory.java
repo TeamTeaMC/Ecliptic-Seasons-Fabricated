@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import com.teamtea.eclipticseasons.EclipticSeasons;
+import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
 import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import com.teamtea.eclipticseasons.compat.voxy.helper.IVoxyModelController;
 import me.cortex.voxy.client.core.model.ModelFactory;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.lang.reflect.Method;
 
 @Mixin({ModelFactory.class})
+@ConditionalMixin(value = "voxy",version = "0.2.18-beta")
 public abstract class MixinModelFactory {
 
     @Shadow

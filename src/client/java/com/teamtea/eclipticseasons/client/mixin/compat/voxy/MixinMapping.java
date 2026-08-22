@@ -2,6 +2,7 @@ package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
 import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.cortex.voxy.common.world.other.Mapper;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin({Mapper.class})
+@ConditionalMixin(value = "voxy",version = "0.2.18-beta")
 public abstract class MixinMapping {
 
 

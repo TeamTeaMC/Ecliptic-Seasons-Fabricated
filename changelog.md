@@ -1,1 +1,1 @@
-- Fixed incorrect river climate evaluation with mods that modify vanilla climate sampling.
+- For voxy 0.2.18-beta.
