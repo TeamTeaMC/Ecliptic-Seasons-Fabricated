@@ -129,7 +129,7 @@ public class ExtraModelManager {
         // replaceModelMap.clear();
         // replaceModelMap.defaultReturnValue(false);
 
-        DerivedSnowyBlockStateModel.PART_CACHE_MAP.clear();
+        DerivedSnowyBlockStateModel.clearCache();
 
         loadVersion++;
         initCTMDetected();
@@ -423,9 +423,9 @@ public class ExtraModelManager {
                     snowModel = getExtraModel(snow_height2_top);
                 } else if (flag == MapChecker.FLAG_CUSTOM) {
                     // snowModel = getExtraModel(snowy_custom);
-                    snowModel = DerivedSnowyBlockStateModel.CUSTOM;
+                    snowModel = DerivedSnowyBlockStateModel.createCustom(state);
                 } else if (flag == MapChecker.FLAG_CUSTOM_AO) {
-                    snowModel = DerivedSnowyBlockStateModel.CUSTOM_AO;
+                    snowModel = DerivedSnowyBlockStateModel.createCustomAO(state);
                     // snowModel = getExtraModel(snowy_custom_ao);
                 } else if (flag == MapChecker.FLAG_CUSTOM_JSON
                         | flag == MapChecker.FLAG_CUSTOM_JSON_PLANTS
