@@ -3,6 +3,7 @@ package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
 import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import com.teamtea.eclipticseasons.compat.voxy.helper.IVoxyLevelProvider;
 import me.cortex.voxy.common.voxelization.ILightingSupplier;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin({WorldConversionFactory.class})
+@ConditionalMixin(value = "voxy",version = "0.2.18-beta")
 public abstract class MixinWorldConversionFactory {
 
     @WrapOperation(

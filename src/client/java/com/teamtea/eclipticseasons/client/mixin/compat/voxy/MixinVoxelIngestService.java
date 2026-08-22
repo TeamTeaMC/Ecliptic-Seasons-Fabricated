@@ -7,6 +7,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.teamtea.eclipticseasons.client.util.ClientCon;
+import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
 import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import com.teamtea.eclipticseasons.compat.voxy.helper.IVoxyAboveLightingSupplier;
 import com.teamtea.eclipticseasons.compat.voxy.helper.IVoxyLevelProvider;
@@ -25,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Mixin({VoxelIngestService.class})
+@ConditionalMixin(value = "voxy",version = "0.2.18-beta")
 public abstract class MixinVoxelIngestService {
 
 
