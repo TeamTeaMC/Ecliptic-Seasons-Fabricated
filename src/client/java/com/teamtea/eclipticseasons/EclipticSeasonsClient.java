@@ -43,8 +43,10 @@ public class EclipticSeasonsClient implements ClientModInitializer {
 
         // This entrypoint is suitable for setting up client-specific logic, such as rendering.
 
-        if (CompatModule.isVoxy())
+        if (CompatModule.isVoxy()) {
             ESEventHook.SOLAR_TERM_CHANGE.register(VoxyEsHandler.INSTANCE::onSolarTermChangeEvent);
+            ClientPlayConnectionEvents.DISCONNECT.register(VoxyEsHandler.INSTANCE::onLoggingIn);
+        }
         if (CompatModule.isSodium()) {
             ModContainer container = FabricLoader.getInstance()
                     .getModContainer(EclipticSeasonsApi.MODID)
