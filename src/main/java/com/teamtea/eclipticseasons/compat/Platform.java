@@ -15,8 +15,21 @@ public class Platform {
 
     public static boolean isModLoaded(String id) {
         return FabricLoader.getInstance().isModLoaded(id)
-                || FabricLoader.getInstance().isModLoaded(id.replaceAll("_","-"));
+                || FabricLoader.getInstance().isModLoaded(id.replaceAll("_", "-"));
     }
+
+    public static String getModName(String id, int index) {
+        if (index != 0) {
+            return "";
+        }
+
+        FabricLoader loader = FabricLoader.getInstance();
+        return loader.getModContainer(id)
+                .or(() -> loader.getModContainer(id.replace('_', '-')))
+                .map(container -> container.getMetadata().getName())
+                .orElse("");
+    }
+
 
     public static boolean isModsLoaded(List<String> ids) {
         return ids.stream().allMatch(Platform::isModLoaded);
