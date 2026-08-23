@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-/** Reads ConditionalMixin annotations without loading Mixin classes. */
+/**
+ * Reads ConditionalMixin annotations without loading Mixin classes.
+ */
 public final class ConditionalMixinEvaluator {
     private static final String ANNOTATION_DESCRIPTOR = Type.getDescriptor(ConditionalMixin.class);
     private static final Map<String, Optional<ConditionSpec>> CACHE = new ConcurrentHashMap<>();
@@ -85,6 +87,8 @@ public final class ConditionalMixinEvaluator {
                 this.condition.direct.id = (String) value;
             } else if (name.equals("version")) {
                 this.condition.direct.version = (String) value;
+            } else if (name.equals("name")) {
+                this.condition.direct.name = (String) value;
             }
         }
 
@@ -130,6 +134,8 @@ public final class ConditionalMixinEvaluator {
                 this.mod.id = (String) value;
             } else if (name.equals("version")) {
                 this.mod.version = (String) value;
+            } else if (name.equals("name")) {
+                this.mod.name = (String) value;
             }
         }
     }
@@ -151,9 +157,14 @@ public final class ConditionalMixinEvaluator {
     private static final class ModSpec {
         private String id;
         private String version = "";
+        private String name;
 
         private boolean matches() {
             if (this.id == null || this.id.isEmpty()) {
+                return false;
+            }
+            if (name != null && !name.isEmpty()
+                    && !Platform.getModName(id, 0).equals(name)) {
                 return false;
             }
             return this.version == null || this.version.isEmpty()
