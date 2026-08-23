@@ -45,21 +45,14 @@ public final class VoxyTool {
      * Creates a render-only seasonal view without mutating
      * Voxy sections or Mapper storage.
      */
-    public static long[] createSeasonalRenderData(
-            WorldEngine world,
-            WorldSection section,
-            long[] source
-    ) {
+    public static long[] createSeasonalRenderData(WorldEngine world, WorldSection section, long[] source) {
         if (!isVoxyTest()) return source;
 
         Mapper mapper = world.getMapper();
-
-        // 没有发生季节替换时直接返回 source，避免无意义复制。
         long[] output = source;
 
         int scale = 1 << section.lvl;
         int centerOffset = section.lvl == 0 ? 0 : scale >> 1;
-
         int sectionBaseX = ((section.x << 5) << section.lvl) + centerOffset;
         int sectionBaseY = ((section.y << 5) << section.lvl) + centerOffset;
         int sectionBaseZ = ((section.z << 5) << section.lvl) + centerOffset;
@@ -75,6 +68,15 @@ public final class VoxyTool {
                 long mappingId = source[index];
                 if (Mapper.isAir(mappingId)) continue;
 
+                int storedBlockId = Mapper.getBlockId(mappingId);
+                int originalBlockId = fixId(mapper, storedBlockId);
+                BlockState state = mapper.getBlockStateFromBlockId(originalBlockId);
+
+                // 先排除不支持积雪且不是可冻结水源的方块。
+                boolean freezableWater = isFreezableWater(state);
+                int blockFlag = MapChecker.getDefaultBlockTypeFlag(state);
+                if (!freezableWater && blockFlag <= MapChecker.FLAG_NONE) continue;
+
                 int localX = index & 31;
                 int localZ = index >> 5 & 31;
                 int localY = index >> 10 & 31;
@@ -82,58 +84,64 @@ public final class VoxyTool {
                 long aboveMappingId;
 
                 if (localY < 31) {
-                    aboveMappingId = source[WorldSection.getIndex(localX, localY + 1, localZ)];
+                    // 上方方块仍然位于当前 section。
+                    aboveMappingId = source[index + 1024];
                 } else {
-                    /*
-                     * 顶层方块需要读取相邻的上方 section。
-                     * 同一次 mesh 生成最多 acquire 一次。
-                     */
+                    // 只有 localY == 31 时，上方方块才跨 section。
                     if (!aboveSectionChecked) {
                         aboveSectionChecked = true;
-
-                        aboveSection = world.acquireIfExists(section.lvl, section.x, section.y + 1, section.z);
+                        aboveSection = world.acquireIfExists(
+                                section.lvl,
+                                section.x,
+                                section.y + 1,
+                                section.z
+                        );
 
                         if (aboveSection != null) {
                             aboveData = aboveSection._unsafeGetRawDataArray();
                         }
                     }
 
-                    if (aboveData == null) {
-                        continue;
-                    }
+                    if (aboveData == null) continue;
 
-                    aboveMappingId = aboveData[WorldSection.getIndex(localX, 0, localZ)];
+                    // 读取上方 section 的 localY == 0 平面。
+                    aboveMappingId = aboveData[index & 0x3FF];
                 }
 
-                int storedBlockId = Mapper.getBlockId(mappingId);
-                int originalBlockId = fixId(mapper, storedBlockId);
+                pos.set(
+                        sectionBaseX + localX * scale,
+                        sectionBaseY + localY * scale,
+                        sectionBaseZ + localZ * scale
+                );
 
-                BlockState state = mapper.getBlockStateFromBlockId(originalBlockId);
+                int renderBlockId = getSeasonalRenderBlockId(
+                        mapper,
+                        mappingId,
+                        aboveMappingId,
+                        originalBlockId,
+                        state,
+                        pos
+                );
 
-                pos.set(sectionBaseX + localX * scale, sectionBaseY + localY * scale, sectionBaseZ + localZ * scale);
+                if (renderBlockId == storedBlockId) continue;
 
-                int renderBlockId = getSeasonalRenderBlockId(mapper, mappingId, aboveMappingId, originalBlockId, state, pos);
-
-                if (renderBlockId == storedBlockId) {
-                    continue;
-                }
-
-                /*
-                 * 第一次产生实际修改时才复制。
-                 * 后续修改继续写入同一个副本。
-                 */
                 if (output == source) {
                     output = Arrays.copyOf(source, source.length);
                 }
 
-                output[index] = Mapper.withBlockBiome(mappingId, renderBlockId, Mapper.getBiomeId(mappingId)
+                output[index] = Mapper.withBlockBiome(
+                        mappingId,
+                        renderBlockId,
+                        Mapper.getBiomeId(mappingId)
                 );
             }
 
             return output;
         } finally {
             if (aboveSection != null) {
-                aboveSection.release(WorldSection.RELEASE_HINT_POSSIBLE_REUSE);
+                aboveSection.release(
+                        WorldSection.RELEASE_HINT_POSSIBLE_REUSE
+                );
             }
         }
     }
@@ -198,17 +206,17 @@ public final class VoxyTool {
     }
 
     public static int fixId(Mapper mapper, int blockId) {
-        return fixId(mapper, blockId, ignored -> {
-        });
+        return fixId(mapper, blockId, null);
     }
 
-    public static int fixId(Mapper mapper, int blockId, IntConsumer snowyStateConsumer) {
+    public static int fixId(Mapper mapper, int blockId, @Nullable IntConsumer snowyStateConsumer) {
         if (isVirtualIceId(blockId)) return blockId;
         int blockStateCount = mapper.getBlockStateCount();
         if (blockId < blockStateCount) return blockId;
         int decoded = MAX_VOXY_BLOCK_ID - blockId;
         if (decoded < blockStateCount) {
-            snowyStateConsumer.accept(decoded);
+            if (snowyStateConsumer != null)
+                snowyStateConsumer.accept(decoded);
             return decoded;
         }
         return blockId;
