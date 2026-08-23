@@ -2,7 +2,9 @@ package com.teamtea.eclipticseasons.compat.voxy.client;
 
 import com.teamtea.eclipticseasons.api.event.SolarTermChangeEvent;
 import com.teamtea.eclipticseasons.compat.CompatModule;
+import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 
 public class VoxyEsHandler {
 
@@ -16,5 +18,9 @@ public class VoxyEsHandler {
         //     VoxyGeometryRefreshManager.refreshAll();
         if (CompatModule.CommonConfig.voxyReloadWhenSeasonChanged.get())
             VoxyTintManager.refreshAll();
+    }
+
+    public void onLoggingIn(ClientPacketListener clientPacketListener, Minecraft minecraft) {
+        VoxyTool.BIOME_ID_MAP.clear();
     }
 }
