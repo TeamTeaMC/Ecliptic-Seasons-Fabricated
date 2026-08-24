@@ -3,7 +3,6 @@ package com.teamtea.eclipticseasons.client.gui.screen.entry.spec;
 import com.teamtea.eclipticseasons.api.misc.ITranslatable;
 import com.teamtea.eclipticseasons.client.gui.screen.ESModConfigScreen;
 import com.teamtea.eclipticseasons.client.gui.screen.entry.base.SpecEntry;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.network.chat.Component;
@@ -23,7 +22,7 @@ public class EnumEntry<T extends Enum<T>> extends SpecEntry<T> {
     }
 
     @Override
-    public AbstractWidget buildModConfigSpec(ESModConfigScreen screen, int x, int y, int width) {
+    public LayoutElement buildModConfigSpec(ESModConfigScreen screen, int x, int y, int width) {
         CycleButton.Builder<T> builder = CycleButton.builder(
                         value ->
                                 value instanceof ITranslatable it ?
@@ -31,16 +30,14 @@ public class EnumEntry<T extends Enum<T>> extends SpecEntry<T> {
                                         Component.literal(value.name()),
                         spec.get()
                 )
-                .displayState(CycleButton.DisplayState.VALUE);
-
+                .displayOnlyValue();
         applyClientSprite(builder, syncType);
 
-        return builder
-                .withValues(values)
-                .withTooltip(this::getTooltipSupplier)
-                .create(x, y, width, 20, this.label,
-                        (button, value) -> spec.set(value));
+        return buildResettableCycle(width, spec.get(), spec.getDefault(), spec::set,
+                onValueChange -> builder.withValues(values).withTooltip(this::getTooltipSupplier)
+                        .create(x, y, width - 30, 20, label, onValueChange));
     }
+
 
     @Override
     public int getPosition() {
