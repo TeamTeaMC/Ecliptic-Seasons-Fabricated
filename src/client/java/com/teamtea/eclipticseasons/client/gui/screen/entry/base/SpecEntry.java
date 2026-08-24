@@ -8,7 +8,6 @@ import com.teamtea.eclipticseasons.config.CommonConfig;
 import com.teamtea.eclipticseasons.config.sync.SyncType;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.layouts.LinearLayout;
@@ -82,7 +81,7 @@ public abstract class SpecEntry<T> extends ConfigEntry {
                 Component.translatable("eclipticseasons.configuration." + spec.getPath().get(spec.getPath().size() - 2)).append(" > ").append(label) : label.copy();
     }
 
-    public abstract AbstractWidget buildModConfigSpec(ESModConfigScreen screen, int x, int y, int width);
+    public abstract LayoutElement buildModConfigSpec(ESModConfigScreen screen, int x, int y, int width);
 
     @Override
     protected <E> Tooltip getTooltipSupplier(E value) {
