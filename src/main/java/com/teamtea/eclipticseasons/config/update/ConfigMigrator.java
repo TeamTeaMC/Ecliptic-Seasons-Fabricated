@@ -154,6 +154,8 @@ public class ConfigMigrator {
                 if (changed) {
                     config.save();
                 }
+            } catch (Exception e) {
+                EclipticSeasons.logger(e);
             }
         });
     }
