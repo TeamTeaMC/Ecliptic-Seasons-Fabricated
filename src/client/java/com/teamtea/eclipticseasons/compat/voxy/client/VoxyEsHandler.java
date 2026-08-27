@@ -21,6 +21,6 @@ public class VoxyEsHandler {
     }
 
     public void onLoggingIn(ClientPacketListener clientPacketListener, Minecraft minecraft) {
-        VoxyTool.BIOME_ID_MAP.clear();
+        VoxyTool.clearBiomeCache();
     }
 }
