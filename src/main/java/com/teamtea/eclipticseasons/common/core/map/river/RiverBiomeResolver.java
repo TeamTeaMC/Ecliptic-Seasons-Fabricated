@@ -109,11 +109,11 @@ public class RiverBiomeResolver {
      * Directly calling sampler.temperature().compute() and other DensityFunctions
      * bypasses these modifications and can cause compatibility issues.
      */
-    public static Climate.@NonNull TargetPoint getClimateTargetPoint(RandomState randomState, BlockPos.MutableBlockPos blockPos) {
+    public static Climate.@NonNull TargetPoint getClimateTargetPoint(Climate.Sampler sampler, BlockPos.MutableBlockPos blockPos) {
         int qx = QuartPos.fromBlock(blockPos.getX());
         int qy = QuartPos.fromBlock(blockPos.getY());
         int qz = QuartPos.fromBlock(blockPos.getZ());
-        Climate.Sampler sampler = randomState.createClimateSampler(SamplerContext.EMPTY_UNCACHED);
+        // Climate.Sampler sampler = randomState.createClimateSampler(SamplerContext.EMPTY_UNCACHED);
         return sampler.sample(qx, qy, qz);
         // DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         // return Climate.target(

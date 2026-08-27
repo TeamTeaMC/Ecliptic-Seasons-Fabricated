@@ -806,7 +806,7 @@ public class MapChecker {
 
         if (isSmallBiome(biome)
                 && level instanceof ServerLevel serverLevel) {
-            Climate.TargetPoint sample = RiverBiomeResolver.getClimateTargetPoint(serverLevel.getChunkSource().randomState(), pos.mutable());
+            Climate.TargetPoint sample = RiverBiomeResolver.getClimateTargetPoint(serverLevel.getChunkSource().randomState().createClimateSampler(SamplerContext.EMPTY_UNCACHED), pos.mutable());
             ResourceKey<Biome> biomeResourceKey = RiverBiomeResolver.getClimateBiome(sample);
             biome = level.registryAccess().get(biomeResourceKey).map(bh -> (Holder) bh).orElse(biome);
         }

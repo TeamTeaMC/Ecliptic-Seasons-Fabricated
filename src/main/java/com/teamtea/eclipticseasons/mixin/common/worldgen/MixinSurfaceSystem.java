@@ -1,10 +1,13 @@
 package com.teamtea.eclipticseasons.mixin.common.worldgen;
 
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.common.core.map.BiomeHolder;
 import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import com.teamtea.eclipticseasons.common.core.map.river.RiverBiomeResolver;
@@ -22,6 +25,8 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.NoiseChunk;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
+import net.minecraft.world.level.levelgen.densityfunction.DensityBufferPool;
+import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 import net.minecraft.world.level.levelgen.material.rule.MaterialRule;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,7 +54,9 @@ public abstract class MixinSurfaceSystem {
             @Share("biomeArrays") LocalRef<int[]> biomeHolderLocalRef,
             @Share("intCounter") LocalIntRef localIntRef,
             @Share("signal") LocalIntRef signal,
-            @Share("biomes") LocalRef<Registry<Biome>> biomesRef
+            @Share("biomes") LocalRef<Registry<Biome>> biomesRef,
+            @Share(value = "sampler", namespace = EclipticSeasonsApi.MODID) LocalRef<Climate.Sampler> sampler,
+            @Share(value = "bufferPool", namespace = EclipticSeasonsApi.MODID) LocalRef<DensityBufferPool> bufferPool
     ) {
         // BiomeHolder biomeHolder1 = chunk.getData(AttachmentRegistry.BIOME_HOLDER);
         biomeHolderLocalRef.set(new int[256]);
@@ -57,6 +64,12 @@ public abstract class MixinSurfaceSystem {
         signal.set(BiomeHolder.FLAG_NEED_VERSION);
         if (ServerLifecycleHooks.getCurrentServer() instanceof MinecraftServer currentServer)
             biomesRef.set(currentServer.registryAccess().lookupOrThrow(Registries.BIOME));
+        bufferPool.set(randomState.acquireDensityBufferPool());
+        try {
+            sampler.set(randomState.createClimateSampler(SamplerContext.builder().enableCaches().useBufferArena(bufferPool.get()).build()));
+        } catch (Exception e) {
+            sampler.set(randomState.createClimateSampler(SamplerContext.EMPTY_UNCACHED));
+        }
     }
 
     @Inject(at = {@At(value = "INVOKE_ASSIGN",
@@ -77,7 +90,8 @@ public abstract class MixinSurfaceSystem {
             @Share("biomeArrays") LocalRef<int[]> biomeHolderLocalRef,
             @Share("intCounter") LocalIntRef localIntRef,
             @Share("signal") LocalIntRef signal,
-            @Share("biomes") LocalRef<Registry<Biome>> biomesRef) {
+            @Share("biomes") LocalRef<Registry<Biome>> biomesRef,
+            @Share(value = "sampler", namespace = EclipticSeasonsApi.MODID) LocalRef<Climate.Sampler> sampler) {
         Registry<Biome> biomes = biomesRef.get();
         if (biomes == null) return;
         int i = MapChecker.biomeToId(biomes, biomeHolder.value());
@@ -86,7 +100,7 @@ public abstract class MixinSurfaceSystem {
             localIntRef.set(localIntRef.get() + 1);
             if (MapChecker.isSmallBiome(biomeHolder)) {
                 // signal.set(BiomeHolder.FLAG_FILL_SMALL);
-                Climate.TargetPoint sample = RiverBiomeResolver.getClimateTargetPoint(randomState, blockPos);
+                Climate.TargetPoint sample = RiverBiomeResolver.getClimateTargetPoint(sampler.get(), blockPos);
                 ResourceKey<Biome> biomeResourceKey = RiverBiomeResolver.getClimateBiome(sample);
                 int newBiomeID = MapChecker.biomeToId(biomes, biomes.getValue(biomeResourceKey));
                 if (newBiomeID > -1 && i < biomes.size()) {
@@ -109,7 +123,8 @@ public abstract class MixinSurfaceSystem {
             CallbackInfo ci,
             @Share("biomeArrays") LocalRef<int[]> biomeHolderLocalRef,
             @Share("intCounter") LocalIntRef localIntRef,
-            @Share("signal") LocalIntRef signal
+            @Share("signal") LocalIntRef signal,
+            @Share(value = "bufferPool", namespace = EclipticSeasonsApi.MODID) LocalRef<DensityBufferPool> bufferPool
     ) {
         // BiomeHolder biomeHolder1 = chunk.getData(AttachmentRegistry.BIOME_HOLDER);
         if (localIntRef.get() == 256) {
@@ -118,5 +133,6 @@ public abstract class MixinSurfaceSystem {
             protoChunk.setAttached(AttachmentRegistry.BIOME_HOLDER,
                     new BiomeHolder(biomeHolderLocalRef.get(), true, signal.get()));
         }
+        randomState.releaseDensityBufferPool(bufferPool.get());
     }
 }
