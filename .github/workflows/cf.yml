@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  RELEASE_TYPE: release
+  RELEASE_TYPE: beta
   CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_APITOKEN }}
 
 permissions:
