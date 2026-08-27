@@ -54,9 +54,9 @@ public class CompatModule {
         public static ModConfigSpec.ConfigValue<List<? extends String>> modsWithoutSereneSeasonBasedHumidity;
         public static ModConfigSpec.BooleanValue fixBiome;
         public static ModConfigSpec.BooleanValue DistantHorizonsWinterLOD;
-        public static ModConfigSpec.BooleanValue voxyTest;
-        public static ModConfigSpec.BooleanValue voxyLODAutoReload;
-        public static ModConfigSpec.BooleanValue voxyReloadWhenSeasonChanged;
+        public static ModConfigSpec.BooleanValue voxyCompatibility;
+        public static ModConfigSpec.BooleanValue voxyAutoRefresh;
+        public static ModConfigSpec.BooleanValue voxyRefreshOnSolarTermChange;
         public static ModConfigSpec.BooleanValue showCropGrowthInfoInProbe;
 
         public static void load(ModConfigSpec.Builder builder) {
@@ -87,30 +87,18 @@ public class CompatModule {
                         .define("DistantHorizonsWinterLOD", true);
 
             if (isVoxy()) {
-                voxyTest = builder
+                voxyCompatibility = builder
                         .worldRestart()
-                        .comment("""
-                                .
-                                Just for test.
-                                .""".strip()
-                        ).define("VoxyTest", true);
+                        .comment("Enables compatibility with Voxy.")
+                        .define("VoxyCompatibility", true);
 
-                voxyLODAutoReload = builder
-                        //.worldRestart()
-                        .comment("""
-                                .
-                                Just for test.
-                                .""".strip()
-                        ).define("VoxyLODAutoReload", true);
+                voxyAutoRefresh = builder
+                        .comment("Automatically updates distant LODs when snow coverage changes.")
+                        .define("VoxyAutoRefresh", true);
 
-
-                voxyReloadWhenSeasonChanged = builder
-                        //.worldRestart()
-                        .comment("""
-                                .
-                                Just for test.
-                                .""".strip()
-                        ).define("VoxyReloadWhenSeasonChanged", true);
+                voxyRefreshOnSolarTermChange = builder
+                        .comment("Updates seasonal LODs when the solar term changes.")
+                        .define("VoxyRefreshOnSolarTermChange", true);
             }
             builder.pop();
         }
