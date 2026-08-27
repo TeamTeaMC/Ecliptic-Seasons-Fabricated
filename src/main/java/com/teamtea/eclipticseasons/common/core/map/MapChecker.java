@@ -44,6 +44,7 @@ import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 
+import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -245,7 +246,7 @@ public class MapChecker {
 
     // public static @Nullable ChunkAccess getChunkView(Level level, BlockPos pos) {
     //    return level.getChunk(SectionPos.blockToSectionCoord(pos.getX()),
-    //            SectionPos.blockToSectionCoord(pos.getZ()), ChunkStatus.SURFACE, false);
+    //            SectionPos.blockToSectionCoord(pos.getZ()), ChunkStatus.TERRAIN, false);
     //}
 
     public static @Nullable ChunkAccess getChunkView(Level level, BlockPos pos) {
@@ -253,14 +254,14 @@ public class MapChecker {
         int cx = SectionPos.blockToSectionCoord(pos.getX());
         int cz = SectionPos.blockToSectionCoord(pos.getZ());
         ChunkAccess chunk = level.getChunkSource().getChunkNow(cx, cz);
-        return chunk != null && chunk.getPersistedStatus().isOrAfter(ChunkStatus.SURFACE) ?
+        return chunk != null && chunk.getPersistedStatus().isOrAfter(ChunkStatus.TERRAIN) ?
                 chunk : null;
     }
 
     public static @Nullable ChunkAccess getChunkView(Level level, int cx, int cz) {
         if (level == null) return null;
         ChunkAccess chunk = level.getChunkSource().getChunkNow(cx, cz);
-        return chunk != null && chunk.getPersistedStatus().isOrAfter(ChunkStatus.SURFACE) ?
+        return chunk != null && chunk.getPersistedStatus().isOrAfter(ChunkStatus.TERRAIN) ?
                 chunk : null;
     }
 
@@ -855,7 +856,7 @@ public class MapChecker {
                     int qx = QuartPos.fromBlock(relative.getX());
                     int qy = QuartPos.fromBlock(relative.getY());
                     int qz = QuartPos.fromBlock(relative.getZ());
-                    biome = biomeSource.createResolver(serverLevel.getChunkSource().randomState().sampler()).getNoiseBiome(qx, qy, qz);
+                    biome = biomeSource.createResolver(serverLevel.getChunkSource().randomState().createClimateSampler(SamplerContext.EMPTY_UNCACHED)).getNoiseBiome(qx, qy, qz);
                 } else if (bid < 0) {
                     y = getHeightSafe(level, relative) + 1;
                     if (y > maxBuildHeight || y <= minBuildHeight) {
@@ -908,7 +909,7 @@ public class MapChecker {
             //     biome = idToBiome(level, biomeId);
             // }
             {
-                Climate.Sampler sampler = level.getChunkSource().randomState().sampler();
+                Climate.Sampler sampler = level.getChunkSource().randomState().createClimateSampler(SamplerContext.EMPTY_UNCACHED);
                 Climate.TargetPoint sample = sampler.sample(QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()));
                 biome = parameters.findValue(sample);
 

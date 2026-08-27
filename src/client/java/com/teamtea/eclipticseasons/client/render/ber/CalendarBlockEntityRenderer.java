@@ -272,24 +272,20 @@ public class CalendarBlockEntityRenderer implements BlockEntityRenderer<Calendar
         }
         switch (d) {
             case SOUTH:
-                matrixStackIn.translate(0.5, 0.15, 1);
-                // matrixStackIn.mulPose(new Quaternion(0, 180, 180, true));
-                matrixStackIn.mulPose(XYZ.deg_to_rad(0, 180, 180));
+                matrixStackIn.translate(0.5F, 0.15F, 1.0F);
+                matrixStackIn.rotate(XYZ.deg_to_rad(0, 180, 180));
                 break;
             case NORTH:
-                // matrixStackIn.mulPose(new Quaternion(0, 0, 180, true));
-                matrixStackIn.mulPose(XYZ.deg_to_rad(0, 0, 180));
-                matrixStackIn.translate(-0.5, -0.15, 0);
+                matrixStackIn.rotate(XYZ.deg_to_rad(0, 0, 180));
+                matrixStackIn.translate(-0.5F, -0.15F, 0.0F);
                 break;
             case EAST:
-                // matrixStackIn.mulPose(new Quaternion(0, 270, 180, true));
-                matrixStackIn.mulPose(XYZ.deg_to_rad(0, 270, 180));
-                matrixStackIn.translate(-0.5, -0.15, -1);
+                matrixStackIn.rotate(XYZ.deg_to_rad(0, 270, 180));
+                matrixStackIn.translate(-0.5F, -0.15F, -1.0F);
                 break;
             case WEST:
-                // matrixStackIn.mulPose(new Quaternion(0, 90, 180, true));
-                matrixStackIn.mulPose(XYZ.deg_to_rad(0, 90, 180));
-                matrixStackIn.translate(0.5, -0.15, 0);
+                matrixStackIn.rotate(XYZ.deg_to_rad(0, 90, 180));
+                matrixStackIn.translate(0.5F, -0.15F, 0.0F);
                 break;
             default:
                 matrixStackIn.scale(0.01f, 0.01f, 0.01f);

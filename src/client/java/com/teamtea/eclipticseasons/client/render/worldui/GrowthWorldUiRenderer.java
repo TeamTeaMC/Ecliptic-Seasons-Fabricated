@@ -190,7 +190,7 @@ public final class GrowthWorldUiRenderer {
                 uiPos.z - cameraPos.z
         );
 
-        poseStack.mulPose(Axis.YP.rotation(frame.yaw()));
+        poseStack.rotate(Axis.YP, frame.yaw());
         poseStack.scale(uiState.scale(), -uiState.scale(), uiState.scale());
 
         renderGrowthText(mc.font, poseStack, collector, uiState);

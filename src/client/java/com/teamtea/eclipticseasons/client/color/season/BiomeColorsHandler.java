@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.attribute.EnvironmentAttribute;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
@@ -36,6 +37,9 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
+import org.joml.Vector4f;
 import org.jspecify.annotations.NonNull;
 
 import java.awt.*;
@@ -309,20 +313,20 @@ public class BiomeColorsHandler {
         return color;
     }
 
-    public static int getSkyColor(Biome biome, int originColor) {
-        return getBiomeColorInternal(biome, originColor, BiomeColorsHandler::getSkyColorMap);
+    public static Vector3fc getSkyColor(Biome biome, Vector3fc originColor) {
+        return ARGB.vector3fFromRGB24(getBiomeColorInternal(biome, ARGB.colorFromVector3f(originColor), BiomeColorsHandler::getSkyColorMap));
     }
 
     public static int getWaterColor(Biome biome, int originColor) {
         return getBiomeColorInternal(biome, originColor, BiomeColorsHandler::getWaterColorMap);
     }
 
-    public static int getWaterFogColor(Biome biome, int originColor) {
-        return getBiomeColorInternal(biome, originColor, BiomeColorsHandler::getWaterFogColorMap);
+    public static Vector3fc getWaterFogColor(Biome biome, Vector3fc originColor) {
+        return ARGB.vector3fFromRGB24(getBiomeColorInternal(biome, ARGB.colorFromVector3f(originColor), BiomeColorsHandler::getWaterFogColorMap));
     }
 
-    public static int getFogColor(Biome biome, int originColor) {
-        return getBiomeColorInternal(biome, originColor, BiomeColorsHandler::getFogColorMap);
+    public static Vector3fc getFogColor(Biome biome, Vector3fc originColor) {
+        return ARGB.vector3fFromRGB24(getBiomeColorInternal(biome, ARGB.colorFromVector3f(originColor), BiomeColorsHandler::getFogColorMap));
     }
 
     public static Enum2ObjectMap<SolarTerm, ColorMode.Instance> getSkyColorMap(BiomeColor.Instance instance) {
@@ -405,20 +409,20 @@ public class BiomeColorsHandler {
 
     @FunctionalInterface
     public interface BiomeColorAttributeProvider {
-        int getColor(Biome biome, int originColor);
+        Vector3fc getColor(Biome biome, Vector3fc originColor);
     }
 
 
     public static EnvironmentAttributeMap buildEnvironmentAttributeMap(EnvironmentAttributeMap attributeMap, Biome biome) {
-        Map<EnvironmentAttribute<Integer>, Integer> colorMap = new IdentityHashMap<>();
-        List<Pair<EnvironmentAttribute<Integer>, BiomeColorAttributeProvider>> attributes = List.of(
+        Map<EnvironmentAttribute<Vector3fc>, Vector3fc> colorMap = new IdentityHashMap<>();
+        List<Pair<EnvironmentAttribute<Vector3fc>, BiomeColorAttributeProvider>> attributes = List.of(
                 Pair.of(EnvironmentAttributes.SKY_COLOR, BiomeColorsHandler::getSkyColor),
                 Pair.of(EnvironmentAttributes.FOG_COLOR, BiomeColorsHandler::getFogColor),
                 Pair.of(EnvironmentAttributes.WATER_FOG_COLOR, BiomeColorsHandler::getWaterFogColor)
         );
-        for (Pair<EnvironmentAttribute<Integer>, BiomeColorAttributeProvider> attribute : attributes) {
-            int originalColor = getOriginalColor(attributeMap, attribute.getFirst());
-            int newColor = attribute.getSecond().getColor(biome, originalColor);
+        for (Pair<EnvironmentAttribute<Vector3fc>, BiomeColorAttributeProvider> attribute : attributes) {
+            Vector3fc originalColor = getOriginalColor(attributeMap, attribute.getFirst());
+            Vector3fc newColor = attribute.getSecond().getColor(biome, originalColor);
             if (originalColor != newColor) {
                 colorMap.put(attribute.getFirst(), newColor);
             }
@@ -431,10 +435,10 @@ public class BiomeColorsHandler {
         return null;
     }
 
-    public static @NonNull Integer getOriginalColor(EnvironmentAttributeMap returnValue, EnvironmentAttribute<Integer> attribute) {
+    public static @NonNull Vector3fc getOriginalColor(EnvironmentAttributeMap returnValue, EnvironmentAttribute<Vector3fc> attribute) {
         return Optional.ofNullable(returnValue.get(attribute))
                 .map(EnvironmentAttributeMap.Entry::argument)
-                .map(o -> o instanceof Integer i ? i : -1)
-                .orElse(-1);
+                .map(o -> o instanceof Vector3fc i ? i : ARGB.vector3fFromRGB24(-1))
+                .orElse(ARGB.vector3fFromRGB24(-1));
     }
 }

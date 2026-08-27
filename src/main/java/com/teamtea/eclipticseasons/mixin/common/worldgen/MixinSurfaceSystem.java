@@ -21,8 +21,8 @@ import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.NoiseChunk;
 import net.minecraft.world.level.levelgen.RandomState;
-import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
+import net.minecraft.world.level.levelgen.material.rule.MaterialRule;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,7 +32,7 @@ import warp.net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.Set;
 
-@Mixin(net.minecraft.world.level.levelgen.SurfaceSystem.class)
+@Mixin(net.minecraft.world.level.levelgen.material.MaterialSystem.class)
 public abstract class MixinSurfaceSystem {
 
     @Inject(at = {@At(value = "HEAD")},
@@ -43,7 +43,7 @@ public abstract class MixinSurfaceSystem {
             WorldGenerationContext generationContext,
             ChunkAccess protoChunk,
             NoiseChunk noiseChunk,
-            SurfaceRules.RuleSource ruleSource,
+            MaterialRule ruleSource,
             @Nullable Set<Holder<Biome>> possibleBiomes,
             CallbackInfo ci,
             @Share("biomeArrays") LocalRef<int[]> biomeHolderLocalRef,
@@ -69,13 +69,13 @@ public abstract class MixinSurfaceSystem {
             WorldGenerationContext generationContext,
             ChunkAccess protoChunk,
             NoiseChunk noiseChunk,
-            SurfaceRules.RuleSource ruleSource,
+            MaterialRule ruleSource,
             @Nullable Set<Holder<Biome>> possibleBiomes,
             CallbackInfo ci,
             @Local(name = "surfaceBiome") Holder<Biome> biomeHolder,
             @Local(name = "blockPos") BlockPos.MutableBlockPos blockPos,
             @Share("biomeArrays") LocalRef<int[]> biomeHolderLocalRef,
-             @Share("intCounter") LocalIntRef localIntRef,
+            @Share("intCounter") LocalIntRef localIntRef,
             @Share("signal") LocalIntRef signal,
             @Share("biomes") LocalRef<Registry<Biome>> biomesRef) {
         Registry<Biome> biomes = biomesRef.get();
@@ -104,7 +104,7 @@ public abstract class MixinSurfaceSystem {
             WorldGenerationContext generationContext,
             ChunkAccess protoChunk,
             NoiseChunk noiseChunk,
-            SurfaceRules.RuleSource ruleSource,
+            MaterialRule ruleSource,
             @Nullable Set<Holder<Biome>> possibleBiomes,
             CallbackInfo ci,
             @Share("biomeArrays") LocalRef<int[]> biomeHolderLocalRef,

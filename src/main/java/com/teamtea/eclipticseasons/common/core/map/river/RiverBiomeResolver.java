@@ -7,6 +7,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
@@ -112,7 +113,7 @@ public class RiverBiomeResolver {
         int qx = QuartPos.fromBlock(blockPos.getX());
         int qy = QuartPos.fromBlock(blockPos.getY());
         int qz = QuartPos.fromBlock(blockPos.getZ());
-        Climate.Sampler sampler = randomState.sampler();
+        Climate.Sampler sampler = randomState.createClimateSampler(SamplerContext.EMPTY_UNCACHED);
         return sampler.sample(qx, qy, qz);
         // DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         // return Climate.target(
