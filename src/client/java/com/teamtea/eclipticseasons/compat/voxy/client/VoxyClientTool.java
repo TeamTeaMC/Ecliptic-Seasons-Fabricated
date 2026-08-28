@@ -1,5 +1,8 @@
 package com.teamtea.eclipticseasons.compat.voxy.client;
 
+import com.teamtea.eclipticseasons.api.data.client.model.ModelResolver;
+import com.teamtea.eclipticseasons.api.data.client.model.ModelTester;
+import com.teamtea.eclipticseasons.client.color.season.FoliageColorSource;
 import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
 import com.teamtea.eclipticseasons.client.core.context.ExtraRendererContext;
 import com.teamtea.eclipticseasons.client.util.ClientCon;
@@ -8,16 +11,19 @@ import com.teamtea.eclipticseasons.compat.CompatModule;
 import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import me.cortex.voxy.client.core.model.bakery.ReuseVertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SingleThreadedRandomSource;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +42,12 @@ public class VoxyClientTool {
                 && VoxyGeometryRefreshManager.refreshAll()) {
             ClientCon.getAgent().setSnowChange(false);
         }
+    }
+
+    @Nullable
+    public static ModelTester getSeasonalModel(BlockState state, Identifier identifier) {
+        ModelResolver resolver = ExtraModelManager.extraSnowModelBuilds.get(identifier);
+        return resolver == null ? null : resolver.tryFind(state);
     }
 
     public static void renderToStream(BlockState state, ReuseVertexConsumer translucentVC, ReuseVertexConsumer opaqueVC) {
@@ -68,4 +80,12 @@ public class VoxyClientTool {
     }
 
 
+    public static boolean isExtendBiomeDependentColour(BlockState state, List<BlockTintSource> tintSources) {
+        for (BlockTintSource source : tintSources) {
+            if (source instanceof FoliageColorSource
+                    || source instanceof FoliageColorSource.Impl)
+                return true;
+        }
+        return false;
+    }
 }

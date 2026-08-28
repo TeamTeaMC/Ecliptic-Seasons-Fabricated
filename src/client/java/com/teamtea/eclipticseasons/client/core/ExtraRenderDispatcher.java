@@ -369,7 +369,7 @@ public class ExtraRenderDispatcher {
         return context;
     }
 
-    private static @Nullable BlockStateModel getModel(StandaloneModelKey<BlockStateModel> index) {
+    public static @Nullable BlockStateModel getModel(StandaloneModelKey<BlockStateModel> index) {
         return ExtraModelManager.getExtraModel(index);
     }
 
