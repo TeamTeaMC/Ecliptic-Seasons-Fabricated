@@ -1,10 +1,12 @@
 package com.teamtea.eclipticseasons.client.mixin.compat.voxy;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import com.teamtea.eclipticseasons.compat.voxy.client.VoxyClientTool;
 import me.cortex.voxy.common.util.Pair;
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.common.mixin.condition.ConditionalMixin;
@@ -54,11 +56,11 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
     )
     private BlockState eclipticseasons$addEntry_setBS(Mapper instance, int blockId, Operation<BlockState> original) {
         return original.call(instance, VoxyTool.fixId(instance, blockId
-        //         , (i) -> {
-        //     // if (bakery2 instanceof IVoxyModelController modelController) {
-        //     //     modelController.setSnowyBlock(true);
-        //     // }
-        // }
+                //         , (i) -> {
+                //     // if (bakery2 instanceof IVoxyModelController modelController) {
+                //     //     modelController.setSnowyBlock(true);
+                //     // }
+                // }
         ));
     }
 
@@ -74,6 +76,14 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
         // }
     }
 
+    @ModifyReturnValue(
+            remap = false,
+            method = "isBiomeDependentColour",
+            at = @At("RETURN")
+    )
+    private static boolean eclipticseasons$markSeasonalFoliageDynamic(boolean original, List<BlockTintSource> tintSources, BlockState state) {
+        return original | VoxyClientTool.isExtendBiomeDependentColour(state, tintSources);
+    }
 
     @Inject(
             remap = false,
@@ -83,6 +93,7 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
     private void eclipticseasons$processModelResult_return(CallbackInfoReturnable<Boolean> cir) {
         if (bakery2 instanceof IVoxyModelController modelController) {
             modelController.setSnowyBlock(false);
+            modelController.setSeasonalModel(null);
         }
     }
 
@@ -100,6 +111,11 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
                 VoxyTool.fixId(mapper, blockId, (i) -> {
                     if (bakery2 instanceof IVoxyModelController modelController) {
                         modelController.setSnowyBlock(true);
+                    }
+                }, (seasonal) -> {
+                    if (bakery2 instanceof IVoxyModelController modelController) {
+                        modelController.setSeasonalModel(seasonal);
+                        modelController.setSnowyBlock(seasonal.snowy());
                     }
                 });
             } catch (Exception e) {
