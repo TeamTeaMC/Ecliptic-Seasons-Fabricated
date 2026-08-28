@@ -121,9 +121,9 @@ public class ModContents {
         addPackIfEnabled(oldConfig, modFile,
                 null, "Rain Together", "rain_together");
         addPackIfEnabled(oldConfig, modFile,
-                CommonConfig.Resource.RegionalSnowTime, "Regional Snow Time", "regional_snow_time");
+                CommonConfig.Resource.climateZoneSnowfallTiming, "Regional Snow Time", "regional_snow_time");
         addPackIfEnabled(oldConfig, modFile,
-                CommonConfig.Resource.SnowTogether, "Snow Together", "snow_together");
+                CommonConfig.Resource.synchronizedBiomeSnowfall, "Snow Together", "snow_together");
         addPackIfEnabled(oldConfig, modFile,
                 CommonConfig.Resource.VanillaBiomeClimateSettings, "Vanilla Biome Climate Settings", "vanilla_biome_climate_settings");
         addPackIfEnabled(oldConfig, modFile,
