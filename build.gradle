@@ -118,6 +118,9 @@ dependencies {
 
 	compileOnly "com.electronwill.night-config:core:3.8.3"
 	compileOnly("com.electronwill.night-config:toml:3.8.3")
+
+	implementation(include("org.apache.maven:maven-artifact:3.9.9"))
+
 //	implementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${cca_version}"
 //	include "org.ladysnake.cardinal-components-api:cardinal-components-world:${cca_version}"
 }

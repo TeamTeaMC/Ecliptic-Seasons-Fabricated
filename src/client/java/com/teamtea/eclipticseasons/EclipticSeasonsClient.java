@@ -9,6 +9,7 @@ import com.teamtea.eclipticseasons.common.network.SimpleNetworkHandlerClient;
 import com.teamtea.eclipticseasons.compat.CompatModule;
 import com.teamtea.eclipticseasons.compat.Platform;
 import com.teamtea.eclipticseasons.compat.voxy.client.VoxyEsHandler;
+import com.teamtea.eclipticseasons.compat.voxy.helper.VoxySeasonalModelRegistry;
 import com.teamtea.eclipticseasons.config.ClientConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -46,6 +47,9 @@ public class EclipticSeasonsClient implements ClientModInitializer {
         if (CompatModule.isVoxy()) {
             ESEventHook.SOLAR_TERM_CHANGE.register(VoxyEsHandler.INSTANCE::onSolarTermChangeEvent);
             ClientPlayConnectionEvents.DISCONNECT.register(VoxyEsHandler.INSTANCE::onLoggingIn);
+            ModelLoadingPlugin.register((s)->{
+                VoxySeasonalModelRegistry.clear();
+            });
         }
         if (CompatModule.isSodium()) {
             ModContainer container = FabricLoader.getInstance()

@@ -11,10 +11,10 @@ import com.seibel.distanthorizons.core.wrapperInterfaces.IWrapperFactory;
 import com.seibel.distanthorizons.core.wrapperInterfaces.block.IBlockStateWrapper;
 import com.seibel.distanthorizons.core.wrapperInterfaces.world.IBiomeWrapper;
 import com.seibel.distanthorizons.core.wrapperInterfaces.world.IClientLevelWrapper;
-import com.seibel.distanthorizons.coreapi.util.ColorUtil;
 import com.teamtea.eclipticseasons.client.util.ClientCon;
 import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import com.teamtea.eclipticseasons.compat.CompatModule;
+import com.teamtea.eclipticseasons.client.lod.color.SeasonalBlockColorCache;
 import com.teamtea.eclipticseasons.config.ClientConfig;
 import com.teamtea.eclipticseasons.config.CommonConfig;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
@@ -22,7 +22,6 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -30,9 +29,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.MapColor;
-
-import java.awt.*;
 
 public class DHTool {
     private static final ThreadLocal<BlockPos.MutableBlockPos> MUTABLE_BLOCK_POS_THREAD_LOCAL = ThreadLocal.withInitial(BlockPos.MutableBlockPos::new);
@@ -58,8 +54,14 @@ public class DHTool {
                 || !CommonConfig.isSnowyWinter()
                 || dhBlockPos.equals(DhBlockPos.ZERO)
                 || !(iBlockStateWrapper instanceof BlockStateWrapper blockStateWrapper)
-                || blockStateWrapper.isAir()
-                || skylight <= 0) {
+                || blockStateWrapper.isAir()) {
+            return null;
+        }
+
+        boolean hasSeasonalColor = SeasonalBlockColorCache.hasSeasonalModelColor(blockStateWrapper.blockState);
+
+        boolean noUnderSky = skylight <= 0;
+        if (noUnderSky && !hasSeasonalColor) {
             return null;
         }
 
@@ -77,8 +79,11 @@ public class DHTool {
         BlockPos.MutableBlockPos mcPos = convert(dhBlockPos);
 
 
-        if (!MapChecker.shouldSnowAtBiome(level, biome, blockState, RANDOM_SOURCE_THREAD_LOCAL, blockState.getSeed(mcPos), mcPos)) {
-            return null;
+        long seed = blockState.getSeed(mcPos);
+        if (noUnderSky || !MapChecker.shouldSnowAtBiome(level, biome, blockState, RANDOM_SOURCE_THREAD_LOCAL, seed, mcPos)) {
+            return hasSeasonalColor ?
+                    SeasonalBlockColorCache.getColor(biome, mcPos, seed, blockState)
+                    : null;
         }
 
         ObjectOpenHashSet<IBlockStateWrapper> blockStatesToIgnore = WRAPPER_FACTORY.getRendererIgnoredBlocks(instance);
@@ -125,7 +130,9 @@ public class DHTool {
             }
         }
 
-        return null;
+        return hasSeasonalColor ?
+                SeasonalBlockColorCache.getColor(biome, mcPos, seed, blockState)
+                : null;
     }
 
     public static IBlockStateWrapper shouldFrozen(ClientLevelWrapper instance, IBiomeWrapper biomeWrapper, DhBlockPosMutable dhBlockPosMutable, BlockState blockState, FullDataPointIdMap fullDataMapping, LongArrayList fullColumnData, int index) {
@@ -160,7 +167,7 @@ public class DHTool {
         return null;
     }
 
-    private static Biome unwrapBiome(IBiomeWrapper biomeWrapper) {
+    public static Biome unwrapBiome(IBiomeWrapper biomeWrapper) {
         Object wrappedBiome = biomeWrapper.getWrappedMcObject();
         if (wrappedBiome instanceof Holder<?> holder && holder.value() instanceof Biome biome) {
             return biome;

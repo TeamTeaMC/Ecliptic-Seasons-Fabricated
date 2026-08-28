@@ -6,6 +6,9 @@ import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
 import net.fabricmc.loader.api.VersionParsingException;
 import net.fabricmc.loader.api.metadata.version.VersionPredicate;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
+import org.apache.maven.artifact.versioning.VersionRange;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -61,12 +64,14 @@ public class Platform {
     public static boolean isVersionSatisfied(String modId, String require) {
         return FabricLoader.getInstance().getModContainer(modId)
                 .map(container -> {
-                    Version currentVersion = container.getMetadata().getVersion();
+                    DefaultArtifactVersion currentVersion = new DefaultArtifactVersion(container.getMetadata().getVersion().getFriendlyString());
+                    if (!require.startsWith("[") && !require.startsWith("(")) {
+                        return currentVersion.compareTo(new DefaultArtifactVersion(require)) >= 0;
+                    }
                     try {
-                        VersionPredicate predicate = VersionPredicate.parse(">=" + require);
-                        return predicate.test(currentVersion);
-                    } catch (VersionParsingException e) {
-                        return false;
+                        return VersionRange.createFromVersionSpec(require).containsVersion(currentVersion);
+                    } catch (InvalidVersionSpecificationException exception) {
+                        throw new IllegalArgumentException("Invalid version requirement: " + require, exception);
                     }
                 })
                 .orElse(false);

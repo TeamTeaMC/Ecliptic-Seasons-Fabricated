@@ -29,6 +29,7 @@
     "compat.distanthorizons.MixinClientLevel",
     "compat.distanthorizons.MixinFullDataToRenderDataTransformer",
     "compat.distanthorizons.MixinQuadTree",
+    "compat.distanthorizons.MixinClientLevelWrapper",
     "compat.fabric_renderer_indigo.MixinModelBlockRenderer",
     "compat.iris.MixinAbstractBlockRenderContext",
     "compat.iris.MixinBiomeUniforms",
@@ -50,8 +51,8 @@
     "compat.voxy.MixinModelFactory",
     "compat.voxy.MixinModelTextureBakery",
     "compat.voxy.MixinWorldUpdater",
-    "compat.voxy.ModelStoreAccessor",
-    "compat.voxy.ModelFactoryInvoker"
+    "compat.voxy.ModelFactoryInvoker",
+    "compat.voxy.ModelStoreAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
