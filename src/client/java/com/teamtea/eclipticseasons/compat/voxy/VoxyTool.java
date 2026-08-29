@@ -7,7 +7,7 @@ import com.teamtea.eclipticseasons.client.util.ClientRef;
 import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import com.teamtea.eclipticseasons.common.core.map.stub.PlainsStubHolder;
 import com.teamtea.eclipticseasons.compat.CompatModule;
-import com.teamtea.eclipticseasons.compat.voxy.helper.SeasonalModelEntry;
+import com.teamtea.eclipticseasons.client.lod.SeasonalModelEntry;
 import com.teamtea.eclipticseasons.compat.voxy.helper.VoxySeasonalModelRegistry;
 import com.teamtea.eclipticseasons.config.ClientConfig;
 import com.teamtea.eclipticseasons.config.CommonConfig;

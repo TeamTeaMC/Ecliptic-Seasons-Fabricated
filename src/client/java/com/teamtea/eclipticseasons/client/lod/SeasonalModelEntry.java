@@ -1,4 +1,4 @@
-package com.teamtea.eclipticseasons.compat.voxy.helper;
+package com.teamtea.eclipticseasons.client.lod;
 
 import net.minecraft.resources.Identifier;
 
