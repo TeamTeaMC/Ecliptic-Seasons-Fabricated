@@ -1,5 +1,6 @@
 package com.teamtea.eclipticseasons.compat.voxy.helper;
 
+import com.teamtea.eclipticseasons.client.lod.SeasonalModelEntry;
 import org.jspecify.annotations.Nullable;
 
 public interface IVoxyModelController {

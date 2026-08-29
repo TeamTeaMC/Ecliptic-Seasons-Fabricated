@@ -1,5 +1,6 @@
 package com.teamtea.eclipticseasons.compat.voxy.helper;
 
+import com.teamtea.eclipticseasons.client.lod.SeasonalModelEntry;
 import com.teamtea.eclipticseasons.compat.voxy.VoxyTool;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
