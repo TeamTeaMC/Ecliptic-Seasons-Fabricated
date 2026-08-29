@@ -56,7 +56,7 @@ public abstract class MixinModelTextureBakery implements IVoxyModelController {
             return;
         }
 
-        ModelTester modelTester = VoxyClientTool.getSeasonalModel(state, entry.modelIdentifier());
+        ModelTester modelTester = ExtraModelManager.getSeasonalModel(state, entry.modelIdentifier());
 
         BlockStateModel seasonalModel = modelTester == null ? null
                 : ExtraModelManager.getExtraModel(modelTester.modelIdentifier());

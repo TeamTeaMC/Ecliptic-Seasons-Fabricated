@@ -1,7 +1,5 @@
 package com.teamtea.eclipticseasons.compat.voxy.client;
 
-import com.teamtea.eclipticseasons.api.data.client.model.ModelResolver;
-import com.teamtea.eclipticseasons.api.data.client.model.ModelTester;
 import com.teamtea.eclipticseasons.client.color.season.FoliageColorSource;
 import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
 import com.teamtea.eclipticseasons.client.core.context.ExtraRendererContext;
@@ -18,12 +16,10 @@ import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SingleThreadedRandomSource;
-import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +38,6 @@ public class VoxyClientTool {
                 && VoxyGeometryRefreshManager.refreshAll()) {
             ClientCon.getAgent().setSnowChange(false);
         }
-    }
-
-    @Nullable
-    public static ModelTester getSeasonalModel(BlockState state, Identifier identifier) {
-        ModelResolver resolver = ExtraModelManager.extraSnowModelBuilds.get(identifier);
-        return resolver == null ? null : resolver.tryFind(state);
     }
 
     public static void renderToStream(BlockState state, ReuseVertexConsumer translucentVC, ReuseVertexConsumer opaqueVC) {

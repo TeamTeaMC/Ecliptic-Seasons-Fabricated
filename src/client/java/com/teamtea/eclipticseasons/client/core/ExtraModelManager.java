@@ -50,6 +50,7 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
+import org.jspecify.annotations.Nullable;
 import warp.net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 import org.jspecify.annotations.NonNull;
 
@@ -325,6 +326,12 @@ public class ExtraModelManager {
 
     public static boolean isSpecialSnowySprite(TextureAtlasSprite textureAtlasSprite) {
         return textureAtlasSprite.contents().name().toString().contains("snow");
+    }
+
+    @Nullable
+    public static ModelTester getSeasonalModel(BlockState state, Identifier identifier) {
+        ModelResolver resolver = extraSnowModelBuilds.get(identifier);
+        return resolver == null ? null : resolver.tryFind(state);
     }
 
 
