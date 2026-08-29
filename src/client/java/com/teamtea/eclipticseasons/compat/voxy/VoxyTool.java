@@ -212,7 +212,7 @@ public final class VoxyTool {
             List<SeasonBlockDefinition.FlatSliceHolder> flatSliceHolders =
                     localSeasonStatus.getFlatSliceEnumMap().get(solarTerm);
             if (flatSliceHolders == null || flatSliceHolders.isEmpty()) continue;
-            if (!localSeasonStatus.getBiomes().contains(biome)) continue;
+            if (localSeasonStatus.getBiomes().size() > 0 && !localSeasonStatus.getBiomes().contains(biome)) continue;
 
             for (int j = 0, flatSliceHoldersSize = flatSliceHolders.size(); j < flatSliceHoldersSize; j++) {
                 SeasonBlockDefinition.FlatSliceHolder flatSliceHolder = flatSliceHolders.get(j);
