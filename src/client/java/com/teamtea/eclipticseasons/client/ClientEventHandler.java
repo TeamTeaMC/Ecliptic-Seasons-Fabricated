@@ -11,6 +11,7 @@ import com.teamtea.eclipticseasons.api.misc.client.IBiomeColorHolder;
 import com.teamtea.eclipticseasons.api.util.EclipticUtil;
 import com.teamtea.eclipticseasons.client.color.season.BiomeColorsHandler;
 import com.teamtea.eclipticseasons.client.core.ClientWeatherChecker;
+import com.teamtea.eclipticseasons.client.lod.color.SeasonalBlockColorCache;
 import com.teamtea.eclipticseasons.client.gui.screen.ESModConfigScreen;
 import com.teamtea.eclipticseasons.client.render.WorldRenderer;
 import com.teamtea.eclipticseasons.client.render.chunk.CompilerCollector;
@@ -75,6 +76,7 @@ public final class ClientEventHandler {
             for (Biome biome : event.getLevel().registryAccess().lookupOrThrow(Registries.BIOME)) {
                 if (((Object) biome) instanceof IBiomeColorHolder colorHolder) colorHolder.setSeasonChanged();
             }
+            SeasonalBlockColorCache.clear();
         }
     }
 

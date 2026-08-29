@@ -42,9 +42,6 @@ public final class VoxyTool {
     private static final RandomSource RANDOM_SOURCE_THREAD_LOCAL = RandomSource.createThreadLocalInstance(42L);
     private static final ThreadLocal<BlockPos.MutableBlockPos> MUTABLE_BLOCK_POS_THREAD_LOCAL = ThreadLocal.withInitial(BlockPos.MutableBlockPos::new);
 
-    private VoxyTool() {
-    }
-
     public static boolean isVoxyTest() {
         return CompatModule.CommonConfig.voxyCompatibility.get();
     }
