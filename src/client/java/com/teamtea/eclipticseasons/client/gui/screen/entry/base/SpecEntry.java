@@ -7,6 +7,7 @@ import com.teamtea.eclipticseasons.client.gui.screen.entry.spec.*;
 import com.teamtea.eclipticseasons.config.CommonConfig;
 import com.teamtea.eclipticseasons.config.sync.SyncType;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.LayoutElement;
@@ -26,7 +27,8 @@ public abstract class SpecEntry<T> extends ConfigEntry {
     protected final ModConfigSpec.ConfigValue<T> spec;
     protected final long hashValueCache;
     @Getter
-    protected final SyncType syncType;
+    @Setter
+    protected SyncType syncType;
 
     public SpecEntry(ModConfigSpec.ConfigValue<T> spec) {
         super("eclipticseasons.configuration." + spec.getPath().getLast());
@@ -58,7 +60,7 @@ public abstract class SpecEntry<T> extends ConfigEntry {
 
     @Override
     public LayoutElement build(ESModConfigScreen screen, int x, int y, int width) {
-        screen.configRegistered.add(spec);
+        // screen.configRegistered.add(spec);
 
         LayoutElement layoutElement = buildLayout(screen, x, y, width);
 
