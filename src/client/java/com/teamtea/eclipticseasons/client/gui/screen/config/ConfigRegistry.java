@@ -52,7 +52,11 @@ public class ConfigRegistry {
 
     public void apply(ConfigScreenContext context) {
         registerBuiltIn(context);
-        plugins.values().forEach(plugin -> plugin.register(context));
+        plugins.forEach((id, plugin) -> {
+            if (plugin.autoRegisterConfigs())
+                context.registerConfigs(id.getNamespace());
+            plugin.register(context);
+        });
     }
 
     protected void registerBuiltIn(ConfigScreenContext context) {
@@ -84,12 +88,12 @@ public class ConfigRegistry {
         context.add(ConfigCategory.GENERAL, recommended, new CallbackBooleanEntry(
                 "eclipticseasons.configuration.SimpleSeasonalAgriculture",
                 () -> !CommonConfig.Crop.enableCropHumidityControl.get()
-                        // && CommonConfig.Crop.simpleGreenHouse.get()
+                        && CommonConfig.Crop.simpleGreenHouse.get()
                         && CommonConfig.Crop.greenHouseCheckMode.get()
                         == CropGrowthHandler.GreenHouseCheckMode.TOP_ONLY,
                 enabled -> {
                     CommonConfig.Crop.enableCropHumidityControl.set(!enabled);
-                    // CommonConfig.Crop.simpleGreenHouse.set(enabled);
+                    CommonConfig.Crop.simpleGreenHouse.set(enabled);
                     CommonConfig.Crop.greenHouseCheckMode.set(enabled
                             ? CropGrowthHandler.GreenHouseCheckMode.TOP_ONLY
                             : CropGrowthHandler.GreenHouseCheckMode.FULL);
