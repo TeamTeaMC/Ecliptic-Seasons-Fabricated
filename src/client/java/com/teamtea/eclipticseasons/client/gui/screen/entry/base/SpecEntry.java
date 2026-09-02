@@ -4,11 +4,7 @@ import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.api.constant.solar.Season;
 import com.teamtea.eclipticseasons.client.gui.screen.ESModConfigScreen;
 import com.teamtea.eclipticseasons.client.gui.screen.config.ConfigCategory;
-import com.teamtea.eclipticseasons.client.gui.screen.entry.spec.BooleanEntry;
-import com.teamtea.eclipticseasons.client.gui.screen.entry.spec.EnumEntry;
-import com.teamtea.eclipticseasons.client.gui.screen.entry.spec.FixedIntegerListEntry;
-import com.teamtea.eclipticseasons.client.gui.screen.entry.spec.NumberEntry;
-import com.teamtea.eclipticseasons.client.gui.screen.entry.spec.SuggestedListStringEntry;
+import com.teamtea.eclipticseasons.client.gui.screen.entry.spec.*;
 import com.teamtea.eclipticseasons.config.CommonConfig;
 import com.teamtea.eclipticseasons.config.sync.SyncType;
 import lombok.Getter;
@@ -24,6 +20,9 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.config.ModConfigs;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -105,10 +104,7 @@ public abstract class SpecEntry<T> extends ConfigEntry {
         LayoutElement layoutElement = buildLayout(screen, x, y, width);
 
         Component title = Component.translatable(translationKey());
-        String commentKey = translationKey() + ".tooltip";
-        MutableComponent comment = buildTooltipComment(commentKey, Component.literal(spec.getSpec().getComment() + ""));
-
-        applyTooltip(layoutElement, title, comment);
+        applyTooltip(layoutElement, title, getComment());
         return layoutElement;
     }
 
@@ -128,10 +124,21 @@ public abstract class SpecEntry<T> extends ConfigEntry {
     @Override
     protected <E> Tooltip getTooltipSupplier(E value) {
         Component title = Component.translatable(translationKey());
-        String commentKey = translationKey() + ".tooltip";
-        MutableComponent comment = buildTooltipComment(commentKey, Component.literal(spec.getSpec().getComment() + ""));
         return Tooltip.create(title.copy().withStyle(ChatFormatting.BOLD)
-                .append(comment.copy().withStyle(style -> style.withBold(false))));
+                .append(getComment().copy().withStyle(style -> style.withBold(false))));
+    }
+
+    protected String fullPathTranslationKey() {
+        List<String> path = new ArrayList<>(spec.getPath());
+        Collections.reverse(path);
+        String reversedPath = String.join(".", path);
+        return translationNamespace + ".configuration." + reversedPath;
+    }
+
+    protected MutableComponent getComment() {
+        String commentKey = translationKey() + ".tooltip";
+        String fullPathCommentKey = fullPathTranslationKey() + ".tooltip";
+        return buildTooltipComment(commentKey, spec.getSpec().getComment(), fullPathCommentKey);
     }
 
     public static ConfigEntry createNumber(ModConfigSpec.ConfigValue<?> spec) {

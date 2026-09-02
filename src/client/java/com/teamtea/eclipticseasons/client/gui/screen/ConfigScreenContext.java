@@ -11,6 +11,7 @@ import com.teamtea.eclipticseasons.config.sync.SyncType;
 import net.minecraft.network.chat.Component;
 import net.neoforged.fml.config.IConfigSpec;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.config.ModConfigs;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.*;
@@ -52,6 +53,10 @@ public class ConfigScreenContext {
             this.configs.add(config);
             configsBySpec.put(config.getSpec(), config);
         }
+    }
+
+    public void registerConfigs(String modId) {
+        registerConfigs(ModConfigs.getModConfigs(modId));
     }
 
     public Collection<ModConfig> configs() {
