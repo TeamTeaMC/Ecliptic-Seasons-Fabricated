@@ -12,7 +12,8 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -71,7 +72,7 @@ public class EclipticSeasonsGiftLootTables extends SimpleFabricLootTableSubProvi
                 LootTable.lootTable()
                         .withPool(
                                 LootPool.lootPool()
-                                        .setRolls(ConstantValue.exactly(1.0F))
+                                        .setRolls(ContextIntProviders.exactly(1))
                                         .add(LootItem.lootTableItem(ItemRegistry.snowless_hometown).setWeight(10))
                         )
         );
