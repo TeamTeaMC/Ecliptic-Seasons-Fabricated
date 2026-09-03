@@ -14,6 +14,7 @@ import com.teamtea.eclipticseasons.client.gui.screen.effect.SeasonalBackgroundEf
 import com.teamtea.eclipticseasons.client.gui.screen.entry.base.ConfigEntry;
 import com.teamtea.eclipticseasons.client.gui.screen.entry.base.TitleEntry;
 import com.teamtea.eclipticseasons.client.gui.screen.widget.ScrollUtil;
+import com.teamtea.eclipticseasons.client.gui.screen.widget.SpritesConstant;
 import com.teamtea.eclipticseasons.client.gui.screen.widget.SuggestWidget;
 import com.teamtea.eclipticseasons.client.gui.screen.widget.WoodenButtonWidget;
 import com.teamtea.eclipticseasons.client.util.ClientCon;
@@ -33,7 +34,6 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvents;
@@ -83,6 +83,7 @@ public class ESModConfigScreen extends Screen {
         this.season = ClientCon.nowSeason.isValid() ? ClientCon.nowSeason :
                 // Season.collectValidValues()[RandomSource.create(System.currentTimeMillis()).nextInt(4)]
                 new FixedSolarDataManagerLocal().getSolarTerm().getSeason();
+        SpritesConstant.setSeason(this.season);
         backgroundEffects = new SeasonalBackgroundEffects(season);
         configContext = new ConfigScreenContext();
         definition.initialize(configContext);
@@ -163,7 +164,7 @@ public class ESModConfigScreen extends Screen {
     protected void buildHeader(int entryWidth) {
         int horizontalPadding = 20;
         int classicButtonWidth = 120;
-        int titleWidth = Math.min(100,Math.max(80, font.width(getTitle()) + 8));
+        int titleWidth = Math.min(100, Math.max(80, font.width(getTitle()) + 8));
         int spacerWidth = width
                 - horizontalPadding * 2
                 - titleWidth
@@ -230,7 +231,7 @@ public class ESModConfigScreen extends Screen {
             });
             build.setSelect(category == selectTab);
             if (category == ConfigCategory.GENERAL)
-                build.setOverrideSprites(ConfigEntry.CLIENT_SPRITES_SEASONAL);
+                build.setOverrideSprites(SpritesConstant.getClientSpritesSeasonal());
             build.setTooltip(Tooltip.create(category.getDescription()));
             sidebar.addChild(build);
         }
