@@ -4,7 +4,10 @@
 		"2": "eclipticseasons:block/snow_overlay_half_left"    ,
 		"3": "eclipticseasons:block/snow_overlay_half_right",
 		"particle": "minecraft:block/snow",
-		"top": "minecraft:block/snow",
+		"top": {
+			"eclipticseasons:force_cutout": true,
+			"sprite": "minecraft:block/snow"
+		},
 		"side": "eclipticseasons:block/snow_overlay"},
 	"elements": [
 		{
