@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.misc.client.ISpriteChecker;
+import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
 import com.teamtea.eclipticseasons.client.core.ExtraRenderDispatcher;
 import com.teamtea.eclipticseasons.client.model.block.ISnowyReplaceModel;
 import com.teamtea.eclipticseasons.compat.sodium.SodiumStatus;
@@ -76,7 +77,8 @@ public abstract class MixinAbstractBlockRenderContext {
            try {
                if (bakedQuad.materialInfo().sprite() instanceof ISpriteChecker iSpriteChecker
                        && iSpriteChecker.isCTMSprite()) {
-                   sodiumStatus.setShouldCollect(true);
+                   sodiumStatus.setShouldCollect(true);                   ExtraModelManager.updateStateFlaggerIfCTM(state);
+                   ExtraModelManager.updateStateFlaggerIfCTM(state);
                }
            } catch (Exception exception) {
                EclipticSeasons.logger(exception);
