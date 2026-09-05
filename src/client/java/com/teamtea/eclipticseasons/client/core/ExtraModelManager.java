@@ -7,6 +7,7 @@ import com.teamtea.eclipticseasons.api.data.client.model.ModelResolver;
 import com.teamtea.eclipticseasons.api.data.client.model.ModelTester;
 import com.teamtea.eclipticseasons.api.data.client.model.seasonal.SeasonalTexture;
 import com.teamtea.eclipticseasons.api.data.season.SnowDefinition;
+import com.teamtea.eclipticseasons.api.misc.IBlockStateFlagger;
 import com.teamtea.eclipticseasons.api.misc.client.ISnowyBlockState;
 import com.teamtea.eclipticseasons.client.model.MyResolver;
 import com.teamtea.eclipticseasons.client.model.block.DerivedSnowyBlockStateModel;
@@ -82,6 +83,17 @@ public class ExtraModelManager {
         if (ctmStates.isEmpty()) return false;
         CtmProperties orDefault = ctmStates.getOrDefault(blockState.getBlock(), null);
         return orDefault != null && orDefault.matches(blockState);
+    }
+
+    public static int updateStateFlaggerIfCTM(BlockState state) {
+        if (state instanceof IBlockStateFlagger flagger) {
+            flagger.setBlockTypeFlag(MapChecker.FLAG_CUSTOM);
+        }
+        if (state instanceof ISnowyBlockState snowyBlockState) {
+            snowyBlockState.setSnowyModel(null, ExtraModelManager.loadVersion);
+            snowyBlockState.setSnowyModel2(null, ExtraModelManager.loadVersion);
+        }
+        return MapChecker.FLAG_CUSTOM;
     }
 
     public static boolean isSpecialCTMSprite(TextureAtlasSprite sprite) {
@@ -392,6 +404,12 @@ public class ExtraModelManager {
                             break;
                         }
                     }
+                }
+            }
+
+            if (flag < MapChecker.FLAG_GRASS) {
+                if (isSpecialCTMBlock(state)) {
+                    flag = updateStateFlaggerIfCTM(state);
                 }
             }
             // **************************
