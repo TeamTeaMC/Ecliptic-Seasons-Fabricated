@@ -2,7 +2,7 @@ package com.teamtea.eclipticseasons.client.core.context;
 
 import com.teamtea.eclipticseasons.api.misc.client.IExtraRendererContextOwner;
 import com.teamtea.eclipticseasons.client.model.block.ISnowyReplaceModel;
-import com.teamtea.eclipticseasons.client.model.block.NeoLikeBlockStateModel;
+import com.teamtea.eclipticseasons.client.model.block.fabric.NeoLikeBlockStateModel;
 import com.teamtea.eclipticseasons.common.core.map.MapChecker;
 import lombok.Data;
 import lombok.experimental.Accessors;

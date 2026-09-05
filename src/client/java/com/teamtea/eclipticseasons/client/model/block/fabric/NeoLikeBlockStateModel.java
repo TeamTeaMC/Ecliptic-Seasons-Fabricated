@@ -1,4 +1,4 @@
-package com.teamtea.eclipticseasons.client.model.block;
+package com.teamtea.eclipticseasons.client.model.block.fabric;
 
 import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.client.renderer.v1.model.FabricBlockStateModel;

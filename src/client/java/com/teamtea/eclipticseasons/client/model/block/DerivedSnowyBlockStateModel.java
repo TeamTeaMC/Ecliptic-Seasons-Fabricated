@@ -1,6 +1,8 @@
 package com.teamtea.eclipticseasons.client.model.block;
 
 import com.teamtea.eclipticseasons.client.core.ExtraModelManager;
+import com.teamtea.eclipticseasons.client.model.block.fabric.FabricModelPartCollector;
+import com.teamtea.eclipticseasons.client.model.block.fabric.NeoLikeBlockStateModel;
 import com.teamtea.eclipticseasons.client.model.block.part.SimpleBlockModelPart;
 import com.teamtea.eclipticseasons.client.model.block.quad.ReUVBakedQuad;
 import com.teamtea.eclipticseasons.client.model.block.quad.QuadFilter;
@@ -79,7 +81,7 @@ public class DerivedSnowyBlockStateModel implements NeoLikeBlockStateModel {
         BlockStateModel blockStateModel = ExtraModelManager.models.blockStateModels().get(state);
         if (blockStateModel == null) return;
         if (isCacheableModel(blockStateModel, state) && queryCachedPart(blockStateModel, parts)) return;
-        blockStateModel.collectParts(random, parts);
+        FabricModelPartCollector.collect(blockStateModel, level, pos, state, random, parts);
         changeSprite(blockStateModel, state, parts);
     }
 
