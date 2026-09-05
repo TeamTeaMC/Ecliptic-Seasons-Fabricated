@@ -1,5 +1,6 @@
 package com.teamtea.eclipticseasons.client.model.block;
 
+import com.teamtea.eclipticseasons.client.model.block.fabric.NeoLikeBlockStateModel;
 import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
