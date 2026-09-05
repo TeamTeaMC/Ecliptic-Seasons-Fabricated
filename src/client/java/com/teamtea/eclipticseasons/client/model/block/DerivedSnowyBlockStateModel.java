@@ -23,14 +23,16 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DerivedSnowyBlockStateModel implements NeoLikeBlockStateModel {
     // public static final DerivedSnowyBlockStateModel INSTANCE = new DerivedSnowyBlockStateModel();
     // public static final DerivedSnowyBlockStateModel CUSTOM = new DerivedSnowyBlockStateModel();
     // public static final DerivedSnowyBlockStateModel CUSTOM_AO = new DerivedSnowyBlockStateModel();
 
-    protected static final Map<BlockStateModel, SimpleBlockModelPart> PART_CACHE_MAP = new IdentityHashMap<>();
-    protected static final Map<BlockStateModel, DerivedSnowyBlockStateModel> SHARED_MODELS = new IdentityHashMap<>();
+    protected static final Map<BlockStateModel, SimpleBlockModelPart> PART_CACHE_MAP = new ConcurrentHashMap<>();
+    protected static final Map<BlockStateModel, DerivedSnowyBlockStateModel> SHARED_MODELS = new ConcurrentHashMap<>();
+    protected static final Map<BlockStateModel, Boolean> CACHEABLE_MODELS = new ConcurrentHashMap<>();
 
     public static DerivedSnowyBlockStateModel createCustom(BlockState state) {
         return create(state, MapChecker.FLAG_CUSTOM);
@@ -68,24 +70,39 @@ public class DerivedSnowyBlockStateModel implements NeoLikeBlockStateModel {
     public static void clearCache() {
         PART_CACHE_MAP.clear();
         SHARED_MODELS.clear();
+        CACHEABLE_MODELS.clear();
     }
 
     @Override
     public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockStateModelPart> parts) {
-        if (parts.isEmpty()) {
-            BlockStateModel blockStateModel = ExtraModelManager.models.blockStateModels().get(state);
-            if (blockStateModel != null) {
-                blockStateModel.collectParts(random, parts);
-            }
-            changeSprite(original, state, parts);
+        // if (parts.isEmpty())
+        BlockStateModel blockStateModel = ExtraModelManager.models.blockStateModels().get(state);
+        if (blockStateModel == null) return;
+        if (isCacheableModel(blockStateModel, state) && queryCachedPart(blockStateModel, parts)) return;
+        blockStateModel.collectParts(random, parts);
+        changeSprite(blockStateModel, state, parts);
+    }
+
+    protected static boolean isCacheableModel(BlockStateModel model, BlockState state) {
+        return CACHEABLE_MODELS.computeIfAbsent(model, value ->
+                value.createGeometryKey(BlockAndTintGetter.EMPTY, BlockPos.ZERO, state, RandomSource.create(42L)) != null
+        );
+    }
+
+    protected static boolean queryCachedPart(BlockStateModel blockStateModel, List<BlockStateModelPart> parts) {
+        SimpleBlockModelPart simpleBlockModelPart = PART_CACHE_MAP.get(blockStateModel);
+        if (simpleBlockModelPart != null) {
+            parts.add(simpleBlockModelPart);
+            return true;
         }
+        return false;
     }
 
     @Override
     public void collectParts(@NonNull RandomSource random, @NonNull List<BlockStateModelPart> parts) {
-        if (original != null) {
-            original.collectParts(random, parts);
-        }
+        if (original == null) return;
+        if (queryCachedPart(original, parts)) return;
+        original.collectParts(random, parts);
         changeSprite(original, defaultState, parts);
     }
 
@@ -104,11 +121,6 @@ public class DerivedSnowyBlockStateModel implements NeoLikeBlockStateModel {
 
     public static void changeSprite(BlockStateModel original, BlockState state, List<BlockStateModelPart> parts) {
         if (parts.isEmpty()) return;
-        SimpleBlockModelPart simpleBlockModelPart = PART_CACHE_MAP.get(original);
-        if (simpleBlockModelPart != null) {
-            parts.add(simpleBlockModelPart);
-            return;
-        }
 
         Map<Direction, List<BakedQuad>> map = new IdentityHashMap<>();
         // QuadCollection.Builder quadCollection = new QuadCollection.Builder();
