@@ -76,8 +76,6 @@ public abstract class MixinBlockRenderer extends AbstractBlockRenderContext impl
             remap = false,
             method = "renderModel",
             at = @At(value = "INVOKE",
-                    // shift = At.Shift.AFTER,
-
                     target = "Lnet/caffeinemc/mods/sodium/client/services/PlatformModelEmitter;emitModel(Lnet/minecraft/client/renderer/block/dispatch/BlockStateModel;Ljava/util/function/Predicate;Lnet/caffeinemc/mods/sodium/client/render/model/MutableQuadViewImpl;Lnet/minecraft/util/RandomSource;Lnet/minecraft/client/renderer/block/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/caffeinemc/mods/sodium/client/services/PlatformModelEmitter$Bufferer;)V")
     )
     private void eclipticseasons$renderModel_wrap_emitBlockQuads(
@@ -105,16 +103,6 @@ public abstract class MixinBlockRenderer extends AbstractBlockRenderContext impl
                 original.call(instance, stateModel, directionPredicate, mutableQuadView, randomSource, blockAndTintGetter, blockPos, blockState, bufferer);
             }
         }
-        // PlatformModelEmitter.getInstance().emitModel(blockStateModel, this::isFaceCulled, this.getForEmitting(), this.random, this.level, pos, state, this::bufferDefaultModel);
-
-        // if (eclipticseasons$snowModel != null) {
-        //     eclipticseasons$cancelDowngradedPass = true;
-        //     eclipticseasons$shouldCollectBakeQuads = false;
-        //     // this.type = ExtraModelManager.getRenderType(state);
-        //     // original.call(instance, eclipticseasons$snowModel, directionPredicate, mutableQuadView, randomSource, blockAndTintGetter, blockPos, blockState, bufferer);
-        //     PlatformModelEmitter.getInstance().emitModel(eclipticseasons$snowModel, this::isFaceCulled, this.getForEmitting(), this.random, this.level, pos, state, this::bufferDefaultModel);
-        // }
-
     }
 
     @Inject(
