@@ -81,18 +81,18 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	compileOnly "maven.modrinth:voxy:0.2.18-beta"
-	compileOnly "maven.modrinth:sodium:mc26.2-0.9.0-fabric"
-	compileOnly "maven.modrinth:iris:1.11.1+26.2-fabric"
+	compileOnly "maven.modrinth:sodium:mc26.3-0.9.2-fabric"
+	compileOnly "maven.modrinth:iris:1.11.6+26.3-fabric"
 
-	compileOnly "maven.modrinth:jade:26.2.1+fabric"
+	compileOnly "maven.modrinth:jade:26.3.0+fabric"
 
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
 	compileOnly 'org.projectlombok:lombok:1.18.42'
 	annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
-	implementation "maven.modrinth:forge-config-api-port:86ROVP2H"
+	implementation "maven.modrinth:forge-config-api-port:c1wkPZ5n"
 
-	compileOnly "maven.modrinth:modmenu:20.0.0-beta.2"
+	compileOnly "maven.modrinth:modmenu:21.0.0-beta.1"
 	compileOnly "curse.maven:configured-457570:7943179"
 //	implementation "curse.maven:cardinal-components-api-318449:7909405"
 
