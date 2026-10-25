@@ -4,6 +4,7 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.teamtea.eclipticseasons.EclipticSeasons;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.api.constant.simulation.SeasonalSimulationLevel;
+import com.teamtea.eclipticseasons.api.constant.simulation.SnowfallTiming;
 import com.teamtea.eclipticseasons.api.constant.tag.ESItemTags;
 import com.teamtea.eclipticseasons.api.data.misc.ESSortInfo;
 import com.teamtea.eclipticseasons.api.data.season.SeasonCycle;
@@ -121,9 +122,15 @@ public class ModContents {
         addPackIfEnabled(oldConfig, modFile,
                 null, "Rain Together", "rain_together");
         addPackIfEnabled(oldConfig, modFile,
-                CommonConfig.Resource.climateZoneSnowfallTiming, "Regional Snow Time", "regional_snow_time");
+                CommonConfig.Resource.snowfallTiming,
+                SnowfallTiming.REGIONAL,
+                "Regional Snow Time", "regional_snow_time");
+
         addPackIfEnabled(oldConfig, modFile,
-                CommonConfig.Resource.synchronizedBiomeSnowfall, "Snow Together", "snow_together");
+                CommonConfig.Resource.snowfallTiming,
+                SnowfallTiming.UNIFIED,
+                "Snow Together", "snow_together");
+
         addPackIfEnabled(oldConfig, modFile,
                 CommonConfig.Resource.VanillaBiomeClimateSettings, "Vanilla Biome Climate Settings", "vanilla_biome_climate_settings");
         addPackIfEnabled(oldConfig, modFile,
@@ -136,24 +143,47 @@ public class ModContents {
     }
 
 
-    private static void addPackIfEnabled(CommentedFileConfig oldConfig, ModContainer modFile, ModConfigSpec.BooleanValue use, String packname, String packid) {
-        if (use == null || isShouldLoad(oldConfig, use)) {
-            ResourceLoaderImpl.registerBuiltinPack(
-                    EclipticSeasons.rl(packid),
-                    "resourcepacks/" + packname,
-                    modFile,
-                    Component.translatable("pack.eclipticseasons." + packid),
-                    PackActivationType.ALWAYS_ENABLED);
+    private static void addPackIfEnabled(CommentedFileConfig config, ModContainer modFile,
+                                         ModConfigSpec.BooleanValue use, String name, String id) {
+        if (use == null || isShouldLoad(config, use)) {
+            registerPack(modFile, name, id);
         }
     }
 
-    private static boolean isShouldLoad(CommentedFileConfig oldConfig, ModConfigSpec.BooleanValue booleanValue) {
-        boolean shouldLoad;
-        try {
-            shouldLoad = booleanValue.get();
-        } catch (IllegalStateException illegalStateException) {
-            shouldLoad = oldConfig.getOrElse(booleanValue.getPath(), false);
+    private static <T extends Enum<T>> void addPackIfEnabled(CommentedFileConfig config, ModContainer modFile,
+                                                             ModConfigSpec.EnumValue<T> use, T expected,
+                                                             String name, String id) {
+        if (use != null && isShouldLoad(config, use, expected)) {
+            registerPack(modFile, name, id);
         }
-        return shouldLoad;
     }
+
+    private static void registerPack(ModContainer modFile, String name, String id) {
+        ResourceLoaderImpl.registerBuiltinPack(
+                EclipticSeasons.rl(id),
+                "resourcepacks/" + name,
+                modFile,
+                Component.translatable("pack.eclipticseasons." + id),
+                PackActivationType.ALWAYS_ENABLED
+        );
+    }
+
+    private static boolean isShouldLoad(CommentedFileConfig config, ModConfigSpec.BooleanValue use) {
+        try {
+            return use.get();
+        } catch (IllegalStateException e) {
+            return config.getOrElse(use.getPath(), false);
+        }
+    }
+
+    private static <T extends Enum<T>> boolean isShouldLoad(
+            CommentedFileConfig config, ModConfigSpec.EnumValue<T> use, T expected) {
+        try {
+            return use.get() == expected;
+        } catch (IllegalStateException e) {
+            Object raw = config.get(use.getPath());
+            return raw instanceof String name && expected.name().equals(name);
+        }
+    }
+
 }

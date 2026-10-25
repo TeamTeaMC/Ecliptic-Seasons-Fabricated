@@ -1,9 +1,12 @@
 package com.teamtea.eclipticseasons.config.update;
 
+import com.teamtea.eclipticseasons.api.constant.simulation.SeasonalSimulationLevel;
 import com.teamtea.eclipticseasons.config.sync.SyncType;
 import com.teamtea.eclipticseasons.config.update.worker.ConfigMigration;
 import com.teamtea.eclipticseasons.config.update.worker.ConfigPathRenamer;
 import com.teamtea.eclipticseasons.config.update.worker.ConfigValueMover;
+import com.teamtea.eclipticseasons.config.update.worker.special.SimulationLevelConfigMigration;
+import com.teamtea.eclipticseasons.config.update.worker.special.SnowfallTimingConfigMigration;
 import lombok.Builder;
 import lombok.Singular;
 import net.minecraft.util.Util;
@@ -14,7 +17,7 @@ import java.util.Map;
 
 @Builder
 public record ConfigMigrationsHolder(int minVersion, @Singular List<ConfigMigration> configMigrations) {
-
+    public static final int CURRENT_CONFIG_VERSION = 4;
 
     public static final Map<SyncType, List<ConfigMigrationsHolder>> CONFIG_MIGRATIONS =
             Util.make(new HashMap<>(), map -> {
@@ -56,6 +59,20 @@ public record ConfigMigrationsHolder(int minVersion, @Singular List<ConfigMigrat
                                 .configMigration(ConfigPathRenamer.builder()
                                         .oldPath("Resource.RegionalSnowTime")
                                         .newPath("Resource.ClimateZoneSnowfallTiming")
+                                        .build())
+                                .build(),
+                        builder().minVersion(3)
+                                .configMigration(SimulationLevelConfigMigration.builder()
+                                        .path("Crop.EnableCropHumidityControl")
+                                        .requiredLevel(SeasonalSimulationLevel.SURVIVAL)
+                                        .build())
+                                .build(),
+                        builder()
+                                .minVersion(4)
+                                .configMigration(SnowfallTimingConfigMigration.builder()
+                                        .unifiedPath("Resource.SynchronizedBiomeSnowfall")
+                                        .regionalPath("Resource.ClimateZoneSnowfallTiming")
+                                        .newPath("Resource.SnowfallTiming")
                                         .build())
                                 .build()
                 ));
