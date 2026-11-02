@@ -133,7 +133,7 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
 
     @Shadow
     @Final
-    private List<Pair<Integer, BlockState>> modelsRequiringBiomeColours;
+    private List<?> modelsRequiringBiomeColours;
 
     @Shadow
     @Final
@@ -174,6 +174,25 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
     }
 
     @Unique
+    private BlockState eclipticseasons$getBiomeColourState(Object entry) {
+        try {
+            java.lang.reflect.Method accessor;
+            try {
+                accessor = entry.getClass().getDeclaredMethod("state");
+            } catch (NoSuchMethodException ignored) {
+                accessor = entry.getClass().getDeclaredMethod("right");
+            }
+            accessor.setAccessible(true);
+            return (BlockState) accessor.invoke(entry);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(
+                    "Unable to read BlockState from Voxy biome-colour entry: "
+                            + entry.getClass().getName(), e
+            );
+        }
+    }
+
+    @Unique
     private void eclipticseasons$rebuildTintTable$Impl() {
         if (!eclipticseasons$refreshTintRequested) return;
         eclipticseasons$refreshTintRequested = false;
@@ -186,8 +205,8 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
         MemoryBuffer upload = new MemoryBuffer((long) biomeCount * modelCount * Integer.BYTES);
         long pointer = upload.address;
 
-        for (Pair<Integer, BlockState> entry : modelsRequiringBiomeColours) {
-            BlockState state = entry.right();
+        for (Object entry : modelsRequiringBiomeColours) {
+            BlockState state = eclipticseasons$getBiomeColourState(entry);
             List<BlockTintSource> tintSources =
                     ModelFactoryInvoker.eclipticseasons$getTintSources(state);
 
