@@ -84,7 +84,7 @@ dependencies {
 
 	runtimeOnly "curse.maven:particle-rain-421897:8055423"
 //	runtimeOnly "maven.modrinth:replaymod:26.1-2.6.27"
-	runtimeOnly "maven.modrinth:flashback:0.42.1"
+	// runtimeOnly "maven.modrinth:flashback:0.42.1"
 
 	// Voxy 0.2.14-alpha compatibility profile
 //	implementation "maven.modrinth:voxy:0.2.14-alpha"
