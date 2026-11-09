@@ -189,15 +189,15 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
         long pointer = upload.address;
 
         List<Pair<Integer, BlockState>> colours;
-        if(coloursR.getFirst()instanceof Pair){
-            colours=(List<Pair<Integer, BlockState>>) coloursR;
-        }else {
-            colours=new ArrayList<>();
+        if (coloursR.getFirst() instanceof Pair) {
+            colours = (List<Pair<Integer, BlockState>>) coloursR;
+        } else {
+            colours = new ArrayList<>();
             for (Object o : coloursR) {
-                if(o instanceof ModelFactoryModelBlockStatePairAccessor accessor){
-                    colours.add(new Pair<>(accessor.eclipticseasons$getModel(),accessor.eclipticseasons$getState()));
-                }else {
-                    EclipticSeasons.logger("Unknown Voxy model pair class "+o.getClass().getName());
+                if (o instanceof ModelFactoryModelBlockStatePairAccessor accessor) {
+                    colours.add(new Pair<>(accessor.eclipticseasons$getModel(), accessor.eclipticseasons$getState()));
+                } else {
+                    EclipticSeasons.logger("Unknown Voxy model pair class " + o.getClass().getName());
                 }
             }
         }
@@ -214,7 +214,11 @@ public abstract class MixinModelFactory implements IVoxyModelFactory {
                     colour = ModelFactoryInvoker.eclipticseasons$captureColourConstant(
                             tintSources, state, biome
                     ) | 0xFF000000;
+                    if (colour == 0xFFFFFFFF && !tintSources.isEmpty()) {
+                        colour = tintSources.getFirst().color(state);
+                    }
                 }
+
 
                 MemoryUtil.memPutInt(pointer, colour);
                 pointer += Integer.BYTES;
