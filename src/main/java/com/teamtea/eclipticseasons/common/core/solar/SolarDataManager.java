@@ -69,6 +69,8 @@ public class SolarDataManager extends SavedData {
     private int biomeDataVersion = 0;
     protected boolean isValidDimension = false;
     protected float solarTempChange = 0;
+    // The term the server last announced. Not saved: it is set on the first tick after loading.
+    protected SolarTerm lastSolarTerm = null;
 
     protected WeakReference<Level> levelWeakReference;
     protected List<Holder<SpecialDays>> CACHE;
@@ -495,13 +497,16 @@ public class SolarDataManager extends SavedData {
     }
 
     public void sendAndUpdate(ServerLevel level) {
-        boolean changeSolarTerm = getSolarTermsDay() % CommonConfig.Season.lastingDaysOfEachTerm.get() == 0;
-        boolean updateTempChange = false;
         SolarTerm solarTerm = getSolarTerm();
+        // Compare with the term last announced, as the client does, so that jumps
+        // into the middle of a term are announced and the old term is the real one.
+        SolarTerm old = lastSolarTerm == null ? solarTerm : lastSolarTerm;
+        lastSolarTerm = solarTerm;
+        boolean changeSolarTerm = solarTerm != old;
+        boolean updateTempChange = false;
         if (changeSolarTerm) {
             // note 不再需要更新
             // BiomeClimateManager.updateTemperature(level, getSolarTerm());
-            SolarTerm old = SolarTerm.collectValues()[(getSolarTermIndex() + 24) % 24];
             ESEventHook.SOLAR_TERM_CHANGE.invoker().onEvent(SolarTermChangeEvent
                     .builder().oldSolarTerm(old)
                     .newSolarTerm(solarTerm)
