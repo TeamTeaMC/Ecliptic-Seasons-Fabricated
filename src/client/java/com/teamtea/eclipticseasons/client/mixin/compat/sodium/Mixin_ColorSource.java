@@ -26,7 +26,7 @@ public abstract class Mixin_ColorSource implements SodiumBlenderColorProvider {
             method = "getColors(Lnet/caffeinemc/mods/sodium/client/world/LevelSlice;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos$MutableBlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/caffeinemc/mods/sodium/client/model/quad/ModelQuadView;[IZ)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/caffeinemc/mods/sodium/client/model/quad/ModelQuadView;getTintIndex()I"
+                    target = "Lnet/caffeinemc/mods/sodium/client/model/quad/ModelQuadView;sodium$getTintIndex()I"
             ),
             mode = DirectInject.Mode.CANCEL_IF_TRUE
     )
@@ -39,7 +39,7 @@ public abstract class Mixin_ColorSource implements SodiumBlenderColorProvider {
             int[] output,
             boolean smooth
     ) {
-        if (this.color[quad.getTintIndex()] instanceof SodiumBlenderColorProvider provider) {
+        if (this.color[quad.sodium$getTintIndex()] instanceof SodiumBlenderColorProvider provider) {
             provider.getColors(slice, pos, scratchPos, state, quad, output, smooth);
             return true;
         }
